@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\calculeDebitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
+
+
+Route::get('/debit', function (Request $request) {
+    if($request->has('type') && $request->has('dimension') && $request->has('ms'))
+    {
+        $debit = new calculeDebitController($request->type, $request->dimension, $request->ms);
+        $calculeDebit = $debit->calculeDebit();
+        return view('debit', ['result' => $calculeDebit]);
+    }
+    return view('debit');
+})->name('debit');
+
