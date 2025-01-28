@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\DebitController;
+use App\Http\Controllers\puitsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,62 @@ Route::get("/history", function(){
     return view('history', ['session' => $session]);
 })->name('history');
 
-route::get("/notes", function(){
-    return view('notes');
-})->name('note');
+
+route::prefix('note')->group(function(){
+    route::get('/create/{id}', function(Request $request){
+        $id = $request->id;
+        $puit = new puitsController();
+        $puit = $puit->show_id($id);
+        return view('note_create', ['id' => $id, 'puit' => $puit]);       
+    })->name('note.create');
+    
+    route::get("/note", function(){
+        $session = new DebitController();
+        $session = $session->orderby();
+        return view('note', ['session' => $session]);
+    })->name('note');
+    
+});
+
+
+Route::prefix("puits")->group(function(){
+    Route::get('/show', function(){
+        $puits = new puitsController();
+        $puit = $puits->show();
+        return view("puits.puits_show", ['puits' => $puit]);
+    })->name('puits.show');
+
+    route::get("/edit/{id}", function(Request $request){
+        $id = $request->id;
+        $puit = new puitsController();
+        $puit = $puit->show_id($id);
+        return view('puits.puits_edit', ['id' => $id, 'puit' => $puit]);
+    })->name('puits.edit');
+});
+
+Route::get('/test', function(){
+    $xml = simplexml_load_file(storage_path('app/public/Boreholes.xml'));
+    // ex de parcourir un fichier xml avec simplexml sur   <Borehole ID="ALVR0115">
+    $alv = [];
+    foreach ($xml->Group as $group) {        
+        // Parcourir chaque borehole dans ce groupe
+        foreach ($group->Borehole as $borehole) {
+            //echo $borehole['ID'] . "\n";
+            $boreholeData = [
+                (string) $borehole['ID']
+            ];
+            $alv[] = $boreholeData;
+        }
+        $puits = new puitsController();
+        $puits->store($alv);
+    }
+   
+})->name('debit.show');
+
+Route::get('/test2', function(){
+    
+        $puits = new puitsController();
+        $puit = $puits->show();
+        return $puit;
+   
+})->name('debit.show');
