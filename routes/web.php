@@ -73,6 +73,17 @@ Route::prefix("puits")->group(function(){
         $puit = $puit->show_id($id);
         return view('puits.puits_edit', ['id' => $id, 'puit' => $puit]);
     })->name('puits.edit');
+
+    route::post("/update/{id}", function(Request $request){
+        $id = $request->id;
+        $data = [
+            'type' => $request->type,
+            'dimension' => $request->dimension
+        ];
+        $puit = new puitsController();
+        $puit->update($id, $data);
+        return redirect()->route('puits.show');
+    })->name('puits.update');
 });
 
 Route::get('/test', function(){

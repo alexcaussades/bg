@@ -26,6 +26,18 @@ class puitsController extends Controller
         $puits = DB::table('puits')->orderBy('Name', 'asc')->get();
         return $puits;
     }
+
+    public function show_id($id){
+        $puits = DB::table('puits')->where('id', $id)->get();
+        return $puits;
+    }
+
+    public function update($id, $data){
+        $puits = puits::find($id);
+        $puits->type = $data['type'];
+        $puits->dimension = $data['dimension'];
+        $puits->save();
+    }
 }
 
 

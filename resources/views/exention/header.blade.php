@@ -21,6 +21,7 @@
       <a href="{{ route('home') }}"><button class="btn btn-dark"><i class="bi bi-house-fill"></i> Home </button></a>
       <a href="{{ route("history") }}"><button class="btn btn-dark"><i class="bi bi-clipboard2-data"></i> Historique </button></a>
       <a href="{{ route("note") }}"><button class="btn btn-dark"><i class="bi bi-file-earmark-plus"></i> Note </button></a>
+      <a href="{{ route("puits.show") }}"><button class="btn btn-dark"><i class="bi bi-geo-alt"></i> Puits </button></a>
       <a href="#"><button class="btn btn-dark" disabled><i class="bi bi-gear"></i> Paramètres </button></a>
   </div>
     @yield('navbar_ext')

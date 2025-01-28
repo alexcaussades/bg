@@ -26,8 +26,8 @@ use Carbon\Carbon;
                         <td>{{ $puits[$i]->type}}</td>
                         <td>{{ $puits[$i]->dimension}}</td>
                         <td></td>
-                        <td><a href="{{ route("puits.edit", ["id", $puits[$i]->id]) }}" class="btn btn-primary">Edit</a></td>
-                        <td><a href="{{ route("note.create", ["id", $puits[$i]->id]) }}" class="btn btn-success">Note</a></td>
+                        <td><a href="{{ route("puits.edit", [$puits[$i]->id]) }}" class="btn btn-primary">Edit</a></td>
+                        <td><a href="{{ route("note.create", [$puits[$i]->id]) }}" class="btn btn-success">Note</a></td>
                     </tr>
                 
 
