@@ -28,7 +28,7 @@ use Carbon\Carbon;
                 <div class="form-group">
                   <label for="">Dimension</label>
                   <select class="form-control" name="dimension" id="">
-                    <optgroup label="Petit diamètre disponible SDR11/17/33">
+                    <optgroup label="Petit diamètre (disponible SDR11/17/33)">
                     <option value="32">32</option>
                     <option value="40">40</option>
                     <option value="63">63</option>
