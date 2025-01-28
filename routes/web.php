@@ -38,7 +38,6 @@ Route::get('/debit', function (Request $request) {
 Route::get("/history", function(){
     $session = new DebitController();
     $session = $session->orderby();
-    dd($session);
     return view('history', ['session' => $session]);
 })->name('history');
 
