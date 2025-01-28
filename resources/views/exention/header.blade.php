@@ -17,6 +17,12 @@
       <h1><i class="bi bi-terminal-fill"></i> Réglage Biogaz</h1>
       <p>Bienvenue sur votre pages de réglage pour le biogaz</p>
     </div>
+    <div class="container">
+      <a href="{{ route('home') }}"><button class="btn btn-dark"><i class="bi bi-house-fill"></i> Home </button></a>
+      <a href="{{ route("history") }}"><button class="btn btn-dark"><i class="bi bi-clipboard2-data"></i> Historique </button></a>
+      <a href="{{ route("note") }}"><button class="btn btn-dark"><i class="bi bi-file-earmark-plus"></i> Note </button></a>
+      <a href="#"><button class="btn btn-dark" disabled><i class="bi bi-gear"></i> Paramètres </button></a>
+  </div>
     @yield('navbar_ext')
     
     @yield('content')
