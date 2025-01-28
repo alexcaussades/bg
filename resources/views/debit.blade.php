@@ -49,7 +49,7 @@ use Carbon\Carbon;
             <div class="col-6">
                 <div class="form-group">
                     <label for="ms">M/S </label>
-                    <input type="numeric" class="form-control" id="ms" name="ms" placeholder="m/s sur la lecture de la sonde">  
+                    <input type="number" step="0.01" class="form-control" id="ms" name="ms" placeholder="m/s sur la lecture de la sonde">  
                 </div>
             </div>
         </div>
