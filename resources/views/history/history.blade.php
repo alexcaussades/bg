@@ -5,8 +5,13 @@ use Carbon\Carbon;
 
 @section("content")
 
+<div class="container mt-3">
+    <a href="{{ Route('history.puit') }}"><button class="btn btn-dark">Par Puits</button></a>
+</div>
 
-<div class="container mt-5">
+
+
+<div class="container mt-2">
     <div class="fs-2">Historique des mesures</div>
     <table class="table table-striped">
         <thead>

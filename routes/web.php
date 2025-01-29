@@ -4,9 +4,10 @@ use App\Models\Debit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
+use App\Http\Controllers\DataPuitsController;
+use App\Http\Controllers\calculeDebitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,11 +37,26 @@ Route::get('/debit', function (Request $request) {
     return view('debit');
 })->name('debit');
 
-Route::get("/history", function(){
-    $session = new DebitController();
-    $session = $session->orderby();
-    return view('history', ['session' => $session]);
-})->name('history');
+route::prefix('history')->group(function(){
+    route::get("/", function(){
+        $session = new DebitController();
+        $session = $session->orderby();
+        return view("history.history", ['session' => $session]);
+    })->name('history');
+
+    Route::get("/history-puit", function(){
+        $session = new puitsController();
+        $session = $session->show();
+        return view('history.by-puit', ['session' => $session]);
+    })->name('history.puit');
+
+    Route::get("/history-puit/{puit}", function(Request $request){
+        $id = $request->name;
+        $data = new DataPuitsController();
+        $data = $data->show_id($id);
+        return view('history.by-puit-id', ['data' => $data]);
+    })->name('history.puit.id');
+});
 
 
 route::prefix('note')->group(function(){
@@ -60,6 +76,21 @@ route::prefix('note')->group(function(){
     
 });
 
+Route::prefix('import_data')->group(function(){
+    Route::get('/', function(){
+        return view('data.csv');
+    })->name('import_data');
+
+    Route::post('/import', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:csv,txt',
+        ]);
+        $data = new DataPuitsController();
+        $data = $data->import($request);
+        dd($data);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('import_data.import');
+});
 
 Route::prefix("puits")->group(function(){
     Route::get('/show', function(){
