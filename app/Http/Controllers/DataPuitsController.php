@@ -68,4 +68,10 @@ class DataPuitsController extends Controller
 
         return redirect()->back()->with('success', 'Data imported successfully.');
     }
+
+    public function show_id($data)
+    {
+        $puits = data_puits::where("puits_id", $data)->orderBy('id', 'DESC')->get();
+        return $puits;        
+    }
 }

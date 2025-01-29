@@ -37,11 +37,26 @@ Route::get('/debit', function (Request $request) {
     return view('debit');
 })->name('debit');
 
-Route::get("/history", function(){
-    $session = new DebitController();
-    $session = $session->orderby();
-    return view('history', ['session' => $session]);
-})->name('history');
+route::prefix('history')->group(function(){
+    route::get("/", function(){
+        $session = new DebitController();
+        $session = $session->orderby();
+        return view("history.history", ['session' => $session]);
+    })->name('history');
+
+    Route::get("/history-puit", function(){
+        $session = new puitsController();
+        $session = $session->show();
+        return view('history.by-puit', ['session' => $session]);
+    })->name('history.puit');
+
+    Route::get("/history-puit/{puit}", function(Request $request){
+        $id = $request->name;
+        $data = new DataPuitsController();
+        $data = $data->show_id($id);
+        return view('history.by-puit-id', ['data' => $data]);
+    })->name('history.puit.id');
+});
 
 
 route::prefix('note')->group(function(){
