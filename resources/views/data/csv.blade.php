@@ -16,7 +16,7 @@
 
     <div class="mb-3">
         <label for="formFile" class="form-label">Nouvelle données du Trigaz ! </label>
-        <input class="form-control" type="file" id="formFile">
+        <input class="form-control" type="file" id="formFile" name="fichier">
     </div>
     <div class="alert alert-warning" role="alert">
         <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci sont irréversible</strong>
