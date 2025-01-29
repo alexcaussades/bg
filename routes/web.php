@@ -4,9 +4,10 @@ use App\Models\Debit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
+use App\Http\Controllers\DataPuitsController;
+use App\Http\Controllers\calculeDebitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,21 @@ route::prefix('note')->group(function(){
     
 });
 
+Route::prefix('import_data')->group(function(){
+    Route::get('/', function(){
+        return view('data.csv');
+    })->name('import_data');
+
+    Route::post('/import', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:csv,txt',
+        ]);
+        $data = new DataPuitsController();
+        $data = $data->import($request);
+        dd($data);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('import_data.import');
+});
 
 Route::prefix("puits")->group(function(){
     Route::get('/show', function(){
