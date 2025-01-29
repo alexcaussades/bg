@@ -48,13 +48,14 @@ route::prefix('note')->group(function(){
         $id = $request->id;
         $puit = new puitsController();
         $puit = $puit->show_id($id);
-        return view('note_create', ['id' => $id, 'puit' => $puit]);       
-    })->name('note.create');
+        return view('note.note_create', ['id' => $id, 'puit' => $puit]);       
+    })->name('note.create.id');
     
-    route::get("/note", function(){
-        $session = new DebitController();
-        $session = $session->orderby();
-        return view('note', ['session' => $session]);
+    route::get("/", function(){
+        $session = new puitsController();
+        $puits = $session->show();
+        
+        return view("note.note", ['puits' => $puits]);
     })->name('note');
     
 });
