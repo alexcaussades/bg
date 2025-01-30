@@ -6,6 +6,11 @@ use Carbon\Carbon;
 
 @section("content")
 
+<div class="container mt-3">
+    <a href="{{ Route("puits.retard") }}"><button class="btn btn-dark">En retard ({{ count($retard) }}) </button></a>
+</div>
+
+
 <div class="container">
     <table class="table table-striped table-responsive">
         <thead class="thead-inverse">
