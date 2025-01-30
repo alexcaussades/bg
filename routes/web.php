@@ -94,9 +94,16 @@ Route::prefix('import_data')->group(function(){
 Route::prefix("puits")->group(function(){
     Route::get('/show', function(){
         $puits = new puitsController();
-        $puit = $puits->show();
-        return view("puits.puits_show", ['puits' => $puit]);
+        $puit = $puits->show();;
+        $puit_retard = $puits->recherche_puits();
+        return view("puits.puits_show", ['puits' => $puit, 'retard' => $puit_retard]);
     })->name('puits.show');
+
+    Route::get("/retard", function(){
+        $puits = new puitsController();
+        $puit_retard = $puits->recherche_puits();
+        return view("puits.retard_puits", ['retard' => $puit_retard]);
+    })->name("puits.retard");
 
     route::get("/edit/{id}", function(Request $request){
         $id = $request->id;
@@ -138,8 +145,8 @@ Route::get('/test', function(){
 
 Route::get('/test2', function(){
     
-        $puits = new puitsController();
-        $puit = $puits->show();
-        return $puit;
+        $puit = new puitsController();
+        $puit = $puit->recherche_puits();
+        dd($puit);
    
 })->name('debit.show');
