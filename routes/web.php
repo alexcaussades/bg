@@ -54,7 +54,12 @@ route::prefix('history')->group(function(){
         $id = $request->name;
         $data = new DataPuitsController();
         $data = $data->show_id($id);
-        return view('history.by-puit-id', ['data' => $data]);
+        if($data->isEmpty()){
+            return redirect()->route('history.puit');
+        }
+        $puit = new puitsController();
+        $puit = $puit->moyene($id);
+        return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit]);
     })->name('history.puit.id');
 });
 
@@ -146,7 +151,7 @@ Route::get('/test', function(){
 Route::get('/test2', function(){
     
         $puit = new puitsController();
-        $puit = $puit->recherche_puits();
+        $puit = $puit->moyene("ALV0COL1");
         dd($puit);
    
 })->name('debit.show');
