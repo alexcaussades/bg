@@ -14,7 +14,8 @@
                 <i class="bi bi-geo-alt"></i> Puits
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ Route("history.puit") }}">Par Puits</a></li>
+                <li><a class="dropdown-item" href="{{ Route("history.puit") }}">Recherche Puits</a></li>
+                <li><a class="dropdown-item" href="{{ Route("puits.show") }}">Liste des puits</a></li>
               <li><a class="dropdown-item" href="{{ Route("puits.retard") }}">En retard</a></li>
               <li><a class="dropdown-item" href="{{ Route('import_data') }}">Import Mesures</a></li>
               <li><hr class="dropdown-divider"></li>
