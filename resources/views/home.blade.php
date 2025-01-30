@@ -21,5 +21,3 @@
 </div>
 
 @endsection
-
-@extends("exention.footer")

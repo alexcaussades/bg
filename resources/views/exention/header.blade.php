@@ -24,11 +24,14 @@
       <a href="{{ route("puits.show") }}"><button class="btn btn-dark"><i class="bi bi-geo-alt"></i> Puits </button></a>
       <a href="#"><button class="btn btn-dark" disabled><i class="bi bi-gear"></i> Paramètres </button></a>
   </div>
-    @yield('navbar_ext')
     
     @yield('content')
+    
   </body>
 
+  
+  
 
 
 </html>
+

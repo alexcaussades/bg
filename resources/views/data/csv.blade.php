@@ -8,6 +8,14 @@
 
 <p>Sélectionnez un fichier Excel (.csv) pour importer les données.</p>
 
+
+@if (session('success'))
+    <div class="alert alert-success" role="alert">
+        <strong><i class="bi bi-check-circle fs-5"></i> {{ session('success') }}</strong>
+    </div>
+@endif
+
+
 <form method="POST" action="{{ route('import_data.import') }}" enctype="multipart/form-data" >
 
     <!-- CSRF Token -->

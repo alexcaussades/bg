@@ -87,7 +87,6 @@ Route::prefix('import_data')->group(function(){
         ]);
         $data = new DataPuitsController();
         $data = $data->import($request);
-        dd($data);
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('import_data.import');
 });
