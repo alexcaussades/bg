@@ -7,7 +7,12 @@ use Carbon\Carbon;
 
 <div class="container mt-5">
 
+
 <h3>Historique des mesures pour le puit : {{ $data[0]->puits_id }}</h3>
+<div class="alert alert-info">
+    <p>Nombres de mesures : {{ count($data) }} <i class="bi bi-activity"></i> CH4: {{ $moyene["ch4"] }} | CO2: {{ $moyene["co2"] }} | O2: {{ $moyene["o2"] }} | H2S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3: {{ $moyene["m3"] }} </p>   
+</div>
+
 <table class="table table-striped table-inverse table-responsive">
     <thead class="thead-inverse">
         <tr>

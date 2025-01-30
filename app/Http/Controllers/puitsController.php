@@ -52,6 +52,27 @@ class puitsController extends Controller
         $puits = DB::table('puits')->select("Name")->whereNotIn('Name', $datapuits->pluck('puits_id'))->get();
         return $puits;
     }
+
+    public function moyene($id){
+        $m3 = DB::table('data_puits')->where('puits_id', $id)->avg('m3/h');
+        $ch4 = DB::table('data_puits')->where('puits_id', $id)->avg('CH4');
+        $co2 = DB::table('data_puits')->where('puits_id', $id)->avg('CO2');
+        $o2 = DB::table('data_puits')->where('puits_id', $id)->avg('O2');
+        $depression = DB::table('data_puits')->where('puits_id', $id)->avg('dépression');
+        $h2s = DB::table('data_puits')->where('puits_id', $id)->avg('H2S');
+        $moyene = [
+            'ch4' => round($ch4, 2),
+            'co2' => round($co2, 2),
+            'o2' => round($o2, 2),
+            'h2s' => round($h2s, 2),
+            'depression' => round($depression, 2),
+            'm3' => round($m3, 2)
+        ];
+
+
+
+        return $moyene;
+    }
 }
 
 
