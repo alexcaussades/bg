@@ -2,7 +2,7 @@
 use Carbon\Carbon;
 ?>
 @extends("exention.header")
-
+@extends("exention.navbar")
 @section("content")
 
 

@@ -1,5 +1,5 @@
 @extends("exention.header")
-
+@extends("exention.navbar")
 @section("content")
 
 <div class="container mt-5">

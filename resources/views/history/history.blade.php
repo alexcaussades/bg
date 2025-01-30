@@ -2,16 +2,8 @@
 use Carbon\Carbon;
 ?>
 @extends("exention.header")
-
+@extends("exention.navbar")
 @section("content")
-
-<div class="container mt-3">
-    <a href="{{ Route('history.puit') }}"><button class="btn btn-dark">Par Puits</button></a>
-    <a href="#"><button class="btn btn-dark" disabled>Toutes les mesures</button></a>
-    <a href="{{ Route('import_data') }}"><button class="btn btn-dark">import des données du trigaz</button></a>
-</div>
-
-
 
 <div class="container mt-2">
     <div class="fs-2">Historique des mesures</div>
