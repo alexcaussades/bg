@@ -48,7 +48,7 @@ class puitsController extends Controller
     // rechercher les puits qui ont des données de plus d'un mois qui sont pas encore dans la table puits
     public function recherche_puits(){
         $date = Carbon::now()->subDays(30)->format('d/m/Y H:i:s');
-        $datapuits = DB::table('data_puits')->select('puits_id', 'date')->orderBy('Date', 'DESC')->groupBy('puits_id')->having('date', '<', $date)->get();
+        $datapuits = DB::table('data_puits')->select('puits_id', 'date')->orderBy('date', 'DESC')->get();
         $puits = DB::table('puits')->select("Name")->whereNotIn('Name', $datapuits->pluck('puits_id'))->get();
         return $puits;
     }

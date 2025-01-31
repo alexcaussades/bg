@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 
 <div class="container mt-5">
-<h3>Listes à faires : </h3>
+<h3>{{ count($retard) }} à faires :</h3>
 <ul>
     @foreach($retard as $puits)
         <li>{{ $puits->Name }}</li>
