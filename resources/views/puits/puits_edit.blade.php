@@ -84,8 +84,29 @@
                 <option value="ALVR0119">ALVR0119</option>
             </select>
         </div>
-        
+        <div class="form-group">
+            <label for="">Latitude</label>
+            <input type="text" class="form-control" name="latitude" id="latitude">
+        </div>
+        <div class="form-group">
+            <label for="">Longitude</label>
+            <input type="text" class="form-control" name="longitude" id="longitude">
+        </div>
         <button class="btn btn-primary mt-2" type="submit"><i class="bi bi-save"></i> Sauvegarder</button>
     </form>
+<script>
+    // recuperer la postions GPS de l'utilisateur
+    navigator.geolocation.getCurrentPosition((position) => {
+  doSomething(position.coords.latitude, position.coords.longitude);
+});
 
+function doSomething(latitude, longitude) {
+  document.getElementById("latitude").value = latitude;
+  document.getElementById("longitude").value = longitude;
+}
+
+doSomething();
+</script>
 @endsection
+
+
