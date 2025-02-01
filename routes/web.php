@@ -57,9 +57,11 @@ route::prefix('history')->group(function(){
         if($data->isEmpty()){
             return redirect()->route('history.puit');
         }
+        $info = new DataPuitsController();
+        $info = $info->famille($data);
         $puit = new puitsController();
         $puit = $puit->moyene($id);
-        return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit]);
+        return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info]);
     })->name('history.puit.id');
 });
 

@@ -38,7 +38,7 @@ class puitsController extends Controller
         $puits->type = $data['type'];
         $puits->dimension = $data['dimension'];
         $puits->familles = $data['familles'];
-        $puits->ligne = $data['ligne'];
+        $puits->lignes = $data['ligne'];
         $puits->save();
     }
 
