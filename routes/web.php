@@ -123,6 +123,8 @@ Route::prefix("puits")->group(function(){
         $data = [
             'type' => $request->type,
             'dimension' => $request->dimension,
+            'familles' => $request->familles,
+            'ligne' => $request->ligne
         ];
         $puit = new puitsController();
         $puit->update($id, $data);
