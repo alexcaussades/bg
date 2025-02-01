@@ -51,6 +51,7 @@
                 <option value="puit_lix">Puit Lixivitas</option>
                 <option value="prise_echantillion">Prise échantillion</option>
                 <option value="tranche_drainante">Tranché Drainante</option>
+                <option value="ligne_principal">Ligne Principal</option>
                 <option value="collisseau">Collisseau</option>
                 <option value="purge">purge</option>
             </select>
@@ -58,6 +59,8 @@
         <div class="form-group">
             <label for="">Lignes</label>
             <select class="form-control" name="ligne" id="">
+                <option value="collecteur_alvr">Collecteur ALVR</option>
+                <option value="collecteur_alvl">Collecteur ALVL</option>
                 <option value="ALVL0210">ALVL0210</option>
                 <option value="ALVL0211">ALVL0211</option>
                 <option value="ALVL0212">ALVL0212</option>
