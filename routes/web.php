@@ -118,7 +118,6 @@ Route::prefix("puits")->group(function(){
     })->name('puits.edit');
 
     route::post("/update/{id}", function(Request $request){
-        dd($request);
         $id = $request->id;
         $data = [
             'type' => $request->type,
