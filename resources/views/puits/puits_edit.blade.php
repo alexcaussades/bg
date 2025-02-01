@@ -44,6 +44,43 @@
                 </optgroup>
             </select>
         </div>
+        <div class="form-group">
+            <label for="">Famille du point de controlles</label>
+            <select class="form-control" name="familles" id="">
+                <option selected value="puit">Puit Biogaz</option>
+                <option value="puit_lix">Puit Lixivitas</option>
+                <option value="prise_echantillion">Prise échantillion</option>
+                <option value="tranche_drainante">Tranché Drainante</option>
+                <option value="collisseau">Collisseau</option>
+                <option value="purge">purge</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">Lignes</label>
+            <select class="form-control" name="ligne" id="">
+                <option value="ALVL0210">ALVL0210</option>
+                <option value="ALVL0211">ALVL0211</option>
+                <option value="ALVL0212">ALVL0212</option>
+                <option value="ALVL0213">ALVL0213</option>
+                <option value="ALVL0214">ALVL0214</option>
+                <option value="ALVL0215">ALVL0215</option>
+                <option value="ALVL0216">ALVL0216</option>
+                <option value="ALVL0217">ALVL0217</option>
+                <option value="ALVL0218">ALVL0218</option>
+                <option value="ALVL0219">ALVL0219</option>
+                <option value="ALVL0220">ALVL0220</option>
+                <option value="ALVR0110">ALVR0110</option>
+                <option value="ALVR0111">ALVR0111</option>
+                <option value="ALVR0112">ALVR0112</option>
+                <option value="ALVR0113">ALVR0113</option>
+                <option value="ALVR0114">ALVR0114</option>
+                <option value="ALVR0115">ALVR0115</option>
+                <option value="ALVR0116">ALVR0116</option>
+                <option value="ALVR0117">ALVR0117</option>
+                <option value="ALVR0118">ALVR0118</option>
+                <option value="ALVR0119">ALVR0119</option>
+            </select>
+        </div>
         
         <button class="btn btn-primary mt-2" type="submit"><i class="bi bi-save"></i> Sauvegarder</button>
     </form>
