@@ -7,35 +7,28 @@ use Carbon\Carbon;
 @extends("exention.navbar")
 @section("content")
 
-<script>
-console.log("hello")
-var options = {
-  //enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0,
-};
-
-function success(pos) {
-  var crd = pos.coords;
-
-  console.log("Votre position actuelle est :");
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude : ${crd.longitude}`);
-  console.log(`La précision est de ${crd.accuracy} mètres.`);
-}
-
-function error(err) {
-  console.warn(`ERREUR (${err.code}): ${err.message}`);
-}
-
-navigator.geolocation.getCurrentPosition(success, error, options);
-
-
-</script>
 <div class="container mt-5">
 <h3>
 <ul>
-    
+    <div class="col-md-8">
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var crd = pos.coords;
+                var iframe = document.querySelector("iframe");
+                iframe.src = `https://api.maptiler.com/maps/satellite/?key=kkpLQuTHyXEAqwhsuGBi#12.8/${crd.latitude}/${crd.longitude}`;
+            }, function(err) {
+                console.warn(`ERREUR (${err.code}): ${err.message}`);
+            }, {
+                timeout: 5000,
+                maximumAge: 0,
+            });
+        });
+        </script>
+
+        <iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
+
+    </div>
 </ul>
 </div>
 
