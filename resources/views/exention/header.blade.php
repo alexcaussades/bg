@@ -6,7 +6,7 @@
     <title>Réglage Biogaz</title>
     <meta name="description" content="Réglage Biogaz pour votre installation">
     <meta name="author" content="Alexandre Caussades">
-    
+
     @env('local')
       <link href="{{ asset("./css/bootstrap.min.css") }}" rel="stylesheet">
       <script src="{{ asset("./js/popper.min.js") }}"></script>
