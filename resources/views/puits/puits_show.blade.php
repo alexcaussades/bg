@@ -15,6 +15,7 @@ use Carbon\Carbon;
                 <th>Dimension</th>
                 <th>Last Check</th>
                 <th>Option</th>
+                <th>Désactive</th>
             </tr>
             </thead>
             <tbody>
@@ -28,8 +29,9 @@ use Carbon\Carbon;
                         <td>
                             <a href="{{ route("puits.edit", $puits[$i]->id) }}" class="btn btn-primary">Edit</a>
                             <a href="{{ route("note.create.id", $puits[$i]->id) }}" class="btn btn-success">Note</a>
-                            <a href="{{ route("puits.desactive", $puits[$i]->id) }}" class="btn btn-info">Desactive</a>
+                            
                         </td>
+                        <td><a href="{{ route("puits.desactive", $puits[$i]->id) }}" class="btn btn-danger">Désactive</a></td>
                     </tr>
                 
 
