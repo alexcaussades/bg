@@ -37,6 +37,22 @@ Route::get('/debit', function (Request $request) {
     return view('debit');
 })->name('debit');
 
+Route::prefix("reglage")->group(function(){
+    Route::get('/', function(){
+        return view('reglage.index');
+    })->name('reglage');
+
+   Route::post('/', function(Request $request){
+        $request->validate([
+            'taux' => 'required',
+        ]);
+        $request->session()->put('taux', $request->taux);
+        dd($request->session()->get('taux'));
+    })->name('reglage');
+
+    
+});
+
 route::prefix('history')->group(function(){
     route::get("/", function(){
         $session = new DebitController();
@@ -73,6 +89,17 @@ route::prefix('note')->group(function(){
         $puit = $puit->show_id($id);
         return view('note.note_create', ['id' => $id, 'puit' => $puit]);       
     })->name('note.create.id');
+
+    route::post('/create/{id}', function(Request $request){
+        $id = $request->id;
+        $data = [
+            "info_classic" => $request->info_classic,
+            'info' => $request->info,
+        ];
+
+        dd($data, $id);
+        
+    })->name('note.create');
     
     route::get("/", function(){
         $session = new puitsController();
@@ -131,6 +158,13 @@ Route::prefix("puits")->group(function(){
         $puit->update($id, $data);
         return redirect()->route('puits.show');
     })->name('puits.update');
+
+    route::get("desactive/{id}",function(Request $request ){
+        $id = $request->id;
+        $puit = new puitsController();
+        $puit->desactive($id);
+        return redirect()->route('puits.show');
+    })->name("puits.desactive");
 });
 
 Route::get('/test', function(){

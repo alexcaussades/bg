@@ -14,8 +14,7 @@ use Carbon\Carbon;
                 <th>Type</th>
                 <th>Dimension</th>
                 <th>Last Check</th>
-                <th>Edit</th>
-                <th>Note</th>
+                <th>Option</th>
             </tr>
             </thead>
             <tbody>
@@ -26,8 +25,11 @@ use Carbon\Carbon;
                         <td>{{ $puits[$i]->type}}</td>
                         <td>{{ $puits[$i]->dimension}}</td>
                         <td></td>
-                        <td><a href="{{ route("puits.edit", $puits[$i]->id) }}" class="btn btn-primary">Edit</a></td>
-                        <td><a href="{{ route("note.create.id", $puits[$i]->id) }}" class="btn btn-success">Note</a></td>
+                        <td>
+                            <a href="{{ route("puits.edit", $puits[$i]->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route("note.create.id", $puits[$i]->id) }}" class="btn btn-success">Note</a>
+                            <a href="{{ route("puits.desactive", $puits[$i]->id) }}" class="btn btn-info">Desactive</a>
+                        </td>
                     </tr>
                 
 

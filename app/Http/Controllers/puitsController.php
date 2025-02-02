@@ -24,7 +24,7 @@ class puitsController extends Controller
     }
 
     public function show(){
-        $puits = DB::table('puits')->orderBy('Name', 'asc')->get();
+        $puits = DB::table('puits')->orderBy('Name', 'asc')->where('active', '1')->get();
         return $puits;
     }
 
@@ -51,7 +51,7 @@ class puitsController extends Controller
     public function recherche_puits(){
         $date = Carbon::now()->subDays(30)->format('d/m/Y H:i:s');
         $datapuits = DB::table('data_puits')->select('puits_id', 'date')->orderBy('date', 'DESC')->get();
-        $puits = DB::table('puits')->select("Name")->whereNotIn('Name', $datapuits->pluck('puits_id'))->get();
+        $puits = DB::table('puits')->select("Name")->whereNotIn('Name', $datapuits->pluck('puits_id'))->where("active", 1)->get();
         return $puits;
     }
 
@@ -70,10 +70,13 @@ class puitsController extends Controller
             'depression' => round($depression, 2),
             'm3' => round($m3, 2)
         ];
-
-
-
         return $moyene;
+    }
+
+    public function desactive($id){
+        $puits = puits::find($id);
+        $puits->active = 0;
+        $puits->save();
     }
 }
 

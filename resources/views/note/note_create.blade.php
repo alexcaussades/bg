@@ -11,21 +11,23 @@ use Carbon\Carbon;
         @csrf
         <div class="form-group">
             <label for="note" class="fs-5">Ajout d'une Note: {{ $puit[0]->Name }}</label>
-            <select name="info"  class="form-control mt-2" id="info">
+            <select name="info_classic"  class="form-control mt-2" id="info">
                 <optgroup label="Courant">
-                    <option selected value="breg">Changement de berg</option>
-                    <option value="étanchéité">Refaire étanchéité du puit</option>
+                    <option selected value="Changement de berg">Changement de berg</option>
+                    <option value="Refaire étanchéité du puit">Refaire étanchéité du puit</option>
                 </optgroup>
                 <optgroup label="Vanne">
-                    <option value="changement_vanne">Changement de vanne</option>
-                    <option selected ="Mauvaise_etan_vanne">Mauvaise étanchéité de la vanne</option>
+                    <option value="Changement de vanne">Changement de vanne</option>
+                    <option selected ="Mauvaise étanchéité de la vanne">Mauvaise étanchéité de la vanne</option>
                 </optgroup>
                 <optgroup label="Prise d'échantillon">
-                    <option value="prise_echantillon"> Changer la prise d'échantillon </option>
-                    <option value="Bouchon_prise">Changer le bouchon sur la prise d'echantillon</option>
+                    <option value="Changer la prise d'échantillon"> Changer la prise d'échantillon </option>
+                    <option value="Changer le bouchon sur la prise d'echantillon">Changer le bouchon sur la prise d'echantillon</option>
+                    <option value="Mauvaise étanchéité de la prise d'échantillon">Mauvaise étanchéité de la prise d'échantillon</option>
+                    <option value="Mauvais diamètre sur la prise échantillon">Mauvais diamètre sur la prise échantillon</option>
                 </optgroup>
                 <option value="autre" id="autre">Autre</option>
-                <textarea class="form-control mt-2" name="" id="text" cols="30" rows="10"></textarea>
+                <textarea class="form-control mt-2" name="info" id="text" cols="30" rows="10"></textarea>
             </select>
         </div>
         <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
