@@ -51,7 +51,7 @@ class puitsController extends Controller
     public function recherche_puits(){
         $date = Carbon::now()->subDays(30)->format('d/m/Y H:i:s');
         $datapuits = DB::table('data_puits')->select('puits_id', 'date')->orderBy('date', 'DESC')->get();
-        $puits = DB::table('puits')->select("Name")->whereNotIn('Name', $datapuits->pluck('puits_id'))->where("active", 1)->get();
+        $puits = DB::table('puits')->select("*")->whereNotIn('Name', $datapuits->pluck('puits_id'))->where("active", 1)->get();
         return $puits;
     }
 

@@ -7,13 +7,14 @@ use Carbon\Carbon;
 
 <div class="container mt-5">
 
-<h5>Historique : {{ $info["familles"] }} {{ $data[0]->puits_id }} {{ $info["ligne"] }} </h5>
+<h5><i class="bi bi-geo"></i> : {{ $info["familles"] }} {{ $data[0]->puits_id }} {{ $info["ligne"] }} </h5>
 
 <div class="alert alert-info">
     <p>Moyenne des messures sur {{ count($data) }}.</p>
     <p>CH4: {{ $moyene["ch4"] }} | CO2: {{ $moyene["co2"] }} | O2: {{ $moyene["o2"] }} | H2S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3: {{ $moyene["m3"] }} </p>   
 </div>
 
+<h5>Historique <i class="bi bi-arrow-down-square-fill"></i></h5>
 <table class="table table-striped table-inverse table-responsive">
     <thead class="thead-inverse">
         <tr>

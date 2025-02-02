@@ -136,6 +136,7 @@ Route::prefix("puits")->group(function(){
     Route::get("/retard", function(){
         $puits = new puitsController();
         $puit_retard = $puits->recherche_puits();
+        //dd($puit_retard);
         return view("puits.retard_puits", ['retard' => $puit_retard]);
     })->name("puits.retard");
 

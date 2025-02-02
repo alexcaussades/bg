@@ -12,7 +12,7 @@ use Carbon\Carbon;
 <h3>{{ count($retard) }} à faires :</h3>
 <ul>
     @foreach($retard as $puits)
-        <li>{{ $puits->Name }}</li>
+        <li>{{ $puits->Name }} - {{ $puits->lignes }}</li>
     @endforeach
 </ul>
 </div>
