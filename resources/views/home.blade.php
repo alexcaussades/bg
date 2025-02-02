@@ -17,7 +17,5 @@
         <p class="card-text"> le réglage au taux particulier qui fait référence à l'optimisation de la collecte et de l'extraction du biogaz :  <a href="{{ route("reglage") }}"><button class="btn btn-info" type="submit"><i class="bi bi-arrow-right-circle"></i> Plus d'infos </button></a></p>
       </div>
     </div>
-    
-</div>
 
 @endsection

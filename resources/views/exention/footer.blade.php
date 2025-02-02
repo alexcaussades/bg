@@ -1,9 +1,6 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="footer">
-                <p>All Rights Reserved. </a></p>
-            </div>
-        </div>
-    </div>
+<div class="fixed-bottom bg-black text-white">
+    <footer class="footer text-center">
+        <div class="container">
+            <p>Copyright &copy; 2025. All rights reserved.</p>
+    </footer>
 </div>
