@@ -134,28 +134,12 @@ Route::prefix("puits")->group(function(){
 });
 
 Route::get('/test', function(){
-    $xml = simplexml_load_file(storage_path('app/public/Boreholes.xml'));
-    // ex de parcourir un fichier xml avec simplexml sur   <Borehole ID="ALVR0115">
-    $alv = [];
-    foreach ($xml->Group as $group) {        
-        // Parcourir chaque borehole dans ce groupe
-        foreach ($group->Borehole as $borehole) {
-            //echo $borehole['ID'] . "\n";
-            $boreholeData = [
-                (string) $borehole['ID']
-            ];
-            $alv[] = $boreholeData;
-        }
-        $puits = new puitsController();
-        $puits->store($alv);
-    }
+    
    
 })->name('debit.show');
 
 Route::get('/test2', function(){
     
-        $puit = new puitsController();
-        $puit = $puit->moyene("ALV0COL1");
-        dd($puit);
+        return view('test');
    
 })->name('debit.show');
