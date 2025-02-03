@@ -38,5 +38,5 @@
 
 
 </html>
-@extends("exention.footer")
+
 
