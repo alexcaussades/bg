@@ -78,32 +78,10 @@ class DataPuitsController extends Controller
     public function famille($data)
     {
         $r = puits::where('Name', $data[0]["puits_id"])->first();
-        if($r->familles != null){
-            if($r->familles == "puit_lix"){
-                $i = "Puit mixte";
-            }
-            if($r->familles == "prise_echantillion"){
-                $i = "Prise d'échantillion";
-            }
-            if($r->familles == "puit"){
-                $i = "Puit Biogaz";
-            }
-            if($r->familles == "tranche_drainante"){
-                $i = "Tranche drainante";
-            }
-            if($r->familles == "ligne_principal"){
-                $i = "Ligne principal";
-            }
-            if($r->familles == "collisseau"){
-                $i = "Manchon de dilatation";
-            }
-            if($r->familles == "purge"){
-                $i = "purge";
-            }
-        }
+        
         $r = [
             'id' => $data[0]["puits_id"],
-            'familles' => $i ?? null,
+            'familles' => $r->familles,
             'type' => $r->type,
             'dimension' => $r->dimension,
             'ligne' => $r->lignes ? "(".$r->lignes.")" : null
