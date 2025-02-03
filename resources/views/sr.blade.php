@@ -30,6 +30,7 @@
                                 <td>
                                     <a href="{{ Route('note.create', ['id' => $puit->id]) }}" class="btn btn-sm btn-dark">Ajouter Note</a>
                                     <a href="{{ Route('history.puit.id',["puit", 'name' => $puit->Name]) }}" class="btn btn-sm btn-primary">ID Carte</a>
+
                                 </td>
                             </tr>
                         @endforeach
