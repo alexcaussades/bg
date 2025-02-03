@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary mt-2" type="submit"><i class="bi bi-calculator"></i> Calcule le débit</button>
+        <button class="btn btn-primary btn-sm mt-2" type="submit"><i class="bi bi-calculator"></i> Calcule le débit</button>
     </form>
     <hr>
     <div class="row">

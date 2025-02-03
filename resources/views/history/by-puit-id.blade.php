@@ -14,7 +14,7 @@ use Carbon\Carbon;
     <p>CH4: {{ $moyene["ch4"] }} | CO2: {{ $moyene["co2"] }} | O2: {{ $moyene["o2"] }} | H2S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3: {{ $moyene["m3"] }} </p>   
 </div>
 <!-- Button trigger modal -->
-<a href="{{ route("note.create.id", ["id" => $puit[0]->id]) }}"><button type="button" class="btn btn-info"><i class="bi bi-journal-plus"></i> Crée une note</button></a>
+<a href="{{ route("note.create.id", ["id" => $puit[0]->id]) }}"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-journal-plus"></i> Crée une note</button></a>
 
 <h5 class="mt-2">Historique <i class="bi bi-arrow-down-square-fill"></i></h5>
 <table class="table table-striped table-inverse table-responsive">

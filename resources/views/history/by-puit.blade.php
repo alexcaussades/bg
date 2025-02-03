@@ -18,7 +18,7 @@ use Carbon\Carbon;
                 @endfor
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Rechercher</button>
+        <button type="submit" class="btn btn-sm btn-primary">Rechercher</button>
     </form>
 
 
