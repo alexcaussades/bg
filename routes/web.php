@@ -146,6 +146,7 @@ Route::prefix("puits")->group(function(){
         $id = $request->id;
         $puit = new puitsController();
         $puit = $puit->show_id($id);
+        //dd($puit);
         return view('puits.puits_edit', ['id' => $id, 'puit' => $puit]);
     })->name('puits.edit');
 

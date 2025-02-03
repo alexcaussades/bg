@@ -11,6 +11,7 @@ use Carbon\Carbon;
         <thead class="thead-inverse">
             <tr>
                 <th>Name</th>
+                <th>Lignes</th>
                 <th>Type</th>
                 <th>Dimension</th>
                 <th>Last Check</th>
@@ -23,6 +24,7 @@ use Carbon\Carbon;
                 @for($i = 0; $i < count($puits); $i++)
                     <tr>
                         <td>{{ $puits[$i]->Name }}</td>
+                        <td>{{ $puits[$i]->lignes }}</td>
                         <td>{{ $puits[$i]->type}}</td>
                         <td>{{ $puits[$i]->dimension}}</td>
                         <td></td>

@@ -50,8 +50,8 @@
                 <option selected value="Puit Biogaz">Puit Biogaz</option>
                 <option value="Puit Lixivitas">Puit Lixivitas</option>
                 <option value="Prise échantillion">Prise échantillion</option>
-                <option value="tranche_drainante">Tranché Drainante</option>
-                <option value="Tranché Drainante">Ligne Principal</option>
+                <option value="Tranché Drainante">Tranché Drainante</option>
+                <option value="Ligne Principal">Ligne Principal</option>
                 <option value="Collisseau">Collisseau</option>
                 <option value="Purge">Purge</option>
             </select>
