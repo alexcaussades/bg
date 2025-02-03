@@ -51,4 +51,9 @@ class NoteController extends Controller
        $note = DB::table('notes')->orderBy("title", "asc")->get();
        return $note;
     }
+
+  public function recherche($data){
+        $puits = DB::table('notes')->where('title', 'like', '%'.$data.'%')->get();
+        return $puits;
+    }
 }

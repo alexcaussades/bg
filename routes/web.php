@@ -25,6 +25,13 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get("sr", function(Request $request){
+    $puits = new puitsController();
+    $puits = $puits->recherche($request->search);
+    $note = new NoteController();
+    $note = $note->recherche($request->search);
+    return view('sr', ['puits' => $puits, 'note' => $note]);
+})->name('sr');
 
 Route::get('/debit', function (Request $request) {
     if($request->has('type') && $request->has('dimension') && $request->has('ms'))
@@ -83,7 +90,6 @@ route::prefix('history')->group(function(){
         return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info, 'puit' => $data_puit]);
     })->name('history.puit.id');
 });
-
 
 route::prefix('note')->group(function(){
     route::get('/create/{id}', function(Request $request){
