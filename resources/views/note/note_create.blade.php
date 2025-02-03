@@ -15,6 +15,8 @@ use Carbon\Carbon;
                 <optgroup label="Courant">
                     <option selected value="Changement de berg">Changement de berg</option>
                     <option value="Refaire étanchéité du puit">Refaire étanchéité du puit</option>
+                    <option value="Mauvaise étanchéité du brerg">Mauvaise étanchéité du berg</option>
+                    <option value="Resserrage du berg">Resserrage du berg</option>
                 </optgroup>
                 <optgroup label="Vanne">
                     <option value="Changement de vanne">Changement de vanne</option>
