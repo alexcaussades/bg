@@ -47,20 +47,20 @@
         <div class="form-group">
             <label for="">Famille du point de controlles</label>
             <select class="form-control" name="familles" id="">
-                <option selected value="puit">Puit Biogaz</option>
-                <option value="puit_lix">Puit Lixivitas</option>
-                <option value="prise_echantillion">Prise échantillion</option>
+                <option selected value="Puit Biogaz">Puit Biogaz</option>
+                <option value="Puit Lixivitas">Puit Lixivitas</option>
+                <option value="Prise échantillion">Prise échantillion</option>
                 <option value="tranche_drainante">Tranché Drainante</option>
-                <option value="ligne_principal">Ligne Principal</option>
-                <option value="collisseau">Collisseau</option>
-                <option value="purge">purge</option>
+                <option value="Tranché Drainante">Ligne Principal</option>
+                <option value="Collisseau">Collisseau</option>
+                <option value="Purge">Purge</option>
             </select>
         </div>
         <div class="form-group">
             <label for="">Lignes</label>
             <select class="form-control" name="ligne" id="">
-                <option value="collecteur_alvr">Collecteur ALVR</option>
-                <option value="collecteur_alvl">Collecteur ALVL</option>
+                <option value="Collecteur ALVR">Collecteur ALVR</option>
+                <option value="Collecteur ALVL">Collecteur ALVL</option>
                 <option value="ALVL0210">ALVL0210</option>
                 <option value="ALVL0211">ALVL0211</option>
                 <option value="ALVL0212">ALVL0212</option>
