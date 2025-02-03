@@ -29,7 +29,7 @@ use Carbon\Carbon;
                     <tr>
                         <td>{{$note->title}}</td>
                         <td>{{$note->content}}</td>
-                        <td>{{Carbon::parse($note->created_at)->diffForHumans()}}</td>
+                        <td>{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
                         <td>
                             <a href="#" class="btn btn-primary">Modifier</a>
                             <a href="#" class="btn btn-danger">Supprimer</a>

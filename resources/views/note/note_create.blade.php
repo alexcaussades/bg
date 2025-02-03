@@ -12,7 +12,7 @@ use Carbon\Carbon;
         <div class="form-group">
             <label for="note" class="fs-5">Ajout d'une Note: {{ $puit[0]->Name }}</label>
             <select name="info_classic"  class="form-control mt-2" id="info">
-                <optgroup label="Courant">
+                <optgroup label="Berg">
                     <option selected value="Changement de berg">Changement de berg</option>
                     <option value="Refaire étanchéité du puit">Refaire étanchéité du puit</option>
                     <option value="Mauvaise étanchéité du brerg">Mauvaise étanchéité du berg</option>
@@ -27,11 +27,18 @@ use Carbon\Carbon;
                     <option value="Changer le bouchon sur la prise d'echantillon">Changer le bouchon sur la prise d'echantillon</option>
                     <option value="Mauvaise étanchéité de la prise d'échantillon">Mauvaise étanchéité de la prise d'échantillon</option>
                     <option value="Mauvais diamètre sur la prise échantillon">Mauvais diamètre sur la prise échantillon</option>
+                    <option value="Manque prise échantillon">Manque prise échantillon</option>
+                </optgroup>
+                <optgroup label="Action Groupée">
+                    <option value="Changement de berg + révision de la vanne">Changement de berg + révision de la vanne</option>
+                    <option value="Changement de berg + révision de la vanne + Manque prise échantillon">Changement de berg + révision de la vanne + Manque prise échantillon</option>
                 </optgroup>
                 <option value="autre" id="autre">Autre</option>
                 <textarea class="form-control mt-2" name="info" id="text" cols="30" rows="10"></textarea>
             </select>
         </div>
+        <input type="hidden" name="puits_id" value="{{ $puit[0]->id }}">
+        <input type="hidden" name="name" value="{{ $puit[0]->Name }}">
         <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
     </form>
 </div>
