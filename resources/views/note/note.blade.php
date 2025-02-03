@@ -31,9 +31,9 @@ use Carbon\Carbon;
                         <td>{{$note->content}}</td>
                         <td>{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
                         <td>
-                            <a href="#" class="btn btn-primary">Modifier</a>
-                            <a href="#" class="btn btn-danger">Supprimer</a>
-                            <a href="#" class="btn btn-success">Archiver</a>
+                            <a href="#" class="btn btn-sm btn-primary">Modifier</a>
+                            <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
+                            <a href="#" class="btn btn-sm btn-success">Archiver</a>
                         </td>
                     </tr>
                     @endforeach
