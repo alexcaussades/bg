@@ -28,6 +28,11 @@ class puitsController extends Controller
         return $puits;
     }
 
+    public function show_name($name){
+        $puits = DB::table('puits')->where('Name', $name)->get();
+        return $puits;
+    }
+
     public function show_id($id){
         $puits = DB::table('puits')->where('id', $id)->get();
         return $puits;

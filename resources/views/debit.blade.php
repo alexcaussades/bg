@@ -1,7 +1,3 @@
-<?php 
-use Carbon\Carbon;
-?>
-
 @extends("exention.header")
 @extends("exention.navbar")
 @section("content")
@@ -13,7 +9,7 @@ use Carbon\Carbon;
             <div class="col-6">
                 <div class="form-group">
                     <label for="">Type de tuyaux</label>
-                    <select class="form-control" name="type" id="">
+                    <select class="form-control" name="type" id="type">
                         <optgroup label="Courant">
                             <option selected value="SDR17">SDR17</option>
                             <option value="SDR26">SDR26</option>
@@ -27,7 +23,7 @@ use Carbon\Carbon;
                 </div>
                 <div class="form-group">
                   <label for="">Dimension</label>
-                  <select class="form-control" name="dimension" id="">
+                  <select class="form-control" name="dimension" id="dimension">
                     <optgroup label="Petit diamètre (disponible SDR11/17/33)">
                     <option value="32">32</option>
                     <option value="40">40</option>

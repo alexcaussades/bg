@@ -8,6 +8,7 @@ use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,8 @@ route::prefix('history')->group(function(){
         $id = $request->name;
         $data = new DataPuitsController();
         $data = $data->show_id($id);
+        $data_puit = new puitsController();
+        $data_puit = $data_puit->show_name($id);
         if($data->isEmpty()){
             return redirect()->route('history.puit');
         }
@@ -77,7 +80,7 @@ route::prefix('history')->group(function(){
         $info = $info->famille($data);
         $puit = new puitsController();
         $puit = $puit->moyene($id);
-        return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info]);
+        return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info, 'puit' => $data_puit]);
     })->name('history.puit.id');
 });
 
@@ -91,21 +94,14 @@ route::prefix('note')->group(function(){
     })->name('note.create.id');
 
     route::post('/create/{id}', function(Request $request){
-        $id = $request->id;
-        $data = [
-            "info_classic" => $request->info_classic,
-            'info' => $request->info,
-        ];
-
-        dd($data, $id);
-        
+        $note = new NoteController();
+        $note->store($request);
     })->name('note.create');
     
     route::get("/", function(){
-        $session = new puitsController();
-        $puits = $session->show();
-        
-        return view("note.note", ['puits' => $puits]);
+        $session = new NoteController();
+        $puits = $session->index();
+        return view("note.note", ['notes' => $puits]);
     })->name('note');
     
 });
@@ -167,11 +163,6 @@ Route::prefix("puits")->group(function(){
         return redirect()->route('puits.show');
     })->name("puits.desactive");
 });
-
-Route::get('/test', function(){
-    
-   
-})->name('debit.show');
 
 Route::get('/test2', function(){
     
