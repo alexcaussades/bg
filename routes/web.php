@@ -47,15 +47,18 @@ Route::get('/debit', function (Request $request) {
 
 Route::prefix("reglage")->group(function(){
     Route::get('/', function(){
-        return view('reglage.index');
+
+        return view('reglage.index', ['result' => null]);
     })->name('reglage');
 
    Route::post('/', function(Request $request){
         $request->validate([
             'taux' => 'required',
         ]);
+        $calule = $request->ch4 * $request->ms / $request->taux;
+        $calule = round($calule, 2);
         $request->session()->put('taux', $request->taux);
-        dd($request->session()->get('taux'));
+        return view('reglage.index', ['result' => $calule]);
     })->name('reglage');
 
     
