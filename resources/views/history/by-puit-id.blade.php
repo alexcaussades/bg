@@ -7,6 +7,13 @@ use Carbon\Carbon;
 
 <div class="container mt-5">
 
+@if ($info["familles"] == null || $info["ligne"] == null || $info["type"] == null || $info["dimension"] == null) 
+    <div class="alert alert-warning" role="alert">
+        <strong>Mettre à jour les informations du <a href="{{ route("puits.edit", [$puit[0]->id ]) }}">point de contrôle</a> </strong>
+    </div>
+@endif
+
+
 <h5><i class="bi bi-geo"></i> : {{ $info["familles"] }} {{ $data[0]->puits_id }} {{ $info["ligne"] }} </h5>
 
 <div class="alert alert-info">
