@@ -17,9 +17,18 @@
                 <li><a class="dropdown-item" href="{{ Route("history.puit") }}">Recherche Puits</a></li>
                 <li><a class="dropdown-item" href="{{ Route("puits.show") }}">Liste des puits</a></li>
               <li><a class="dropdown-item" href="{{ Route("puits.retard") }}">En retard</a></li>
-              <li><a class="dropdown-item" href="{{ Route('import_data') }}">Import Mesures</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-database-add"></i> Import
+            </a>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ Route('import_data') }}"><i class="bi bi-filetype-csv"></i> Import Mesures</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Import Boreholes</a></li>
+              <li><a class="dropdown-item" href="{{ Route('import.Borehole') }}"><i class="bi bi-filetype-xml"></i> Import Boreholes</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href={{ Route("import.route") }}><i class="bi bi-filetype-xml"></i> Import Route pour le reglages</a></li>
             </ul>
           </li>
           <li class="nav-item">

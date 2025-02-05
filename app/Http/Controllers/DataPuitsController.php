@@ -69,6 +69,59 @@ class DataPuitsController extends Controller
         return redirect()->back()->with('success', 'Data imported successfully.');
     }
 
+    public function borehole(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|mimes:xml',
+        ]);
+
+        $file = $request->file('fichier');
+        $file = $file->storeAs('public', $file->getClientOriginalName());
+
+        $xml = simplexml_load_file(storage_path('app/public/Boreholes.xml'));
+        // ex de parcourir un fichier xml avec simplexml sur   <Borehole ID="ALVR0115">
+        $alv = [];
+        foreach ($xml->Group as $group) {        
+            // Parcourir chaque borehole dans ce groupe
+            foreach ($group->Borehole as $borehole) {
+                //echo $borehole['ID'] . "\n";
+                $boreholeData = [
+                    (string) $borehole['ID']
+                ];
+                $alv[] = $boreholeData;
+            }
+            
+            $puits = new puitsController();
+            $puits->store($alv);
+        }
+    }
+
+    public function route(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|mimes:xml',
+        ]);
+
+        $file = $request->file('fichier');
+        $file = $file->storeAs('public', $file->getClientOriginalName());
+        $file = storage_path('app/' . $file);
+        $xml = simplexml_load_file($file);
+        // ex de parcourir un fichier xml avec simplexml sur   <Routes><Route name="ALVEOLV2" markasread="True"><Filters><Filter Site="Avleol" Group="All" Id="ALVTORCH" />
+        //et récupérer les valeurs de l'attribut Id de chaque Filter
+        $route = [];
+        foreach ($xml->Route as $route) {
+            foreach ($route->Filters->Filter as $filter) {
+                //echo $filter['Id'] . "\n";
+                $routeimport[] = (string) $filter['Id'];
+            }
+            $route = collect($routeimport);
+        }
+        $reglage = new regalgeController();
+        $reglage->store($route);
+               
+
+    }
+
     public function show_id($data)
     {
         $puits = data_puits::where("puits_id", $data)->orderBy('id', 'DESC')->get();

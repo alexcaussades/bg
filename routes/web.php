@@ -9,6 +9,7 @@ use App\Http\Controllers\puitsController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\regalgeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,19 +47,52 @@ Route::get('/debit', function (Request $request) {
 })->name('debit');
 
 Route::prefix("reglage")->group(function(){
+
     Route::get('/', function(){
+        $route = new regalgeController();
+        $sr_route = $route->show();
+        return view('reglage.index', ['route' => $sr_route]);
+    })->name('reglage.index');
 
-        return view('reglage.index', ['result' => null]);
-    })->name('reglage');
+    Route::get('/formule', function(Request $request){
+        $id = $request->id;
+        $route = new regalgeController();
+        $sr_puit = $route->get_name($id);
+        $name = $route->get_puit_name($sr_puit->Name);
+        if(!$name[0]->type || !$name[0]->dimension || !$name[0]->lignes || !$name[0]->familles){
+            return redirect()->route('puits.edit', ['id' => $name[0]->id]);
+        }
+        return view('reglage.formule', ['puit' => $name, 'id' => $id]);
+    })->name('reglage.formule');
 
-   Route::post('/', function(Request $request){
+   Route::post('/formule', function(Request $request){
         $request->validate([
             'taux' => 'required',
         ]);
+        $puit = $request->name;
+        $type = $request->type;
+        $dimension = $request->dimension;
+
+        $route = new regalgeController();
+        $sr_puit = $route->get_name($request->id);
+        $name = $route->get_puit_name($sr_puit->Name);
+
+        $route = new regalgeController();
+        $sr_puit = $route->show();
         $calule = $request->ch4 * $request->ms / $request->taux;
         $calule = round($calule, 2);
+
+        $debit = new calculeDebitController($request->type, $request->dimension, $request->ms);
+        $calculeDebit = $debit->calculeDebit();
+        $calculeDebit = round($calculeDebit, 2);
+
+        $debit = new calculeDebitController($request->type, $request->dimension, $calule);
+        $newDebit = $debit->calculeDebit();
+        $newDebit = round($newDebit, 2);
+
         $request->session()->put('taux', $request->taux);
-        return view('reglage.index', ['result' => $calule]);
+        //dd($calculeDebit, $newDebit, $request->ms, $request->ch4, $request->taux, $calule);
+        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit]);
     })->name('reglage');
 
     
@@ -128,6 +162,32 @@ Route::prefix('import_data')->group(function(){
         $data = $data->import($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('import_data.import');
+
+    Route::get('/borehole', function(Request $request){
+        return view('data.borehole');
+    })->name('import.Borehole');
+
+    Route::post('/borehole', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xml',
+        ]);
+        $data = new DataPuitsController();
+        $data = $data->borehole($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('import.Borehole.import');
+
+    Route::get("/route", function(){
+        return view('data.route');
+    })->name('import.route');
+
+    Route::post('/route', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xml',
+        ]);
+        $data = new DataPuitsController();
+        $data = $data->route($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('import.route.import');
 });
 
 Route::prefix("puits")->group(function(){
