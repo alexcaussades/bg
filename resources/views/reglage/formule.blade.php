@@ -33,7 +33,7 @@
         <div class="mb-3">
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="floatingInput" name="taux" value="{{ session("taux") ? session("taux") : "" }}" placeholder="Taux de conversion">
-                <label for="floatingInput">Taux de réglages à éffectuer</label>
+                <label for="floatingInput">Taux de réglages à effectuer</label>
             </div>
             <div class="form-floating mb-3 mt-2">
                 <input type="number" class="form-control" id="floatingInput" step="0.01" name="ch4" placeholder="Taux de CH4">
