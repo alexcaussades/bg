@@ -4,7 +4,7 @@
 
 <div class="container mt-5">
 
-    <form action="{{ route("reglage.edit", ["id" => $puit[0]->id]) }}" method="post">
+    <form action="{{ route("reglage.edit", ["id" => $id]) }}" method="post">
         @csrf
         <div class="form-group">
             <label for="name">Nom</label>
@@ -84,6 +84,8 @@
                 <option value="ALVR0119">ALVR0119</option>
             </select>
         </div>
+        <input type="hidden" name="id" value="{{ $id }}">
+        <input type="hidden" name="name" value="{{ $puit[0]->Name }}">
         <button class="btn btn-primary mt-2" type="submit"><i class="bi bi-save"></i> Sauvegarder</button>
     </form>
 
