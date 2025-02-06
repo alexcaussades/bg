@@ -33,4 +33,8 @@ class routeModel extends Model
         return $route;
     }
     
+    public function get_puits_by_name_route($name){
+        $puits = DB::table('routes')->select('*')->where('Name', $name)->get();
+        return $puits;
+    }
 }

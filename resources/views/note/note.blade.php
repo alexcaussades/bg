@@ -6,12 +6,6 @@ use Carbon\Carbon;
 @extends("exention.navbar")
 @section("content")
 
-
-<div class="container mt-5">
-    <a href="#" class="btn btn-success">Crée une note</a>
-</div>
-
-
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">

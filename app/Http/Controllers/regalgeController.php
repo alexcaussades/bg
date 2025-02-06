@@ -29,4 +29,10 @@ class regalgeController extends Controller
         $puit = $puit->show_name($name);
         return $puit;
     }
+
+    public function get_puits_by_name_route($name){
+        $puit = new routeModel();
+        $puit = $puit->get_puits_by_name_route($name);
+        return $puit;
+    }
 }

@@ -60,7 +60,7 @@ Route::prefix("reglage")->group(function(){
         $sr_puit = $route->get_name($id);
         $name = $route->get_puit_name($sr_puit->Name);
         if(!$name[0]->type || !$name[0]->dimension || !$name[0]->lignes || !$name[0]->familles){
-            return redirect()->route('puits.edit', ['id' => $name[0]->id]);
+            return redirect()->route('reglage.edit', ['id' => $id]);
         }
         return view('reglage.formule', ['puit' => $name, 'id' => $id]);
     })->name('reglage.formule');
@@ -76,6 +76,7 @@ Route::prefix("reglage")->group(function(){
         $route = new regalgeController();
         $sr_puit = $route->get_name($request->id);
         $name = $route->get_puit_name($sr_puit->Name);
+        $note = $name[0]->id;
 
         $route = new regalgeController();
         $sr_puit = $route->show();
@@ -92,9 +93,39 @@ Route::prefix("reglage")->group(function(){
 
         $request->session()->put('taux', $request->taux);
         //dd($calculeDebit, $newDebit, $request->ms, $request->ch4, $request->taux, $calule);
-        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit]);
+        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note]);
     })->name('reglage');
 
+    Route::get('/edit/{id}', function(Request $request){
+        $id = $request->id;
+        $route = new regalgeController();
+        $sr_puit = $route->get_name($id);
+        $name = $route->get_puit_name($sr_puit->Name);
+        $route = new regalgeController();
+        $sr_route = $route->show();
+        return view('reglage.edit_formule', ['puit' => $name, 'id' => $id, 'route' => $sr_route]);
+    })->name('reglage.edit');
+
+    Route::post('/edit/{id}', function(Request $request){
+        $request->validate([
+            'type' => 'required',
+            'dimension' => 'required',
+            'familles' => 'required',
+            'ligne' => 'required',
+        ]);
+        $data = [
+            'type' => $request->type,
+            'dimension' => $request->dimension,
+            'familles' => $request->familles,
+            'ligne' => $request->ligne
+        ];
+        $puit = new puitsController();
+        $puits_id = $puit->show_name($request->name);
+        $puit->update($puits_id[0]->id, $data);
+        $reglage = new regalgeController();
+        $get_name = $reglage->get_puits_by_name_route($request->name);
+        return redirect()->route('reglage.formule', ['id' => $get_name[0]->id]);
+    })->name('reglage.update');
     
 });
 
@@ -139,7 +170,23 @@ route::prefix('note')->group(function(){
     route::post('/create/{id}', function(Request $request){
         $note = new NoteController();
         $note->store($request);
+        redirect()->route('note');
     })->name('note.create');
+
+    route::get('/reglages/note/create/{id}/{id2}', function(Request $request){
+        $id = $request->id;
+        $puit = new puitsController();
+        $puit = $puit->show_id($id);
+        return view('note.note_create', ['id' => $id, 'puit' => $puit]);       
+    })->name('note.reglage.create.id');
+
+    route::post('/reglages/note/create/{id}/{id2}', function(Request $request){
+        $note = new NoteController();   
+        $note->store($request);
+        $id2 = $request->id2;
+        $id2 = $id2 + 1; 
+        return redirect()->route('reglage.formule', ['id' => $id2]);
+    })->name('note.reglage.create');
     
     route::get("/", function(){
         $session = new NoteController();
