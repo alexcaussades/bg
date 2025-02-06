@@ -4,7 +4,7 @@
 
 
 <div class="container mt-5">
-<h3>Vous avez une nouvelle route pour le régalges ? </h3>
+<h3>Vous avez une nouvelle route pour le réglages ? </h3>
 
 <p>Sélectionnez le fichier (Route.xml) pour importer les données.</p>
 
@@ -23,11 +23,11 @@
 
 
     <div class="mb-3">
-        <label for="formFile" class="form-label">Nouvelle données pour la configuration de votre site ! </label>
+        <label for="formFile" class="form-label">Nouvelle données pour la configuration de votre site  </label>
         <input class="form-control" type="file" id="formFile" name="fichier">
     </div>
     <div class="alert alert-warning" role="alert">
-        <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci sont irréversible</strong>
+        <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci est irréversible.</strong>
     </div>
 
     <button class="btn btn-info" type="submit" ><i class="bi bi-database-fill-up fs-5"></i> Importer le fichier</button>

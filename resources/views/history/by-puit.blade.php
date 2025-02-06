@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
     <form action="{{ route('history.puit.id', ["puit"])}}" method="get">
         <div class="mb-3">
-            <label for="puit" class="form-label">Sélectionnez un puit</label>
+            <label for="puit" class="form-label">Sélectionnez un puits</label>
             <select class="form-select" name="name">
                 @for ($i = 0; $i < count($session); $i++)
                     <option value="{{ $session[$i]->Name }}">{{ $session[$i]->Name }}</option>

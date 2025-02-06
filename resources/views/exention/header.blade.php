@@ -24,7 +24,7 @@
  
     <div class="container mt-2">
       <h1><i class="bi bi-terminal-fill"></i> Réglage Biogaz</h1>
-      <p>Bienvenue sur votre pages de réglage pour le biogaz</p>
+      <p>Bienvenue sur votre page de réglage pour le biogaz</p>
     </div>
   </div>
   <body>
