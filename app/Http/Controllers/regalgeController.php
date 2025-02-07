@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class regalgeController extends Controller
 {
     public function store($data){
+        // supprimer toutes les informations de la table
         $route = new routeModel();
+        $route->truncate();
         $route->store($data);
     }
 
