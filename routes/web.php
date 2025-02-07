@@ -1,15 +1,13 @@
 <?php
 
-use App\Models\Debit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
+use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
-use App\Http\Controllers\NoteController;
-use App\Http\Controllers\regalgeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +23,12 @@ use App\Http\Controllers\regalgeController;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::prefix('auth')->group(function(){
+    Route::get('/login', function(){
+        return view('auth.login');
+    })->name('login');
+});
 
 Route::get("sr", function(Request $request){
     $puits = new puitsController();
