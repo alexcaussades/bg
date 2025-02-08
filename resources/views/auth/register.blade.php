@@ -28,7 +28,7 @@
            <div class="form-check mt-2">
              <label class="form-check-label">
                <input type="checkbox" class="form-check-input" name="conditions" id="" value="checkedValue" checked>
-                J'accepte les termes et conditions d'utilisation <a href="http://">CGU</a>
+                J'accepte les termes et conditions d'utilisation <a href="#">CGU</a>
              </label>
            </div>
             <button type="submit" class="btn btn-primary mt-2">S'inscrire</button>

@@ -32,6 +32,15 @@ Route::prefix('auth')->group(function(){
     Route::get('/register', function(){
         return view('auth.register');
     })->name('register');
+
+    Route::get('/cgu', function(){
+        return view('cgu');
+    })->name('cgu');
+
+    Route::post('/register', function(Request $request){
+        dd($request->all());
+        return redirect()->route('login');
+    })->name('register.store');
 });
 
 Route::get("sr", function(Request $request){
