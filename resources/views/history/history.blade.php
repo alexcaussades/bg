@@ -11,7 +11,6 @@ use Carbon\Carbon;
         <thead>
             <tr>
                 <th scope="col">Date</th>
-                <th scope="col">Name</th>
                 <th scope="col">Type de tuyaux</th>
                 <th scope="col">Dimension</th>
                 <th scope="col">M/S</th>
@@ -22,7 +21,6 @@ use Carbon\Carbon;
             @foreach ($session as $item)
             <tr>
                 <td>{{ carbon::parse($item->created_at)->timezone("europe/paris")->format("d-m-Y H:i") }}</td>
-                <td>{{ $item->name ?? ""}}</td>
                 <td>{{ $item->type }}</td>
                 <td>{{ $item->dimension }}</td>
                 <td>{{ $item->ms }}</td>

@@ -1,15 +1,16 @@
 <?php
 
-use App\Models\Debit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
+use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
-use App\Http\Controllers\NoteController;
-use App\Http\Controllers\regalgeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,31 @@ use App\Http\Controllers\regalgeController;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::prefix('auth')->group(function(){
+    Route::get('/login', function(){
+        return view('auth.login');
+    })->name('login');
+
+    Route::get('/register', function(){
+        return view('auth.register');
+    })->name('register');
+
+    Route::get('/cgu', function(){
+        return view('cgu');
+    })->name('cgu');
+
+    Route::post('/register', function(Request $request){
+        $Auth = new AuthController();
+        $Auth->register($request);
+        return redirect()->route('login');
+    })->name('register.store');
+
+    Route::post('/login', function(Request $request){
+        dd($request->all());
+        return redirect()->route('home');
+    })->name('login.store');
+});
 
 Route::get("sr", function(Request $request){
     $puits = new puitsController();
@@ -286,3 +312,35 @@ Route::get('/test2', function(){
         return view('test');
    
 })->name('debit.show');
+
+Route::get("/copydata", function(){
+    $source = database_path('database.sqlite');
+    $date = date('d-m-Y-H-i');
+    if(!is_dir(database_path('backup'))){
+        mkdir(database_path('backup'), 0777, true);
+    }
+    $destination = database_path('backup/database_'.$date.'.sqlite');
+
+    if (!copy($source, $destination)) {
+        return response()->json(['message' => 'Failed to copy database'], 500);
+    }
+
+    return response()->json(['message' => 'Database copied successfully'], 200);
+})->name('database.copy');
+
+Route::get('/database', function(){
+    // faire des statiques sur la base de donnée data_puits
+    $data = DB::table('data_puits')->get();
+    $data = $data->toArray();
+    $data = json_decode(json_encode($data), true);
+    $data = collect($data);
+    $explode = $data->map(function($item){
+        $item['date'] = explode(' ', $item['date'])[0];
+        return $item;
+    });
+    $data = $data->groupBy($explode);
+    $data = $data->toArray();
+    $data = json_decode(json_encode($data), true);
+    $data = collect($data);
+    return $data;
+})->name('database');
