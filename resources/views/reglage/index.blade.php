@@ -9,9 +9,16 @@
         <div class="mb-3">
             <label for="puit" class="form-label">Sélectionnez un puits</label>
             <select class="form-select" name="id">
-                @for ($i = 0; $i < count($route); $i++)
-                    <option value="{{ $route[$i]->id }}">{{ $route[$i]->Name }}</option>
-                @endfor
+                @if (isset($id))
+                    @for ($i = $id; $i < count($route); $i++)
+                        <option value="{{ $route[$i]->id }}">{{ $route[$i]->Name }}</option>
+                    @endfor
+                @else
+                    @for ($i = 0; $i < count($route); $i++)
+                        <option value="{{ $route[$i]->id }}">{{ $route[$i]->Name }}</option>
+                    @endfor
+                @endif
+                
             </select>
         </div>
         <button type="submit" class="btn btn-sm btn-primary">Rechercher</button>

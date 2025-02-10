@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\puitsController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
+use App\Http\Controllers\ConsignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,9 +76,14 @@ Route::get('/debit', function (Request $request) {
 
 Route::prefix("reglage")->group(function(){
 
-    Route::get('/', function(){
+    Route::get('/', function(Request $request){
         $route = new regalgeController();
         $sr_route = $route->show();
+        if($request->cookie('last_id')){
+            $id = $request->cookie('last_id');
+            $new_id = $id + 1;
+            return view('reglage.index', ['route' => $sr_route, 'id' => $new_id]);
+        }
         return view('reglage.index', ['route' => $sr_route]);
     })->name('reglage.index');
 
@@ -118,6 +125,8 @@ Route::prefix("reglage")->group(function(){
         $newDebit = round($newDebit, 2);
 
         $request->session()->put('taux', $request->taux);
+        Cookie::queue(Cookie::make('last_id', $request->id, 200, '/', null, false, false));
+
         //dd($calculeDebit, $newDebit, $request->ms, $request->ch4, $request->taux, $calule);
         return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note]);
     })->name('reglage');
@@ -305,13 +314,38 @@ Route::prefix("puits")->group(function(){
         $puit->desactive($id);
         return redirect()->route('puits.show');
     })->name("puits.desactive");
+
+    Route::get("mesure-lixivats", function(){
+        $puits = new puitsController();
+        $puit = $puits->show();;
+        $puit_retard = $puits->recherche_puits();
+    })->name("puit.lixivats");
 });
 
-Route::get('/test2', function(){
+Route::prefix("consignation")->group(function(){
+
+    Route::get("/index", function(){
+    return view("consignation.index");
+    })->name("consignation.index");
+
+    Route::post('/index', function(Request $request){
+        $consignation = new ConsignationController();
+        $consignation->create($request);
+    })->name("consignation.index");
     
-        return view('test');
-   
-})->name('debit.show');
+    Route::get("/show", function(){
+        $consignation = new ConsignationController();
+        $consignation = $consignation->show();
+        return view("consignation.show", ["consignation" => $consignation]);
+    })->name("consignation.show");
+
+    Route::get('/view/{id}', function(Request $request){
+       $id = $request->id;
+       $consignation = new ConsignationController();
+       $consignation = $consignation->view($id);
+       return view("consignation.view", ["consignation" => $consignation]);
+    })->name('consignation.view');
+});
 
 Route::get("/copydata", function(){
     $source = database_path('database.sqlite');
@@ -328,19 +362,9 @@ Route::get("/copydata", function(){
     return response()->json(['message' => 'Database copied successfully'], 200);
 })->name('database.copy');
 
-Route::get('/database', function(){
-    // faire des statiques sur la base de donnée data_puits
-    $data = DB::table('data_puits')->get();
-    $data = $data->toArray();
-    $data = json_decode(json_encode($data), true);
-    $data = collect($data);
-    $explode = $data->map(function($item){
-        $item['date'] = explode(' ', $item['date'])[0];
-        return $item;
-    });
-    $data = $data->groupBy($explode);
-    $data = $data->toArray();
-    $data = json_decode(json_encode($data), true);
-    $data = collect($data);
-    return $data;
-})->name('database');
+
+Route::get('/test2', function(){
+    
+        return view('test');
+   
+})->name('debit.show');
