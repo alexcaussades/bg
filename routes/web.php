@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
@@ -307,12 +306,6 @@ Route::prefix("puits")->group(function(){
     })->name("puits.desactive");
 });
 
-Route::get('/test2', function(){
-    
-        return view('test');
-   
-})->name('debit.show');
-
 Route::get("/copydata", function(){
     $source = database_path('database.sqlite');
     $date = date('d-m-Y-H-i');
@@ -328,19 +321,9 @@ Route::get("/copydata", function(){
     return response()->json(['message' => 'Database copied successfully'], 200);
 })->name('database.copy');
 
-Route::get('/database', function(){
-    // faire des statiques sur la base de donnée data_puits
-    $data = DB::table('data_puits')->get();
-    $data = $data->toArray();
-    $data = json_decode(json_encode($data), true);
-    $data = collect($data);
-    $explode = $data->map(function($item){
-        $item['date'] = explode(' ', $item['date'])[0];
-        return $item;
-    });
-    $data = $data->groupBy($explode);
-    $data = $data->toArray();
-    $data = json_decode(json_encode($data), true);
-    $data = collect($data);
-    return $data;
-})->name('database');
+
+Route::get('/test2', function(){
+    
+        return view('test');
+   
+})->name('debit.show');
