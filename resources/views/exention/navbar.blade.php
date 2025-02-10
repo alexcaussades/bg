@@ -34,6 +34,14 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ Route('note') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
+          </li>
+          @if (Cookie::get("last_id") != null)
+            <li class="nav-item">
+              <a class="nav-link" href="{{ Route('reglage.formule', ['id' => Cookie::get("last_id") + 1]) }}"><i class="bi bi-calculator"></i> Réglage</a>
+            </li>
+          @endif
         </ul>
         <form action="{{ route("sr") }}" method="get" class="d-flex" role="search">
           <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">

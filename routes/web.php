@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
@@ -73,9 +74,14 @@ Route::get('/debit', function (Request $request) {
 
 Route::prefix("reglage")->group(function(){
 
-    Route::get('/', function(){
+    Route::get('/', function(Request $request){
         $route = new regalgeController();
         $sr_route = $route->show();
+        if($request->cookie('last_id')){
+            $id = $request->cookie('last_id');
+            $new_id = $id + 1;
+            return view('reglage.index', ['route' => $sr_route, 'id' => $new_id]);
+        }
         return view('reglage.index', ['route' => $sr_route]);
     })->name('reglage.index');
 
@@ -117,6 +123,8 @@ Route::prefix("reglage")->group(function(){
         $newDebit = round($newDebit, 2);
 
         $request->session()->put('taux', $request->taux);
+        Cookie::queue(Cookie::make('last_id', $request->id, 200, '/', null, false, false));
+
         //dd($calculeDebit, $newDebit, $request->ms, $request->ch4, $request->taux, $calule);
         return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note]);
     })->name('reglage');
@@ -304,6 +312,12 @@ Route::prefix("puits")->group(function(){
         $puit->desactive($id);
         return redirect()->route('puits.show');
     })->name("puits.desactive");
+
+    Route::get("mesure-lixivats", function(){
+        $puits = new puitsController();
+        $puit = $puits->show();;
+        $puit_retard = $puits->recherche_puits();
+    })->name("puit.lixivats");
 });
 
 Route::get("/copydata", function(){

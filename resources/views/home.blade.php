@@ -13,7 +13,7 @@
 
     <div class="card text-white bg-dark mt-2">
       <div class="card-body">
-        <h4 class="card-title"><i class="bi bi-calculator"></i> Réglage au taux </h4>
+        <h4 class="card-title"><i class="bi bi-calculator"></i> Réglage </h4>
         <p class="card-text"> Le réglage au taux particulier qui fait référence à l'optimisation de la collecte et de l'extraction du biogaz :  <a href="{{ route("reglage.index") }}"><button class="btn btn-info" type="submit"><i class="bi bi-arrow-right-circle"></i> Plus d'infos </button></a></p>
       </div>
     </div>

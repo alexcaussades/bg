@@ -27,9 +27,9 @@
 
 
 <div class="container mt-2">
-    <div class="fs-3"> Réglages aux débit {{ $puit[0]->Name }} (Formule M/s) </div>
-
-    <form action="{{ route("reglage") }}" method="post">
+    <div class="fs-5"> Réglages du: {{ $puit[0]->Name }} ({{ $puit[0]->type }} D.{{ $puit[0]->dimension }}) </div>
+    <a href="{{ route("reglage.edit", ['id' => $id]) }}"><button class="btn btn-sm btn-secondary mt-2"> <i class="bi bi-pencil-square"></i> Modification {{ $puit[0]->Name }} </button></a>
+    <form action="{{ route("reglage") }}" method="post" class="mt-2">
         @csrf
         <div class="mb-3">
             <div class="form-floating mb-3">
@@ -51,7 +51,7 @@
         <input type="hidden" name="type" value="{{ $puit[0]->type }}">
         <input type="hidden" name="dimension" value="{{ $puit[0]->dimension }}">
 
-        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Calule</button>
     </form>
 
 
