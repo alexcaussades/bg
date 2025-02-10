@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use App\Http\Controllers\puitsController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
+use App\Http\Controllers\ConsignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -318,6 +320,31 @@ Route::prefix("puits")->group(function(){
         $puit = $puits->show();;
         $puit_retard = $puits->recherche_puits();
     })->name("puit.lixivats");
+});
+
+Route::prefix("consignation")->group(function(){
+
+    Route::get("/index", function(){
+    return view("consignation.index");
+    })->name("consignation.index");
+
+    Route::post('/index', function(Request $request){
+        $consignation = new ConsignationController();
+        $consignation->create($request);
+    })->name("consignation.index");
+    
+    Route::get("/show", function(){
+        $consignation = new ConsignationController();
+        $consignation = $consignation->show();
+        return view("consignation.show", ["consignation" => $consignation]);
+    })->name("consignation.show");
+
+    Route::get('/view/{id}', function(Request $request){
+       $id = $request->id;
+       $consignation = new ConsignationController();
+       $consignation = $consignation->view($id);
+       return view("consignation.view", ["consignation" => $consignation]);
+    })->name('consignation.view');
 });
 
 Route::get("/copydata", function(){

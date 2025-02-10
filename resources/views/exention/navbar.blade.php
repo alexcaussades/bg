@@ -35,7 +35,7 @@
             <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ Route('note') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
+            <a class="nav-link" href="{{ Route('consignation.index') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
           </li>
           @if (Cookie::get("last_id") != null)
             <li class="nav-item">
