@@ -331,6 +331,7 @@ Route::prefix("consignation")->group(function(){
     Route::post('/index', function(Request $request){
         $consignation = new ConsignationController();
         $consignation->create($request);
+        return view("consignation.show");
     })->name("consignation.index");
     
     Route::get("/show", function(){
