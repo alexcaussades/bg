@@ -21,7 +21,7 @@ class ConsignationController extends Controller
             'type' => 'required',
             'Équipements' => 'required',
             'info' => 'required',
-            'photo' => 'required | image | mimes:jpeg,png,jpg,gif | max:18000'
+            'photo' => 'image | mimes:jpeg,png,jpg,gif | max:18000'
         ]);
 
         if(!is_dir(storage_path('app/public/images'))){

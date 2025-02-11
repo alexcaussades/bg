@@ -2,7 +2,11 @@
 @extends("exention.navbar")
 @section("content")
 
-<form action="#" method="post" enctype="multipart/form-data">
+<div class="container">
+    <a href="{{ route("consignation.show")}}"><button class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i> Conignation Existante</button></a>
+</div>
+
+<form action="#" method="post" enctype="multipart/form-data" class="mt-2">
     @csrf
     <div class="container">
         <div class="row">
@@ -41,5 +45,7 @@
         </div>
     </div>
 </form>
+
+
 
 @endsection
