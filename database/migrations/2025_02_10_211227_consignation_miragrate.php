@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('Équipements');
             $table->string('info');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

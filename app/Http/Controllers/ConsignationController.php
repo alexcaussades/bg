@@ -28,9 +28,13 @@ class ConsignationController extends Controller
             mkdir(storage_path('app/public/images'), 0777, true);
         }
 
-        // Store the image in the public folder and get the path of the image
-        $image = $request->file('photo');
-        $image = $image->storeAs('images', $image->getClientOriginalName(), 'public');
+        if($request->hasFile('photo')){
+            $image = $request->file('photo');
+            $image->move(storage_path('app/public/images'), $image->getClientOriginalName());
+        }else{
+            $image = null;
+        }
+        
 
         $consignation = consignation::create([
             'type' => $request->type,
@@ -39,7 +43,7 @@ class ConsignationController extends Controller
             'photo' => $image
         ]);
 
-        return response()->json($consignation);
+        return view('consignation.show');
     }
 
     public function show()
