@@ -34,8 +34,8 @@
                 </optgroup>
                 <optgroup label="Diamètre standard">
                     <option value="90">90</option>
-                    <option value="110">110</option>
-                    <option selected value="160">160</option>
+                    <option selected value="110">110</option>
+                    <option value="160">160</option>
                 </optgroup>
                 <optgroup label="Grand diamètre">
                     <option value="200">200</option>
