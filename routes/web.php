@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DebitController;
@@ -325,13 +326,17 @@ Route::prefix("puits")->group(function(){
 Route::prefix("consignation")->group(function(){
 
     Route::get("/index", function(){
-    return view("consignation.index");
+    $consignation = new ConsignationController();
+    $consignation = $consignation->show();
+    return view("consignation.index", ["consignation" => $consignation]);
     })->name("consignation.index");
 
     Route::post('/index', function(Request $request){
         $consignation = new ConsignationController();
         $consignation->create($request);
-        return view("consignation.show");
+        $consignationstart = new ConsignationController();
+        $consignationstart = $consignationstart->show();
+        return view("consignation.show", ["consignation" => $consignationstart]);
     })->name("consignation.index");
     
     Route::get("/show", function(){
@@ -344,7 +349,8 @@ Route::prefix("consignation")->group(function(){
        $id = $request->id;
        $consignation = new ConsignationController();
        $consignation = $consignation->view($id);
-       return view("consignation.view", ["consignation" => $consignation]);
+       $img = Storage::url($consignation->photo);
+       return view("consignation.view", ["consignation" => $consignation, "img" => $img]);
     })->name('consignation.view');
 });
 
@@ -365,7 +371,7 @@ Route::get("/copydata", function(){
 
 
 Route::get('/test2', function(){
-    
-        return view('test');
-   
+    $puits = new puitsController();
+    $puits = $puits->verrify_list_puits_or_reglage_list();
+    return $puits;   
 })->name('debit.show');

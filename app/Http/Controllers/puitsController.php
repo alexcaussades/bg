@@ -83,6 +83,19 @@ class puitsController extends Controller
         $puits->active = 0;
         $puits->save();
     }
+
+    public function verrify_list_puits_or_reglage_list(){
+        $puits = DB::table('puits')->select('Name')->get();
+        $list = [];
+        foreach($puits as $p){
+            if(DB::table('routes')->where('Name', $p->Name)->exists()){
+                continue;
+            }else{
+                array_push($list, $p->Name);
+            }
+        }
+        return $list;
+    }
 }
 
 
