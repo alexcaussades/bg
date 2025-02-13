@@ -30,7 +30,8 @@ class ConsignationController extends Controller
 
         if($request->hasFile('photo')){
             $image = $request->file('photo');
-            $image->move(storage_path('app/public/images'), $image->getClientOriginalName());
+            $image = $image->move(storage_path('app/public/images'), $image->getClientOriginalName());
+            $image = $image->getFilename();
         }else{
             $image = null;
         }

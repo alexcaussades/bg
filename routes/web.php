@@ -349,8 +349,9 @@ Route::prefix("consignation")->group(function(){
        $id = $request->id;
        $consignation = new ConsignationController();
        $consignation = $consignation->view($id);
-       $img = Storage::url($consignation->photo);
-       return view("consignation.view", ["consignation" => $consignation, "img" => $img]);
+       $img = Storage::url("images/".$consignation->photo);
+       $donwload = Storage::url("images/".$consignation->photo);
+       return view("consignation.view", ["consignation" => $consignation, "img" => $img, "donwload" => $donwload]);
     })->name('consignation.view');
 });
 

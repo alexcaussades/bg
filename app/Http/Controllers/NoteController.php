@@ -12,7 +12,6 @@ class NoteController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->info);
         if($request->info_classic == "autre")
         {
             $data = [
@@ -48,7 +47,7 @@ class NoteController extends Controller
 
     public function index()
     {
-       $note = DB::table('notes')->orderBy("title", "asc")->get();
+       $note = DB::table('notes')->orderBy("created_at", "desc")->get();
        return $note;
     }
 

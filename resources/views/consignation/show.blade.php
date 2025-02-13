@@ -22,7 +22,7 @@ use Carbon\Carbon;
                 <tbody>
                     @foreach ($consignation as $consignation)
                     <tr>
-                        <td scope="row">{{Carbon::parse($consignation->created_at)->format("d-m-Y")}}</td>
+                        <td scope="row">{{Carbon::parse($consignation->created_at)->tz("europe/paris")->format("d/m/Y")}}</td>
                         <td>{{$consignation->type}}</td>
                         <td>{{$consignation->Équipements}}</td>
                         <td>{{$consignation->info}}</td>
