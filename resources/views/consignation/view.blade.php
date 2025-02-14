@@ -36,7 +36,7 @@ use Carbon\Carbon;
                     <div class="col mt-4"><a href="{{ $donwload }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
                 @endif
                 @production
-                <div class="col mt-4"><a href="{{ asset('storage/app/public/images/'.$donwload) }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
+                <div class="col mt-4"><a href="{{ asset('storage/app/public/images/'.$consignation->photo) }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
                 @endproduction
             @endif
                 </div>
