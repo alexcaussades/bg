@@ -32,7 +32,12 @@ use Carbon\Carbon;
                 <div class="col">Type: {{ $consignation->type }}
                 <div class="col mt-2">info: {{ $consignation->info }}
             @if ($consignation->photo != null)
-                <div class="col mt-4"><a href="{{ $donwload }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
+                    @if (ENV('APP_ENV') == 'local')
+                    <div class="col mt-4"><a href="{{ $donwload }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
+                @endif
+                @production
+                <div class="col mt-4"><a href="{{ asset('storage/app/public/images/'.$donwload) }}"><button type="submit" class="btn btn-outline-success">Télécharger la photo</button></a>
+                @endproduction
             @endif
                 </div>
                 </p>
