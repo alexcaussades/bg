@@ -21,7 +21,7 @@ use Carbon\Carbon;
             @if ($consignation->photo != null)
                 <img class="card-img-top" src="{{ $img }}" alt="">
                 @production
-                <img class="card-img-top" src="{{ asset('storage/'.$consignation->photo) }}" alt="">
+                <img class="card-img-top" src="{{ asset('storage/images/'.$consignation->photo) }}" alt="">
                 @endproduction
             @endif
             <div class="card-body">
