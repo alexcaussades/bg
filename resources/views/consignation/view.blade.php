@@ -20,6 +20,9 @@ use Carbon\Carbon;
         <div class="card text-dark bg-light  mb-3">
             @if ($consignation->photo != null)
                 <img class="card-img-top" src="{{ $img }}" alt="">
+                @production
+                <img class="card-img-top" src="{{ asset('storage/'.$consignation->photo) }}" alt="">
+                @endproduction
             @endif
             <div class="card-body">
             <h4 class="card-title">Équipements: {{ $consignation->Équipements }}</h4>
