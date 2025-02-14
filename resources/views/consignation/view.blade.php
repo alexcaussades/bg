@@ -19,9 +19,11 @@ use Carbon\Carbon;
         <div class="col-8">
         <div class="card text-dark bg-light  mb-3">
             @if ($consignation->photo != null)
-                <img class="card-img-top" src="{{ $img }}" alt="">
+                @if (ENV('APP_ENV') == 'local')
+                    <img class="card-img-top" src="{{ $img }}" alt="">
+                @endif
                 @production
-                <img class="card-img-top" src="{{ asset('storage/images/'.$consignation->photo) }}" alt="">
+                <img class="card-img-top" src="{{ asset('storage/app/public/images/'.$consignation->photo) }}" alt="">
                 @endproduction
             @endif
             <div class="card-body">
