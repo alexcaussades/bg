@@ -24,7 +24,7 @@
 
     <div class="mb-3">
         <label for="formFile" class="form-label">Nouvelle données pour la configuration de votre site</label>
-        <input class="form-control" type="file" id="formFile" name="fichier">
+        <input class="form-control" type="file" id="formFile" name="fichier" accept=".xml">
     </div>
     <div class="alert alert-warning" role="alert">
         <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci est irréversible. </strong>

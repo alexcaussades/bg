@@ -50,7 +50,8 @@ Route::prefix('auth')->group(function(){
     })->name('register.store');
 
     Route::post('/login', function(Request $request){
-        dd($request->all());
+        $Auth = new AuthController();
+        $Auth->login($request);
         return redirect()->route('home');
     })->name('login.store');
 });
@@ -86,7 +87,7 @@ Route::prefix("reglage")->group(function(){
             return view('reglage.index', ['route' => $sr_route, 'id' => $new_id]);
         }
         return view('reglage.index', ['route' => $sr_route]);
-    })->name('reglage.index');
+    })->name('reglage.index')->middleware('auth');
 
     Route::get('/formule', function(Request $request){
         $id = $request->id;
@@ -97,7 +98,7 @@ Route::prefix("reglage")->group(function(){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
         return view('reglage.formule', ['puit' => $name, 'id' => $id]);
-    })->name('reglage.formule');
+    })->name('reglage.formule')->middleware('auth');
 
    Route::post('/formule', function(Request $request){
         $request->validate([
@@ -170,13 +171,13 @@ route::prefix('history')->group(function(){
         $session = new DebitController();
         $session = $session->orderby();
         return view("history.history", ['session' => $session]);
-    })->name('history');
+    })->name('history')->middleware('auth');
 
     Route::get("/history-puit", function(){
         $session = new puitsController();
         $session = $session->show();
         return view('history.by-puit', ['session' => $session]);
-    })->name('history.puit');
+    })->name('history.puit')->middleware('auth');
 
     Route::get("/history-puit/{puit}", function(Request $request){
         $id = $request->name;
@@ -192,8 +193,8 @@ route::prefix('history')->group(function(){
         $puit = new puitsController();
         $puit = $puit->moyene($id);
         return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info, 'puit' => $data_puit]);
-    })->name('history.puit.id');
-});
+    })->name('history.puit.id')->middleware('auth');
+})->middleware('auth');
 
 route::prefix('note')->group(function(){
     route::get('/create/{id}', function(Request $request){
@@ -201,20 +202,20 @@ route::prefix('note')->group(function(){
         $puit = new puitsController();
         $puit = $puit->show_id($id);
         return view('note.note_create', ['id' => $id, 'puit' => $puit]);       
-    })->name('note.create.id');
+    })->name('note.create.id')->middleware('auth');
 
     route::post('/create/{id}', function(Request $request){
         $note = new NoteController();
         $note->store($request);
         redirect()->route('note');
-    })->name('note.create');
+    })->name('note.create')->middleware('auth');
 
     route::get('/reglages/note/create/{id}/{id2}', function(Request $request){
         $id = $request->id;
         $puit = new puitsController();
         $puit = $puit->show_id($id);
         return view('note.note_create', ['id' => $id, 'puit' => $puit]);       
-    })->name('note.reglage.create.id');
+    })->name('note.reglage.create.id')->middleware('auth');
 
     route::post('/reglages/note/create/{id}/{id2}', function(Request $request){
         $note = new NoteController();   
@@ -222,20 +223,20 @@ route::prefix('note')->group(function(){
         $id2 = $request->id2;
         $id2 = $id2 + 1; 
         return redirect()->route('reglage.formule', ['id' => $id2]);
-    })->name('note.reglage.create');
+    })->name('note.reglage.create')->middleware('auth');
     
     route::get("/", function(){
         $session = new NoteController();
         $puits = $session->index();
         return view("note.note", ['notes' => $puits]);
-    })->name('note');
+    })->name('note')->middleware('auth');
     
-});
+})->middleware('auth');
 
 Route::prefix('import_data')->group(function(){
     Route::get('/', function(){
         return view('data.csv');
-    })->name('import_data');
+    })->name('import_data')->middleware('auth');
 
     Route::post('/import', function(Request $request){
         $request->validate([
@@ -244,11 +245,11 @@ Route::prefix('import_data')->group(function(){
         $data = new DataPuitsController();
         $data = $data->import($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('import_data.import');
+    })->name('import_data.import')->middleware('auth');
 
     Route::get('/borehole', function(Request $request){
         return view('data.borehole');
-    })->name('import.Borehole');
+    })->name('import.Borehole')->middleware('auth');
 
     Route::post('/borehole', function(Request $request){
         $request->validate([
@@ -257,11 +258,11 @@ Route::prefix('import_data')->group(function(){
         $data = new DataPuitsController();
         $data = $data->borehole($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('import.Borehole.import');
+    })->name('import.Borehole.import')->middleware('auth');
 
     Route::get("/route", function(){
         return view('data.route');
-    })->name('import.route');
+    })->name('import.route')->middleware('auth');
 
     Route::post('/route', function(Request $request){
         $request->validate([
@@ -270,8 +271,8 @@ Route::prefix('import_data')->group(function(){
         $data = new DataPuitsController();
         $data = $data->route($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('import.route.import');
-});
+    })->name('import.route.import')->middleware('auth');
+})->middleware('auth');
 
 Route::prefix("puits")->group(function(){
     Route::get('/show', function(){
@@ -279,14 +280,14 @@ Route::prefix("puits")->group(function(){
         $puit = $puits->show();;
         $puit_retard = $puits->recherche_puits();
         return view("puits.puits_show", ['puits' => $puit, 'retard' => $puit_retard]);
-    })->name('puits.show');
+    })->name('puits.show')->middleware('auth');
 
     Route::get("/retard", function(){
         $puits = new puitsController();
         $puit_retard = $puits->recherche_puits();
         //dd($puit_retard);
         return view("puits.retard_puits", ['retard' => $puit_retard]);
-    })->name("puits.retard");
+    })->name("puits.retard")->middleware('auth');
 
     route::get("/edit/{id}", function(Request $request){
         $id = $request->id;
@@ -294,7 +295,7 @@ Route::prefix("puits")->group(function(){
         $puit = $puit->show_id($id);
         //dd($puit);
         return view('puits.puits_edit', ['id' => $id, 'puit' => $puit]);
-    })->name('puits.edit');
+    })->name('puits.edit')->middleware('auth');
 
     route::post("/update/{id}", function(Request $request){
         $id = $request->id;
@@ -307,21 +308,21 @@ Route::prefix("puits")->group(function(){
         $puit = new puitsController();
         $puit->update($id, $data);
         return redirect()->route('puits.show');
-    })->name('puits.update');
+    })->name('puits.update')->middleware('auth');
 
     route::get("desactive/{id}",function(Request $request ){
         $id = $request->id;
         $puit = new puitsController();
         $puit->desactive($id);
         return redirect()->route('puits.show');
-    })->name("puits.desactive");
+    })->name("puits.desactive")->middleware('auth');
 
     Route::get("mesure-lixivats", function(){
         $puits = new puitsController();
         $puit = $puits->show();;
         $puit_retard = $puits->recherche_puits();
-    })->name("puit.lixivats");
-});
+    })->name("puit.lixivats")->middleware('auth');
+})->middleware('auth');
 
 Route::prefix("consignation")->group(function(){
 
@@ -329,7 +330,7 @@ Route::prefix("consignation")->group(function(){
     $consignation = new ConsignationController();
     $consignation = $consignation->show();
     return view("consignation.index", ["consignation" => $consignation]);
-    })->name("consignation.index");
+    })->name("consignation.index")->middleware('auth');
 
     Route::post('/index', function(Request $request){
         $consignation = new ConsignationController();
@@ -337,13 +338,13 @@ Route::prefix("consignation")->group(function(){
         $consignationstart = new ConsignationController();
         $consignationstart = $consignationstart->show();
         return view("consignation.show", ["consignation" => $consignationstart]);
-    })->name("consignation.index");
+    })->name("consignation.index")->middleware('auth');
     
     Route::get("/show", function(){
         $consignation = new ConsignationController();
         $consignation = $consignation->show();
         return view("consignation.show", ["consignation" => $consignation]);
-    })->name("consignation.show");
+    })->name("consignation.show")->middleware('auth');
 
     Route::get('/view/{id}', function(Request $request){
        $id = $request->id;
@@ -352,8 +353,8 @@ Route::prefix("consignation")->group(function(){
        $img = Storage::url("images/".$consignation->photo);
        $donwload = Storage::url("images/".$consignation->photo);
        return view("consignation.view", ["consignation" => $consignation, "img" => $img, "donwload" => $donwload]);
-    })->name('consignation.view');
-});
+    })->name('consignation.view')->middleware('auth');
+})->middleware('auth');
 
 Route::get("/copydata", function(){
     $source = database_path('database.sqlite');
