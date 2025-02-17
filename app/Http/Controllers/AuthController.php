@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Cookie;
@@ -19,8 +22,18 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
             $verify = Hash::check($request->password, $user->password);
             if ($verify) {
-                $token = $user->createToken('authToken')->plainTextToken;
-                Cookie::queue('token', $token, 155 );
+                $token_set = $this->create_token();
+                DB::table('personal_access_tokens')->insert([
+                    'token' => $token_set,
+                    'tokenable_id' => $user->id,
+                    'tokenable_type' => 'App\Models\User',
+                    'name' => 'authToken',
+                    'abilities' => '["*"]',
+                    'last_used_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                Cookie::queue('authToken', $token_set, 43200);
             }else{
                 return response()->json([
                     'message' => 'Unauthorized'
@@ -33,14 +46,18 @@ class AuthController extends Controller
         ], 401);
     }
 
-    // public function logout(Request $request)
-    // {
-    //     $request->user()->token()->revoke();
-
-    //     return response()->json([
-    //         'message' => 'Successfully logged out'
-    //     ]);
-    // }
+    public function checktoken(){
+        $token = Cookie::get('authToken');
+        if ($token) {
+            $tt = DB::table('personal_access_tokens')->where('token', $token)->first();
+            if ($tt) {
+                Auth::loginUsingId($tt->tokenable_id);
+                // set last_used_at to current time when token is used
+                DB::table('personal_access_tokens')->where('token', $token)->update(['last_used_at' => now()]);
+                return view('home');
+            }
+        }
+    }
 
     public function register(Request $request)
     {
@@ -76,5 +93,17 @@ class AuthController extends Controller
             return $user;
         }
 
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return view("home");
+    }
+
+    public function create_token(){
+        $user = Auth::user();
+        $token = Str::uuid();
+        return $token;
     }
 }

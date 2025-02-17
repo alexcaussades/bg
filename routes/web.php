@@ -31,7 +31,12 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('auth')->group(function(){
-    Route::get('/login', function(){
+    Route::get('/login', function(Request $request){
+        if($request->cookie('authToken')){
+            $Auth = new AuthController();
+            $Auth->checktoken();
+            return redirect()->route('home');
+        }
         return view('auth.login');
     })->name('login');
 
@@ -54,6 +59,12 @@ Route::prefix('auth')->group(function(){
         $Auth->login($request);
         return redirect()->route('home');
     })->name('login.store');
+
+    Route::get('/logout', function(){
+        $Auth = new AuthController();
+        $Auth->logout();
+        return redirect()->route('home');
+    })->name('logout');
 });
 
 Route::get("sr", function(Request $request){
@@ -62,7 +73,7 @@ Route::get("sr", function(Request $request){
     $note = new NoteController();
     $note = $note->recherche($request->search);
     return view('sr', ['puits' => $puits, 'note' => $note]);
-})->name('sr');
+})->name('sr')->middleware('auth');
 
 Route::get('/debit', function (Request $request) {
     if($request->has('type') && $request->has('dimension') && $request->has('ms'))
