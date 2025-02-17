@@ -21,7 +21,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-database-add"></i> Import
+              <i class="bi bi-upload"></i> Import
             </a>
             <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ Route('import_data') }}"><i class="bi bi-filetype-csv"></i> Import Mesures</a></li>
