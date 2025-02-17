@@ -3,6 +3,7 @@
 use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
@@ -388,3 +389,14 @@ Route::get('/test2', function(){
     $puits = $puits->verrify_list_puits_or_reglage_list();
     return $puits;   
 })->name('debit.show');
+
+Route::get("/mail", function(){
+    
+    $user = [
+        "name" => "Alex",
+        "id" => 100
+    ];
+    
+
+    Mail::to('alexandre.caussades@hotmail.com')->send(new \App\Mail\RegisterUsers($user));
+})->name('mail');

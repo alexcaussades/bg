@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\RegisterUsers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Cookie;
 
@@ -90,6 +92,7 @@ class AuthController extends Controller
         if ($request->password === $request->password_confirmation) {
             $data['password'] = Hash::make($data['password']);
             $user = User::create($data);
+            Mail::to("alexandre.caussades@hotmail.com")->send(new RegisterUsers($user));
             return $user;
         }
 
