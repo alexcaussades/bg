@@ -52,7 +52,7 @@ class DataPuitsController extends Controller
                             'co' => $data[12],
                             'h2' => $data[15],
                             'h2s' => $data[13],
-                            'dépression' => $data[23],
+                            'dépression' => $data[22],
                             'temperature' => $data[24],
                             'm3/h' => $data[25],
                         ]);
