@@ -40,6 +40,7 @@ class DataPuitsController extends Controller
                     }
                     if (data_puits::where('puits_id', $data[0])->where('date', $data[1])->exists()) {
                         continue;
+                        
                     }else{
                         data_puits::create([
                             'puits_id' => $data[0],
@@ -48,12 +49,12 @@ class DataPuitsController extends Controller
                             'co2' => $data[3],
                             'o2' => $data[4],
                             'balance' => $data[5],
-                            'co' => $data[13],
+                            'co' => $data[12],
                             'h2' => $data[15],
-                            'h2s' => $data[14],
+                            'h2s' => $data[13],
                             'dépression' => $data[23],
-                            'temperature' => $data[25],
-                            'm3/h' => $data[26],
+                            'temperature' => $data[24],
+                            'm3/h' => $data[25],
                         ]);
                     }
                 }

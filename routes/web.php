@@ -15,6 +15,7 @@ use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
