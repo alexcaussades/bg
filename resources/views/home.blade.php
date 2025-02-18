@@ -4,8 +4,7 @@
 
 <div class="container mt-5">
   @auth()
-    <div class="fs3 m-2">Bienvenue: {{ auth()->user()->name }}</div>
-    <div><button type="submit" class="btn btn-secondary btn-sm">Logout</button></div>
+    <div class="fs-5 m-2">Bienvenue: {{ auth()->user()->name }}</div>
   @endauth
     
     <div class="card text-white bg-dark mt-2">
