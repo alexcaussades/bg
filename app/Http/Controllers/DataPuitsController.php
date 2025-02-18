@@ -34,6 +34,7 @@ class DataPuitsController extends Controller
                 // On peut ici traiter chaque ligne comme bon nous semble
                 
                 // Exemple de traitement : afficher chaque ligne
+                //dd($data);
                 if (count($data) > 1) {
                     if($data[0] === "********"){
                         continue;
@@ -52,9 +53,9 @@ class DataPuitsController extends Controller
                             'co' => $data[12],
                             'h2' => $data[15],
                             'h2s' => $data[13],
-                            'dépression' => $data[22],
-                            'temperature' => $data[24],
-                            'm3/h' => $data[25],
+                            'dépression' => $data[17],
+                            'temperature' => $data[19],
+                            'm3/h' => $data[20],
                         ]);
                     }
                 }
