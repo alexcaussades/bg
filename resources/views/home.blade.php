@@ -21,4 +21,42 @@
       </div>
     </div>
 
+        <h4 class="mt-2"> <i class="bi bi-activity"></i> Statistiques </h4>
+            <div class="text-center row mt-2">
+              <div class="col-sm-4 mt-2">
+                <div class="card text-white bg-dark">
+                  <div class="card-body">
+                    <h4 class="card-title"><i class="bi bi-activity"></i></h4>
+                    <p class="card-text fs-3 fw-bold">
+                      Puits: {{ $puits }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mt-2">
+                <div class="card text-white bg-dark">
+                  <div class="card-body">
+                    <h4 class="card-title"><i class="bi bi-hurricane"></i></h4>
+                    <p class="card-text fs-3 fw-bold">
+                      Mesures: {{ $data }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mt-2">
+                <div class="card text-white bg-dark">
+                  <div class="card-body">
+                    <h4 class="card-title"><i class="bi bi-card-checklist"></i></h4>
+                    <p class="card-text fs-3 fw-bold">
+                      Notes: {{ $note }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+        
+
 @endsection

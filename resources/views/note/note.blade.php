@@ -26,6 +26,7 @@ use Carbon\Carbon;
                         <td>{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-dark">Archiver</a>
+                            <a href="#" class="btn btn-sm btn-dark">Consignation</a>
                         </td>
                     </tr>
                     @endforeach

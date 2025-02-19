@@ -29,7 +29,13 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $data_puits_count = DB::table('puits')->select('id')->count();
+    $data_note_count = DB::table('notes')->select('id')->count();
+    $data_consignation_count = DB::table('consignations')->select('id')->count();
+    $data_debit_count = DB::table('debit')->select('id')->count();
+    $data_data_count = DB::table('data_puits')->select('id')->count();
+    $data_reglage_count = null;
+    return view('home', ['puits' => $data_puits_count, 'note' => $data_note_count, 'consignation' => $data_consignation_count, 'debit' => $data_debit_count, 'data' => $data_data_count, 'reglage' => $data_reglage_count]);
 })->name('home');
 
 Route::prefix('auth')->group(function(){
@@ -67,6 +73,12 @@ Route::prefix('auth')->group(function(){
         $Auth->logout();
         return redirect()->route('home');
     })->name('logout');
+
+    Route::get("/my-account", function(){
+        $Auth = new AuthController();
+        $user = $Auth->my_account();
+        return view('auth.my-account', ['user' => $user]);
+    })->name('my-account')->middleware('auth');
 });
 
 Route::get("sr", function(Request $request){
