@@ -23,6 +23,6 @@ class data_puits extends Model
         'h2s',
         'dépression',
         'temperature',
-        'm3/h',
+        'm3h',
     ];
 }
