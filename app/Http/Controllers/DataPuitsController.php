@@ -55,7 +55,7 @@ class DataPuitsController extends Controller
                             'h2s' => $data[13],
                             'dépression' => $data[17],
                             'temperature' => $data[19],
-                            'm3/h' => $data[20],
+                            'm3h' => $data[20],
                         ]);
                     }
                 }
