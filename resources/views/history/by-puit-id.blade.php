@@ -56,8 +56,8 @@ use Carbon\Carbon;
                         @endif
                     </td>
                     <td>
-                        @if ($data[$i]["m3/h"] > 0)
-                        {{ $data[$i]["m3/h"] }} <i class="bi bi-hurricane"></i>
+                        @if ($data[$i]["m3h"] > 0)
+                        {{ $data[$i]["m3h"] }} <i class="bi bi-hurricane"></i>
                         @endif
                     </td>
                 </tr>

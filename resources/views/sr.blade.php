@@ -45,7 +45,11 @@
     @foreach ( $note as $note)
         <div class="card mt-2">
             <div class="card-header">
-                <div class="fs-4">{{ $note->title }}</div>
+                @if ($note->status == "archived")
+                    <div class="fs-4"><i class="bi bi-archive"></i> {{ $note->title }}</div>
+                @else
+                    <div class="fs-4">{{ $note->title }}</div>
+                @endif
             </div>
             <div class="card-body">
                 <p class="card-text">{{ $note->content }}</p>
