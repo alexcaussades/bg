@@ -47,12 +47,39 @@ class NoteController extends Controller
 
     public function index()
     {
-       $note = DB::table('notes')->orderBy("created_at", "desc")->get();
+       $note = DB::table('notes')->where("status", "active")->orderBy("created_at", "desc")->get();
        return $note;
     }
 
-  public function recherche($data){
+    public function recherche($data){
         $puits = DB::table('notes')->where('title', 'like', '%'.$data.'%')->get();
         return $puits;
+    }
+
+    public function update($id, $data){
+        $note = NoteModel::find($id);
+        $note->title = $data['title'];
+        $note->content = $data['content'];
+        $note->save();
+    }
+
+    public function destroy($id){
+        $note = NoteModel::find($id);
+        $note->delete();
+    }
+
+    public function archive($id){
+        $note = DB::table('notes')->where('id', $id)->update(['status' => 'archived']);
+        return $note;
+    }
+
+    public function unarchive($id){
+        $note = DB::table('notes')->where('id', $id)->update(['status' => 'active']);
+        return $note;
+    }
+
+    public function show_archived(){
+        $note = DB::table('notes')->where('status', 'archived')->get();
+        return $note;
     }
 }

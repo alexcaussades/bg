@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     $data_puits_count = DB::table('puits')->select('id')->count();
-    $data_note_count = DB::table('notes')->select('id')->count();
+    $data_note_count = DB::table('notes')->select('id')->where("status", "active")->count();
     $data_consignation_count = DB::table('consignations')->select('id')->count();
     $data_debit_count = DB::table('debit')->select('id')->count();
     $data_data_count = DB::table('data_puits')->select('id')->count();
@@ -255,6 +255,13 @@ route::prefix('note')->group(function(){
         $puits = $session->index();
         return view("note.note", ['notes' => $puits]);
     })->name('note')->middleware('auth');
+
+    route::get('/archive/{id}', function(Request $request){
+        $id = $request->id;
+        $note = new NoteController();
+        $note->archive($id);
+        return redirect()->route('note');
+    })->name('note.archive')->middleware('auth');
     
 })->middleware('auth');
 
