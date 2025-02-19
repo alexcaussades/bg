@@ -109,4 +109,9 @@ class AuthController extends Controller
         $token = Str::uuid();
         return $token;
     }
+
+    public function my_account(){
+        $user = Auth::user();
+        return $user;
+    }
 }

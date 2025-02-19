@@ -33,6 +33,17 @@ use Carbon\Carbon;
                     <option value="Changement de berg + révision de la vanne">Changement de berg + révision de la vanne</option>
                     <option value="Changement de berg + révision de la vanne + Manque prise échantillon">Changement de berg + révision de la vanne + Manque prise échantillon</option>
                 </optgroup>
+                <optgroup label="Modification du reseau">
+                    <option value="Demande de manchon de dilatation">Demande de manchon de dilatation</option>
+                    <option value="Demande de vanne">Demande de vanne</option>
+                    <option value="Demande de prise d'échantillon">Demande de prise d'échantillon</option>
+                    <option value="Demande de vanne + prise d'échantillon">Demande de vanne + prise d'échantillon</option>
+                    <option value="Demande de vanne + prise d'échantillon + manchon de dilatation">Demande de vanne + prise d'échantillon + manchon de dilatation</option>
+                    <option value="Demande d'une purges amont">Demande d'une purges Amont</option>
+                    <option value="Demande d'une purges aval">Demande d'une purges Aval</option>
+                    <option value="Demande d'un rajout de tyaux et modification + berg">Demande d'un rajout de tyaux et modification + berg</option>
+                </optgroup>
+
                 <option value="autre" id="autre">Autre</option>
                 <textarea class="form-control mt-2" name="info" id="text" cols="30" rows="10"></textarea>
             </select>
