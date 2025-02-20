@@ -231,8 +231,8 @@ route::prefix('note')->group(function(){
 
     route::post('/create/{id}', function(Request $request){
         $note = new NoteController();
-        $note->store($request);
-        redirect()->route('note');
+        $note->store($request);        
+        return redirect()->route('note')->with('success', 'Data imported successfully.');
     })->name('note.create')->middleware('auth');
 
     route::get('/reglages/note/create/{id}/{id2}', function(Request $request){
