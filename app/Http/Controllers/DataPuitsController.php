@@ -27,36 +27,57 @@ class DataPuitsController extends Controller
             for ($i = 0; $i < $ignored_lines; $i++) {
                 fgetcsv($handle, 1000, ';');
             }
-            
             // Lire chaque ligne du fichier après l'en-tête
             while (($data = fgetcsv($handle, 1000, ';')) !== false) {
+
                 // $data contient chaque ligne sous forme de tableau avec les valeurs séparées par ';'
                 // On peut ici traiter chaque ligne comme bon nous semble
                 
                 // Exemple de traitement : afficher chaque ligne
-                //dd($data);
                 if (count($data) > 1) {
                     if($data[0] === "********"){
                         continue;
                     }
                     if (data_puits::where('puits_id', $data[0])->where('date', $data[1])->exists()) {
                         continue;
-                        
                     }else{
-                        data_puits::create([
-                            'puits_id' => $data[0],
-                            'date' => $data[1],
-                            'ch4' => $data[2],
-                            'co2' => $data[3],
-                            'o2' => $data[4],
-                            'balance' => $data[5],
-                            'co' => $data[12],
-                            'h2' => $data[15],
-                            'h2s' => $data[13],
-                            'dépression' => $data[17],
-                            'temperature' => $data[19],
-                            'm3h' => $data[20],
-                        ]);
+                        if($data[11] === "N/A_"){
+                            data_puits::create([
+                                'puits_id' => $data[0],
+                                'date' => $data[1],
+                                'ch4' => $data[2],
+                                'co2' => $data[3],
+                                'o2' => $data[4],
+                                'balance' => $data[5],
+                                'co' => $data[12],
+                                'h2' => $data[15],
+                                'h2s' => $data[13],
+                                "av_dep" => $data[22],
+                                'dépression' => $data[17],
+                                'temperature' => $data[19],
+                                'm3h' => $data[20],
+                                "av_m3h" => $data[25],
+                                "ratio" => $data[27],
+                            ]);
+                        }else{
+                            data_puits::create([
+                                'puits_id' => $data[0],
+                                'date' => $data[1],
+                                'ch4' => $data[2],
+                                'co2' => $data[3],
+                                'o2' => $data[4],
+                                'balance' => $data[5],
+                                'co' => $data[13],
+                                'h2' => $data[16],
+                                'h2s' => $data[14],
+                                "av_dep" => $data[23],
+                                'dépression' => $data[18],
+                                'temperature' => $data[20],
+                                'm3h' => $data[21],
+                                "av_m3h" => $data[26],
+                                "ratio" => $data[28],
+                            ]);
+                        }
                     }
                 }
             }

@@ -35,6 +35,7 @@ use Carbon\Carbon;
             <th>Dépression</th>
             <th>Température</th>
             <th>m3H</th>
+            <th>Ratio</th>
         </tr>
         </thead>
         <tbody>
@@ -59,6 +60,9 @@ use Carbon\Carbon;
                         @if ($data[$i]["m3h"] > 0)
                         {{ $data[$i]["m3h"] }} <i class="bi bi-hurricane"></i>
                         @endif
+                    </td>
+                    <td>
+                        {{ $data[$i]["ratio"] }}
                     </td>
                 </tr>
             @endfor

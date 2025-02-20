@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyseBioController;
 use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -403,6 +404,14 @@ Route::get("/copydata", function(){
     return response()->json(['message' => 'Database copied successfully'], 200);
 })->name('database.copy');
 
+Route::prefix("analyse")->group(function(){
+   route::get("/", function(){
+        $analyse = new AnalyseBioController();
+        $analyse = $analyse->analyseBio_fordate();
+        dd($analyse);
+       return view('analyse.analyse');
+   })->name('analyse')->middleware('auth');
+});
 
 Route::get('/test2', function(){
     $puits = new puitsController();
