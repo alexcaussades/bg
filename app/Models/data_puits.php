@@ -24,5 +24,8 @@ class data_puits extends Model
         'dépression',
         'temperature',
         'm3h',
+        'av_m3h',
+        'ratio',
+        'av_dep',
     ];
 }
