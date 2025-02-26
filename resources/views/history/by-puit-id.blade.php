@@ -18,7 +18,7 @@ use Carbon\Carbon;
 
 <div class="alert alert-info">
     <p>Moyenne des messures sur {{ count($data) }}.</p>
-    <p>CH4: {{ $moyene["ch4"] }} | CO2: {{ $moyene["co2"] }} | O2: {{ $moyene["o2"] }} | H2S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3: {{ $moyene["m3"] }} </p>   
+    <p>CH<sub>4</sub>: {{ $moyene["ch4"] }} | CO<sub>2</sub>: {{ $moyene["co2"] }} | O<sub>2</sub>: {{ $moyene["o2"] }} | H<sub>2</sub>S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3h: {{ $moyene["m3"] }} </p>   
 </div>
 <!-- Button trigger modal -->
 <a href="{{ route("note.create.id", ["id" => $puit[0]->id]) }}"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-journal-plus"></i> Crée une note</button></a>
@@ -28,9 +28,12 @@ use Carbon\Carbon;
     <thead class="thead-inverse">
         <tr>
             <th>Date</th>
-            <th>CH4</th>
-            <th>CO2</th>
-            <th>O2</th>
+            <th>CH<sub>4</sub></th>
+            <th>CO<sub>2</sub></th>
+            <th>O<sub>2</sub></th>
+            <th>CO</th>
+            <th>H<sub>2</sub></th>
+            <th>H<sub>2</sub>S</th>
             <th>BALANCE</th>
             <th>Dépression</th>
             <th>Température</th>
@@ -45,6 +48,9 @@ use Carbon\Carbon;
                     <td>{{ $data[$i]->ch4 }} <i class="bi bi-percent"></i></td>
                     <td>{{ $data[$i]->co2 }} <i class="bi bi-percent"></i></td>
                     <td>{{ $data[$i]->o2 }} <i class="bi bi-percent"></i></td>
+                    <td>{{ $data[$i]->co }}</td>
+                    <td>{{ $data[$i]->h2 }}</td>
+                    <td>{{ $data[$i]->h2s }}</td>
                     <td>{{ $data[$i]->balance }} <i class="bi bi-percent"></i></td>
                     <td>
                         @if($data[$i]->dépression)

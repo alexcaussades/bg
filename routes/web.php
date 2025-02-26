@@ -121,10 +121,13 @@ Route::prefix("reglage")->group(function(){
         $sr_puit = $route->get_name($id);
         $name = $route->get_puit_name($sr_puit->Name);
         $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->latest()->get();
+        if($last->isEmpty()){
+            $last = null;
+        }
         if(!$name[0]->type || !$name[0]->dimension || !$name[0]->lignes || !$name[0]->familles){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
-        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last]);
+        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null]);
     })->name('reglage.formule')->middleware('auth');
 
    Route::post('/formule', function(Request $request){
@@ -155,9 +158,8 @@ Route::prefix("reglage")->group(function(){
 
         $request->session()->put('taux', $request->taux);
         Cookie::queue(Cookie::make('last_id', $request->id, 200, '/', null, false, false));
-
-        //dd($calculeDebit, $newDebit, $request->ms, $request->ch4, $request->taux, $calule);
-        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note]);
+        $last = DB::table('data_puits')->where('puits_id', $puit)->latest()->get();
+        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note, 'last' => $last]);
     })->name('reglage');
 
     Route::get('/edit/{id}', function(Request $request){
