@@ -29,9 +29,11 @@
 <div class="container mt-2">
     <div class="fs-5"> Réglages du: {{ $puit[0]->Name }} ({{ $puit[0]->type }} D.{{ $puit[0]->dimension }}) </div>
     <a href="{{ route("reglage.edit", ['id' => $id]) }}"><button class="btn btn-sm btn-secondary mt-2"> <i class="bi bi-pencil-square"></i> Modification {{ $puit[0]->Name }} </button></a>
-    <button type="button" class="btn btn-sm btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="bi bi-eye"></i> La dernière valeur du puit enregistré 
+    @if ($last != null)
+      <button type="button" class="btn btn-sm btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="bi bi-eye"></i> La dernière valeur du puit enregistré 
       </button>
+    @endif
     <form action="{{ route("reglage") }}" method="post" class="mt-2">
         @csrf
         <div class="mb-3">
@@ -61,6 +63,7 @@
 </div>
 
 <!-- Modal -->
+@if ($last != null)
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -82,6 +85,6 @@
       </div>
     </div>
   </div>
-
+@endif
 
 @endsection
