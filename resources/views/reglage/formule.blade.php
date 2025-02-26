@@ -29,6 +29,9 @@
 <div class="container mt-2">
     <div class="fs-5"> Réglages du: {{ $puit[0]->Name }} ({{ $puit[0]->type }} D.{{ $puit[0]->dimension }}) </div>
     <a href="{{ route("reglage.edit", ['id' => $id]) }}"><button class="btn btn-sm btn-secondary mt-2"> <i class="bi bi-pencil-square"></i> Modification {{ $puit[0]->Name }} </button></a>
+    <button type="button" class="btn btn-sm btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="bi bi-eye"></i> La dernière valeur du puit enregistré 
+      </button>
     <form action="{{ route("reglage") }}" method="post" class="mt-2">
         @csrf
         <div class="mb-3">
@@ -56,4 +59,29 @@
 
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Date de la messure: {{ $last[0]->date }} </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>CH4: {{ $last[0]->ch4 }}</p>
+          <p>CO2: {{ $last[0]->co2 }}</p>
+          <p>O2: {{ $last[0]->o2 }}</p>
+          <p>H2s: {{ $last[0]->h2s }}</p>
+          <p>Dépression: {{ $last[0]->dépression }}</p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 @endsection

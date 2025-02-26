@@ -120,10 +120,11 @@ Route::prefix("reglage")->group(function(){
         $route = new regalgeController();
         $sr_puit = $route->get_name($id);
         $name = $route->get_puit_name($sr_puit->Name);
+        $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->latest()->get();
         if(!$name[0]->type || !$name[0]->dimension || !$name[0]->lignes || !$name[0]->familles){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
-        return view('reglage.formule', ['puit' => $name, 'id' => $id]);
+        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last]);
     })->name('reglage.formule')->middleware('auth');
 
    Route::post('/formule', function(Request $request){
@@ -406,9 +407,12 @@ Route::get("/copydata", function(){
 
 Route::prefix("analyse")->group(function(){
    route::get("/", function(){
-        $analyse = new AnalyseBioController();
-        $analyse = $analyse->analyseBio_fordate();
-        dd($analyse);
+        $ssr = new AnalyseBioController();
+        // $low = $ssr->analyseBio_forCH4_low();
+        // $mid = $ssr->analyseBio_forCH4_mid();
+        $high = $ssr->analyseBio_forCH4_high();
+        //dd($low, $mid, $high);
+        dd($high);
        return view('analyse.analyse');
    })->name('analyse')->middleware('auth');
 });
