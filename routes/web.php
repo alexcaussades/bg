@@ -32,11 +32,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     $data_puits_count = DB::table('puits')->select('id')->count();
     $data_note_count = DB::table('notes')->select('id')->where("status", "active")->count();
-    $data_consignation_count = DB::table('consignations')->select('id')->count();
+    //$data_consignation_count = DB::table('consignations')->select('id')->count();
     $data_debit_count = DB::table('debit')->select('id')->count();
     $data_data_count = DB::table('data_puits')->select('id')->count();
     $data_reglage_count = null;
-    return view('home', ['puits' => $data_puits_count, 'note' => $data_note_count, 'consignation' => $data_consignation_count, 'debit' => $data_debit_count, 'data' => $data_data_count, 'reglage' => $data_reglage_count]);
+    return view('home', ['puits' => $data_puits_count, 'note' => $data_note_count, 'debit' => $data_debit_count, 'data' => $data_data_count, 'reglage' => $data_reglage_count]);
 })->name('home');
 
 Route::prefix('auth')->group(function(){
@@ -360,37 +360,37 @@ Route::prefix("puits")->group(function(){
     })->name("puit.lixivats")->middleware('auth');
 })->middleware('auth');
 
-Route::prefix("consignation")->group(function(){
+// Route::prefix("consignation")->group(function(){
 
-    Route::get("/index", function(){
-    $consignation = new ConsignationController();
-    $consignation = $consignation->show();
-    return view("consignation.index", ["consignation" => $consignation]);
-    })->name("consignation.index")->middleware('auth');
+//     Route::get("/index", function(){
+//     $consignation = new ConsignationController();
+//     $consignation = $consignation->show();
+//     return view("consignation.index", ["consignation" => $consignation]);
+//     })->name("consignation.index")->middleware('auth');
 
-    Route::post('/index', function(Request $request){
-        $consignation = new ConsignationController();
-        $consignation->create($request);
-        $consignationstart = new ConsignationController();
-        $consignationstart = $consignationstart->show();
-        return view("consignation.show", ["consignation" => $consignationstart]);
-    })->name("consignation.index")->middleware('auth');
+//     Route::post('/index', function(Request $request){
+//         $consignation = new ConsignationController();
+//         $consignation->create($request);
+//         $consignationstart = new ConsignationController();
+//         $consignationstart = $consignationstart->show();
+//         return view("consignation.show", ["consignation" => $consignationstart]);
+//     })->name("consignation.index")->middleware('auth');
     
-    Route::get("/show", function(){
-        $consignation = new ConsignationController();
-        $consignation = $consignation->show();
-        return view("consignation.show", ["consignation" => $consignation]);
-    })->name("consignation.show")->middleware('auth');
+//     Route::get("/show", function(){
+//         $consignation = new ConsignationController();
+//         $consignation = $consignation->show();
+//         return view("consignation.show", ["consignation" => $consignation]);
+//     })->name("consignation.show")->middleware('auth');
 
-    Route::get('/view/{id}', function(Request $request){
-       $id = $request->id;
-       $consignation = new ConsignationController();
-       $consignation = $consignation->view($id);
-       $img = Storage::url("images/".$consignation->photo);
-       $donwload = Storage::url("images/".$consignation->photo);
-       return view("consignation.view", ["consignation" => $consignation, "img" => $img, "donwload" => $donwload]);
-    })->name('consignation.view')->middleware('auth');
-})->middleware('auth');
+//     Route::get('/view/{id}', function(Request $request){
+//        $id = $request->id;
+//        $consignation = new ConsignationController();
+//        $consignation = $consignation->view($id);
+//        $img = Storage::url("images/".$consignation->photo);
+//        $donwload = Storage::url("images/".$consignation->photo);
+//        return view("consignation.view", ["consignation" => $consignation, "img" => $img, "donwload" => $donwload]);
+//     })->name('consignation.view')->middleware('auth');
+// })->middleware('auth');
 
 Route::get("/copydata", function(){
     $source = database_path('database.sqlite');
