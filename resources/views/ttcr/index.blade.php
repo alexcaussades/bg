@@ -16,10 +16,10 @@ use Carbon\Carbon;
                 <thead>
                     <tr>
                         <th>Date & Heure: </th>
-                        <th>Compteur: </th>
-                        <th>Evolution: </th>
-                        <th>Hauteur de Bâche:</th>
-                        <th>Volume Restant:</th>
+                        <th>Compteur: (M3)</th>
+                        <th>Evolution: (M3) </th>
+                        <th>Hauteur de Bâche: (cm)</th>
+                        <th>Volume Restant: (M3)</th>
                     </tr>
                 </thead>
                 <tbody>
