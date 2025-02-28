@@ -30,10 +30,13 @@ class TtcrController extends Controller
      */
     public function store(Request $request)
     {
+        $hauteur = $this->hauteurdeau($request->hauteur);
         $old_ttcr = ttcr::latest()->first();
         $ttcr = new ttcr();
         $ttcr->compteur = $request->compteur;
         $ttcr->evolution = $request->compteur - $old_ttcr->compteur;
+        $ttcr->hauteur = $request->hauteur;
+        $ttcr->volume = $hauteur;
         $ttcr->save();
         return $ttcr;
     }
@@ -44,6 +47,8 @@ class TtcrController extends Controller
             $ttcr = new ttcr();
             $ttcr->compteur = 7499;
             $ttcr->evolution = 0;
+            $ttcr->hauteur = 141;
+            $ttcr->volume = 1692;
             $ttcr->save();
             return view('ttct.index');
         }else{
@@ -83,7 +88,7 @@ class TtcrController extends Controller
         //
     }
 
-    Public function hauteurdeau($hauteur)
+    Public function hauteurdeau($info)
     {
        $hauteur = [
             "167" => 2004,
@@ -255,7 +260,9 @@ class TtcrController extends Controller
             "1" => 12
         ];
 
-        return $hauteur;
+        $hauteur1 = $hauteur[$info];
+
+        return $hauteur1;
     }
 
 }

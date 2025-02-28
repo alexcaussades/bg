@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+
 use function Laravel\Prompts\select;
 
 class AnalyseBioController extends Controller
@@ -17,4 +18,16 @@ class AnalyseBioController extends Controller
         $r = DB::table("data_puits")->where('date', 'like', '%'.$data.'%')->get();
         return $r;
     }
+
+   
+    public function analyseBio_forCH4_high()
+    {
+       $r = DB::table("puits")->select("Name")->get();
+       foreach ($r as $key => $value) {
+           $r[$key]->name = DB::table("data_puits")->where('puits_id', $value->Name)->where("date", "Like", '%'.Carbon::now()->format("m/Y").'%')->groupBy('id', 'asc')->get();
+       }
+         return $r;
+    }
+
+
 }
