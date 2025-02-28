@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\AnalyseBioController;
 use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\TtcrController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\puitsController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
+use App\Http\Controllers\AnalyseBioController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -418,6 +419,31 @@ Route::prefix("analyse")->group(function(){
        return view('analyse.analyse');
    })->name('analyse')->middleware('auth');
 });
+
+Route::prefix('/ttcr')->group(function(){
+    Route::get('/', function(){
+        $ttcr = new TtcrController();
+        $ttcr = $ttcr->index();
+        return view('ttcr.index', ['ttcr' => $ttcr]);
+    })->name('ttcr.index')->middleware('auth');
+
+    Route::get('/create', function(){
+        return view('ttcr.create');
+    })->name('ttcr.create')->middleware('auth');
+
+    Route::post('/create', function(Request $request){
+        $ttcr = new TtcrController();
+        $ttcr->store($request);
+        return redirect()->route('ttcr.index');
+    })->name('ttcr.store')->middleware('auth');
+
+    Route::get('/install', function(){
+        $ttcr = new TtcrController();
+        $ttcr->install_ttcr();
+        return redirect()->route('ttcr.index');
+    })->name('ttcr.install')->middleware('auth');
+
+})->middleware('auth');
 
 Route::get('/test2', function(){
     $puits = new puitsController();
