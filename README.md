@@ -9,7 +9,7 @@ Garantir la bonne formule de calcul pour vos débits à l'intérieur des tuyaux 
 ## Type de diamètre supporté
 
 - **SDR11** Diamètre 32 - 40 - 63 - 90 - 110 - 160 - 200 - 250 - 315
-- **SDR17** Diamètre 32 - 40 - 63 - 90 - 110 - 160 - 200 - 250 - 315
+- **SDR17** Diamètre 32 - 40 - 63 - 90 - 110 - 125 - 160 - 200 - 250 - 315
 - **SDR26** Diamètre  90 - 110 - 160 - 200 - 250 - 315
 - **SDR33** Diamètre 63 - 90 - 110 - 160 - 200 - 250 - 315
 
