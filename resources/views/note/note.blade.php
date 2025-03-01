@@ -12,10 +12,10 @@ use Carbon\Carbon;
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Contenu</th>
-                        <th>Date de création</th>
-                        <th>Action</th>
+                        <th>Puits</th>
+                        <th>Informations</th>
+                        <th class="impression">Date de création</th>
+                        <th class="impression">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,8 +23,8 @@ use Carbon\Carbon;
                     <tr>
                         <td>{{$note->title}}</td>
                         <td>{{$note->content}}</td>
-                        <td>{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
-                        <td>
+                        <td class="impression">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
+                        <td class="impression">
                             <a href="{{ route("note.archive", [$note->id]) }}" class="btn btn-sm btn-dark">Archiver</a>
                         </td>
                     </tr>

@@ -16,9 +16,10 @@ public $ms;
 
 public function __construct($type, $dimension, $ms)
     {
-    $this->type = $type;
-    $this->dimension = $dimension;
-    $this->ms = $ms;
+
+        $this->type = $type;
+        $this->dimension = $dimension;
+        $this->ms = $ms;
 
     }
 

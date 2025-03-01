@@ -19,6 +19,7 @@
                     </tr>
                 </tbody>
         </table>
+        <a href="{{ route("reglage.ajuter")}}"><button type="button" class="btn btn-warning">Ajuster le débit</button></a>
         <a href="{{ route("reglage.formule", ["id" => $id+1]) }}"><button type="button" class="btn btn-primary">Puits Suivant</button></a>
         <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success">Note</button></a>
     </div>
