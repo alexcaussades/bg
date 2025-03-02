@@ -15,7 +15,8 @@ use Carbon\Carbon;
                         <th>Puits</th>
                         <th>Informations</th>
                         <th class="impression">Date de création</th>
-                        <th class="impression">Action</th>
+                        <th class="impression taille-small-hidden">Action</th>
+                        <th class="impression taille-small-hidden">Fichier Suez</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,8 +25,11 @@ use Carbon\Carbon;
                         <td>{{$note->title}}</td>
                         <td>{{$note->content}}</td>
                         <td class="impression">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
-                        <td class="impression">
+                        <td class="impression taille-small-hidden">
                             <a href="{{ route("note.archive", [$note->id]) }}" class="btn btn-sm btn-dark">Archiver</a>
+                        </td>
+                        <td class="impression taille-small-hidden">
+                            <a href="#" class="btn btn-sm btn-success">Préco</a>
                         </td>
                     </tr>
                     @endforeach

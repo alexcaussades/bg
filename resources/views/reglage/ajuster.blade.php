@@ -30,7 +30,7 @@
         @csrf
         <div class="mb-3">
             <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="floatingInput" name="debit">
+                <input type="number" class="form-control" step="0.01" id="floatingInput" name="debit">
                 <label for="floatingInput">Debit rechercher ?</label>
             </div>
         </div>
