@@ -23,13 +23,13 @@ use Carbon\Carbon;
                     @foreach($notes as $note)
                     <tr>
                         @if ($note->preco_suez == 1)
-                        <td class="text-bg-dark">{{$note->title}}</td>
-                        <td class="text-bg-dark">{{$note->content}}</td>
-                        <td class="impression text-bg-dark">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
-                        <td class="impression taille-small-hidden text-bg-dark">
+                        <td class="text-bg-dark opacity-75">{{$note->title}}</td>
+                        <td class="text-bg-dark opacity-75">{{$note->content}}</td>
+                        <td class="impression text-bg-dark opacity-75">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
+                        <td class="impression taille-small-hidden text-bg-dark opacity-75">
                             <a href="{{ route("note.archive", [$note->id]) }}" class="btn btn-sm btn-dark">Archiver</a>
                         </td>
-                        <td class="impression taille-small-hidden text-bg-dark">
+                        <td class="impression taille-small-hidden text-bg-dark opacity-75">
                         </td>
                         @else
                         <td>{{$note->title}}</td>
