@@ -15,9 +15,11 @@ use Carbon\Carbon;
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>Date: </th>
-                        <th>Compteur: </th>
-                        <th>Evolution: </th>
+                        <th>Date & Heure: </th>
+                        <th>Compteur: (M3)</th>
+                        <th>Evolution: (M3) </th>
+                        <th>Hauteur de Bâche: (cm)</th>
+                        <th>Volume Restant: (M3)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +28,8 @@ use Carbon\Carbon;
                         <td>{{ carbon::parse($ttcr->created_at)->timezone("europe/paris")->format("d-m-Y H:i") }}</td>
                         <td>{{ $ttcr->compteur }}</td>
                         <td>{{ $ttcr->evolution }}</td>
+                        <td>{{ $ttcr->hauteur }}</td>
+                        <td>{{ $ttcr->volume }}</td>
                     </tr>
                     @endforeach
                 </tbody>

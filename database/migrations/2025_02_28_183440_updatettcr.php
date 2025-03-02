@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('ttcrs', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('compteur');
-            $table->string('evolution');
+            $table->integer('compteur');
+            $table->integer('evolution');
+            $table->integer('hauteur');
+            $table->integer('volume');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ttcrs');
+        //
     }
 };

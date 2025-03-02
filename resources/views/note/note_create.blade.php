@@ -43,6 +43,10 @@ use Carbon\Carbon;
                     <option value="Demande d'une purges aval">Demande d'une purges Aval</option>
                     <option value="Demande d'un rajout de tyaux et modification + berg">Demande d'un rajout de tyaux et modification + berg</option>
                 </optgroup>
+                <optgroup label="Etat du puit">
+                    <option value="Sous vide">Sous vide</option>
+                    <option value="Puit soutirer par le massif">Puit soutirer par le massif</option>
+                </optgroup>
 
                 <option value="autre" id="autre">Autre</option>
                 <textarea class="form-control mt-2" name="info" id="text" cols="30" rows="10"></textarea>

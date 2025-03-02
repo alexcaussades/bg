@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary impression">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ route('home') }}"><i class="bi bi-house-fill"></i> Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,12 +12,13 @@
           @auth()
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-geo-alt"></i> Puits
+                <i class="bi bi-wind"></i> Biogaz
               </a>
               <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{{ Route("history.puit") }}">Recherche Puits</a></li>
-                  <li><a class="dropdown-item" href="{{ Route("puits.show") }}">Liste des puits</a></li>
-                <li><a class="dropdown-item" href="{{ Route("puits.retard") }}">En retard</a></li>
+                  <li><a class="dropdown-item" href="{{ Route("history.puit") }}"><i class="bi bi-search"></i> Recherche de Puits</a></li>
+                  <li><a class="dropdown-item" href="{{ Route("puits.show") }}"><i class="bi bi-list-ul"></i> Liste des puits</a></li>
+                  <li><a class="dropdown-item" href="{{ Route("puits.retard") }}"><i class="bi bi-exclamation-square-fill"></i> Puits En retard</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-hand-thumbs-up"></i> État Zéro</a></li>
               </ul>
             </li>
           @endauth
@@ -42,6 +43,9 @@
             {{-- <li class="nav-item">
               <a class="nav-link" href="{{ Route('consignation.index') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
             </li> --}}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
+            </li>
           @endauth
           @if (Cookie::get("last_id") != null)
             <li class="nav-item">
