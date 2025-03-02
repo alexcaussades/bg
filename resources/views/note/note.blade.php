@@ -22,15 +22,26 @@ use Carbon\Carbon;
                 <tbody>
                     @foreach($notes as $note)
                     <tr>
+                        @if ($note->preco_suez == 1)
+                        <td class="text-bg-dark">{{$note->title}}</td>
+                        <td class="text-bg-dark">{{$note->content}}</td>
+                        <td class="impression text-bg-dark">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
+                        <td class="impression taille-small-hidden text-bg-dark">
+                            <a href="{{ route("note.archive", [$note->id]) }}" class="btn btn-sm btn-dark">Archiver</a>
+                        </td>
+                        <td class="impression taille-small-hidden text-bg-dark">
+                        </td>
+                        @else
                         <td>{{$note->title}}</td>
-                        <td>{{$note->content}}</td>
+                        <td>{{$note->content}}</td>                  
                         <td class="impression">{{Carbon::parse($note->created_at)->tz("europe/paris")->format("d/m/y H:i")}}</td>
                         <td class="impression taille-small-hidden">
                             <a href="{{ route("note.archive", [$note->id]) }}" class="btn btn-sm btn-dark">Archiver</a>
                         </td>
                         <td class="impression taille-small-hidden">
-                            <a href="#" class="btn btn-sm btn-success">Préco</a>
+                            <a href="{{ route("note.preconisation", ["id" => $note->id]) }}" class="btn btn-sm btn-success">Préco</a>
                         </td>
+                        @endif 
                     </tr>
                     @endforeach
                 </tbody>

@@ -82,4 +82,9 @@ class NoteController extends Controller
         $note = DB::table('notes')->where('status', 'archived')->get();
         return $note;
     }
+
+    public function preconisation($id){
+        $note = DB::table('notes')->where('id', $id)->update(['preco_suez' => 1]);
+        return $note;
+    }
 }
