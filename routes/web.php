@@ -160,6 +160,9 @@ Route::prefix("reglage")->group(function(){
         $request->session()->put('taux', $request->taux);
         Cookie::queue(Cookie::make('last_id', $request->id, 200, '/', null, false, false));
         $last = DB::table('data_puits')->where('puits_id', $puit)->latest()->get();
+        if($last->isEmpty()){
+            $last = null;
+        }
         return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note, 'last' => $last]);
     })->name('reglage')->middleware('auth');
 
@@ -199,9 +202,22 @@ Route::prefix("reglage")->group(function(){
             $route = new regalgeController();
             $sr_puit = $route->get_name($id);
             $name = $route->get_puit_name($sr_puit->Name);
-            dd($name);
-        return view('reglage.ajuster');
+        return view('reglage.ajuster', ['puit' => $name, 'id' => $id]);
     })->name('reglage.ajuter')->middleware('auth');
+
+    Route::post("/ajuter", function(Request $request){
+        $request->validate([
+            'debit' => 'required',
+        ]);
+        $route = new regalgeController();
+        $sr_puit = $route->get_name($request->id);
+        $name = $route->get_puit_name($sr_puit->Name);
+        $note = $name[0]->id;
+        $route2 = new calculeDebitController($request->type, $request->dimension, 0);
+        $calcule = $route2->ajuster_debit($request->debit);
+        $calule = round($calcule, 2);
+        return view('reglage.ajuster', ['result' => $calule, 'puit' => $name, 'id' => $request->id, 'note' => $note]);
+    })->name('reglage.ajuter.view')->middleware('auth');
 });
 
 route::prefix('history')->group(function(){
