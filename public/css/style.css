@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+    .taille-small-hidden {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        display: none !important;
+
+    }
+    
+}

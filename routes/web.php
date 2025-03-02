@@ -291,6 +291,15 @@ route::prefix('note')->group(function(){
         $note->archive($id);
         return redirect()->route('note');
     })->name('note.archive')->middleware('auth');
+
+    route::get("/preconisation/{id}", function(Request $request){
+        $id = $request->id;
+        $note = new NoteController();
+        $note = $note->preconisation($id);
+        $session = new NoteController();
+        $puits = $session->index();
+        return view("note.note", ['notes' => $puits]);
+    })->name('note.preconisation')->middleware('auth');
     
 })->middleware('auth');
 
