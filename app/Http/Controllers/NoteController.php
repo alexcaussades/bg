@@ -87,4 +87,9 @@ class NoteController extends Controller
         $note = DB::table('notes')->where('id', $id)->update(['preco_suez' => 1]);
         return $note;
     }
+
+    public function puits_id($id){
+        $note = DB::table('notes')->where('puits_id', $id)->orderBy("id", "desc")->get();
+        return $note;
+    }
 }
