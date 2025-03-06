@@ -22,6 +22,7 @@ use Carbon\Carbon;
 </div>
 <!-- Button trigger modal -->
 <a href="{{ route("note.create.id", ["id" => $puit[0]->id]) }}"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-journal-plus"></i> Crée une note</button></a>
+<button type="button" class="btn btn-sm btn-warning"><i class="bi bi-journals"></i> Notes ({{ count($note) }})</button></a>
 
 <h5 class="mt-2">Historique <i class="bi bi-arrow-down-square-fill"></i></h5>
 <table class="table table-striped table-inverse table-responsive">
