@@ -503,3 +503,21 @@ Route::get("/mail", function(){
 
     Mail::to('alexandre.caussades@hotmail.com')->send(new \App\Mail\RegisterUsers($user));
 })->name('mail');
+
+
+Route::prefix("crj")->group(function(){
+    Route::get("/", function(){
+        return view("compte-rendu.index");
+    })->name('CRJ.index')->middleware('auth');
+
+    Route::get("/create", function(){
+        return view("compte-rendu.create");
+    })->name('compte-rendu.create')->middleware('auth');
+
+    Route::post("/create", function(Request $request){
+        dd($request->all());
+        return view("compte-rendu.create");
+    })->name('compte-rendu.create')->middleware('auth');
+
+  
+})->middleware('auth');
