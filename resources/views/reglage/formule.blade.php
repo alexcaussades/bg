@@ -61,34 +61,7 @@ use carbon\carbon;
         <input type="hidden" name="dimension" value="{{ $puit[0]->dimension }}">
 
         <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Calule</button>
-        <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success">Note</button></a>
-
-        @if ($note_sr != null)
-        <hr>
-            <div class="fs-5">Historique du puits {{ count($note_sr) }}</div>
-
-            @foreach ($note_sr as $note)
-                <div class="card mt-2">
-                    <div class="card-header">
-                        <div class="fs-6">Note du {{ Carbon::parse($note->created_at)->format("d/m/Y") }}  |
-                          @if($note->status == "archived")
-                            <span class="badge bg-success">Résolu</span>
-                          @else
-                            <span class="badge bg-danger">Non Résolu</span>
-                          @endif
-                          @if ($note->preco_suez == 1)
-                          | <span class="badge bg-secondary">Sur le fichier Suez</span>                            
-                          @endif
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ $note->content }}</p>
-                    </div>
-                </div>
-            @endforeach
-
-          
-        @endif
+        <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success">Note</button></a>      
 
     </form>
 
