@@ -125,16 +125,15 @@ Route::prefix("reglage")->group(function(){
         $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->latest()->get();
         $note_sr = new NoteController();
         $note_sr = $note_sr->puits_id($name[0]->id);
-        
+      
         if($last->isEmpty()){
             $last = null;
         }
-        if($note_sr->isEmpty()){
-            $note_sr = null;
-        }
+        
         if(!$name[0]->type || !$name[0]->dimension || !$name[0]->lignes || !$name[0]->familles){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
+        
         return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null, 'note' => $name[0]->id, 'id2' => $id2, 'note_sr' => $note_sr]);
     })->name('reglage.formule')->middleware('auth');
 
