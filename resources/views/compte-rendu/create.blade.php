@@ -10,7 +10,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="date" class="mt-2">Date</label>
-                    <input type="date" class="form-control mt-2" id="date" name="date" required>
+                    <input type="date" class="form-control mt-2" id="date" name="date" value="{{ date('d/m/Y') }}">
                 </div>
             </div>
                 <hr>
@@ -33,7 +33,7 @@
                     <input type="number" class="form-control mt-2" id="QB" name="QB" required>
                 </div>
                 <div class="form-group">
-                    <label for="QO" class="mt-2">Totalisation volume (Vb) Continue</label>
+                    <label for="QO" class="mt-2">Totalisation volume (VB) Continue (Depol)</label>
                     <input type="number" class="form-control mt-2" id="VB" name="VB" min="7" required>
                 </div>
             </div>

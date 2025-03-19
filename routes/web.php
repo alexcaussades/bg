@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+use App\Models\crj;
 use App\Models\consignation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,7 @@ use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\AnalyseBioController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
+use App\Http\Controllers\CrjController;
 
 /*
 |--------------------------------------------------------------------------
@@ -507,7 +510,9 @@ Route::get("/mail", function(){
 
 Route::prefix("crj")->group(function(){
     Route::get("/", function(){
-        return view("compte-rendu.index");
+        $crj = new CrjController();
+        $crj = crj::all();
+        return view("compte-rendu.index" , ['crj' => $crj]);
     })->name('CRJ.index')->middleware('auth');
 
     Route::get("/create", function(){
@@ -515,8 +520,20 @@ Route::prefix("crj")->group(function(){
     })->name('compte-rendu.create')->middleware('auth');
 
     Route::post("/create", function(Request $request){
-        dd($request->all());
-        return view("compte-rendu.create");
+        $crj = new CrjController();
+        
+        $data = [
+            'torch' => $request->torch,
+            'temperature' => $request->temperature,
+            'QB' => $request->QB,
+            'VB' => $request->VB,
+            'mode' => $request->mode,
+            'last_id' => null,
+            'date' => Carbon::parse($request->date)->format('d-m-Y')
+        ];
+        $crj->store($data);
+
+        return redirect()->route('CRJ.index');
     })->name('compte-rendu.create')->middleware('auth');
 
   
