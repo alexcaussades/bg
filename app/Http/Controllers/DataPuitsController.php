@@ -23,7 +23,66 @@ class DataPuitsController extends Controller
         if (($handle = fopen($file, 'r')) !== false) {
             // Première ligne (en-têtes)
             $ignored_lines = 11;
+            $model_GA = fgetcsv($handle, 1000, ';');
 
+            if($model_GA[1] === "GA5000"){
+                for ($i = 0; $i < $ignored_lines; $i++) {
+                fgetcsv($handle, 1000, ';');
+            }
+               while (($data = fgetcsv($handle, 1000, ';')) !== false) {
+                    // $data contient chaque ligne sous forme de tableau avec les valeurs séparées par ';'
+                    // On peut ici traiter chaque ligne comme bon nous semble
+                     if (count($data) > 1) {
+                    if($data[0] === "********"){
+                        continue;
+                    }
+                    if (data_puits::where('puits_id', $data[0])->where('date', $data[1])->exists()) {
+                        continue;
+                    }else{
+                        if($data[11] === "N/A_"){
+                            data_puits::create([
+                                'puits_id' => $data[0],
+                                'date' => $data[1],
+                                'ch4' => $data[2],
+                                'co2' => $data[3],
+                                'o2' => $data[4],
+                                'balance' => $data[5],
+                                'h2s' => $data[13],
+                                'ratio' => $data[15],
+                                'co' => "N/A",
+                                'h2' => "N/A",
+                                "av_dep" => "N/A",
+                                'dépression' => $data[11],
+                                'temperature' => "N/A",
+                                'm3h' => "N/A",
+                                "av_m3h" => "N/A",
+                            ]);
+                        }else{
+                            data_puits::create([
+                               'puits_id' => $data[0],
+                                'date' => $data[1],
+                                'ch4' => $data[2],
+                                'co2' => $data[3],
+                                'o2' => $data[4],
+                                'balance' => $data[5],
+                                'h2s' => $data[13],
+                                'ratio' => $data[15],
+                                'co' => "N/A",
+                                'h2' => "N/A",
+                                "av_dep" => "N/A",
+                                'dépression' => $data[11],
+                                'temperature' => "N/A",
+                                'm3h' => "N/A",
+                                "av_m3h" => "N/A",
+                            ]);
+                        }
+                    }
+                }
+
+               }
+                 
+            }else{
+             // Lire la première ligne (en-tête)
             for ($i = 0; $i < $ignored_lines; $i++) {
                 fgetcsv($handle, 1000, ';');
             }
@@ -81,6 +140,7 @@ class DataPuitsController extends Controller
                     }
                 }
             }
+        }
             
             // Fermer le fichier après lecture
             fclose($handle);

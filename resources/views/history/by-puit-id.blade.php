@@ -16,15 +16,16 @@ use Carbon\Carbon;
 
 <h5><i class="bi bi-geo"></i> : {{ $info["familles"] }} {{ $data[0]->puits_id }} {{ $info["ligne"] }} </h5>
 
-<div class="alert alert-info">
+{{-- <div class="alert alert-info">
     <p>Moyenne des messures sur {{ count($data) }}.</p>
     <p>CH<sub>4</sub>: {{ $moyene["ch4"] }} | CO<sub>2</sub>: {{ $moyene["co2"] }} | O<sub>2</sub>: {{ $moyene["o2"] }} | H<sub>2</sub>S: {{ $moyene["h2s"] }} | DEP: {{ $moyene["depression"] }} | M3h: {{ $moyene["m3"] }} </p>   
-</div>
+</div> --}}
 <!-- Button trigger modal -->
 <a href="{{ route("note.create.id", ["id" => $puit[0]->id]) }}"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-journal-plus"></i> Crée une note</button></a>
 <button type="button" class="btn btn-sm btn-warning"><i class="bi bi-journals"></i> Notes ({{ count($note) }})</button></a>
 
 <h5 class="mt-2">Historique <i class="bi bi-arrow-down-square-fill"></i></h5>
+<p class=" text-small text-sm-left text-muted"> <code>N/A</code> Indisponible sur la version du fichier | <code>>>>></code> Mesure supérieure aux limites de l'appareil</p>
 <table class="table table-striped table-inverse table-responsive">
     <thead class="thead-inverse">
         <tr>
