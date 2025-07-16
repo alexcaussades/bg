@@ -122,7 +122,7 @@ Route::prefix("reglage")->group(function(){
         $route = new regalgeController();
         $sr_puit = $route->get_name($id);
         $name = $route->get_puit_name($sr_puit->Name);
-        $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->latest()->get();
+        $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->orderBy('id', 'desc')->get();
         $note_sr = new NoteController();
         $note_sr = $note_sr->puits_id($name[0]->id);
       
