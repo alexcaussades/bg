@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TtcrController;
 use App\Http\Controllers\DebitController;
+use App\Http\Controllers\KizeoController;
 use App\Http\Controllers\puitsController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
@@ -486,19 +487,8 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
-Route::get('/test2', function(){
-    $puits = new puitsController();
-    $puits = $puits->verrify_list_puits_or_reglage_list();
-    return $puits;   
-})->name('debit.show');
-
-Route::get("/mail", function(){
-    
-    $user = [
-        "name" => "Alex",
-        "id" => 100
-    ];
-    
-
-    Mail::to('alexandre.caussades@hotmail.com')->send(new \App\Mail\RegisterUsers($user));
-})->name('mail');
+Route::prefix('kizeo')->group(function(){
+    Route::get('/', [KizeoController::class, 'index'])->name('kizeo.index')->middleware('auth');
+    Route::get('/create', [KizeoController::class, 'create'])->name('kizeo.create')->middleware('auth');
+    Route::post('/store', [KizeoController::class, 'store'])->name('kizeo.store')->middleware('auth');
+});
