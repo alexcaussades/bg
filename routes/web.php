@@ -486,12 +486,6 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
-Route::get('/test2', function(){
-    $puits = new puitsController();
-    $puits = $puits->verrify_list_puits_or_reglage_list();
-    return $puits;   
-})->name('debit.show');
-
 Route::get("/mail", function(){
     
     $user = [
