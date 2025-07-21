@@ -93,4 +93,42 @@ class KizeoController extends Controller
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
 
+    Public function import_kizeo_Torch_Vapo(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+
+        if ($extension === 'xlsx') {
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+
+            foreach ($data as $row) {
+                $item = [
+                    "Created_by" => $row[6],
+                    // recuper la date de la celliule 4
+                    "Date_de_mesure" => $row[4],
+                    "ft_heure_Torch" => $row[7],
+                    "ft_heure_Vapo" => $row[8],
+                    "Temparature_Torch" => $row[9],
+                    "Debit_Torch" => $row[10],
+                    "Totalisateur_Vapo" => $row[13],
+                    "Commentaire" => $row[15],
+                    "Qmes" => $row[16],
+                    "QbCH" => $row[17],
+                    "Volume_contine_VB" => $row[18],
+                    "commentaire_fuji" => $row[20],
+                ];
+            }
+            dd($item);
+        } elseif ($extension === 'csv') {
+            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
+        }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+    }
+
 }

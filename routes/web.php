@@ -496,6 +496,10 @@ Route::prefix('kizeo')->group(function(){
         return view('kizeo.bassin');
     })->name('kizeo.register.bassin')->middleware('auth');
 
+    Route::get("enregistrement_Torch_Vapo", function(){
+       return view('kizeo.torch_vapo');
+    })->name('kizeo.register.torch_vapo')->middleware('auth');
+    
     Route::post('/import_kizeo_bassin', function(Request $request){
         $request->validate([
             'fichier' => 'required|mimes:xlsx,csv',
@@ -504,5 +508,14 @@ Route::prefix('kizeo')->group(function(){
         $kizeo->import_kizeo_bassin($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('kizeo.import_kizeo_bassin')->middleware('auth');
+
+    Route::post('/import_kizeo_torch_vapo', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_Torch_Vapo($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_torch_vapo')->middleware('auth');
 
 });
