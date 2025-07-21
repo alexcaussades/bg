@@ -46,6 +46,22 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
             </li>
+             @auth
+            <li class="nav-item dropdown taille-small-hidden">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-upload"></i> Kizeo
+              </a>
+              <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ Route('kizeo.register.bassin') }}"><i class="bi bi-filetype-xlsx"></i> Import Bassin</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ Route('kizeo.register.torch_vapo') }}"><i class="bi bi-filetype-xlsx"></i> Import Torch & Vapo</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href={{ Route("kizeo.register.ttcr") }}><i class="bi bi-filetype-xlsx"></i> Import TTCR</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href={{ Route("kizeo.register.biogaz") }}><i class="bi bi-filetype-xlsx"></i> Import Biogaz</a></li>
+              </ul>
+            </li>
+          @endauth
           @endauth
           @if (Cookie::get("last_id") != null)
             <li class="nav-item">
