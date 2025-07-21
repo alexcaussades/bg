@@ -488,7 +488,17 @@ Route::prefix('/ttcr')->group(function(){
 })->middleware('auth');
 
 Route::prefix('kizeo')->group(function(){
-    Route::get('/', [KizeoController::class, 'index'])->name('kizeo.index')->middleware('auth');
-    Route::get('/create', [KizeoController::class, 'create'])->name('kizeo.create')->middleware('auth');
-    Route::post('/store', [KizeoController::class, 'store'])->name('kizeo.store')->middleware('auth');
+    Route::get('/', function(){
+        return view('kizeo.index');
+    })->name('kizeo.index')->middleware('auth');
+    
+    Route::post('/import', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import')->middleware('auth');
+   
 });

@@ -54,5 +54,39 @@ class KizeoController extends Controller
 
     }
 
+    Public function import(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+
+        if ($extension === 'xlsx') {
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+
+            foreach ($data as $row) {
+                $item = [
+                    "Created_for" => $row[6],
+                    "Date de mesure" => $row[4],
+                    "Bassin_1" => $row[7],
+                    "Commentaire_bassin_1" => $row[9],
+                    "Bassin_2" => $row[10],
+                    "Commentaire_bassin_2" => $row[12],
+                    "Bassin_3" => $row[13],
+                    "Commentaire_bassin_3" => $row[15],
+                ];
+                // You can now use $item, e.g., insert into database
+            }
+            dd($item);
+        } elseif ($extension === 'csv') {
+            // Handle CSV file import
+            // ...
+        }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+    }
 
 }
