@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
+use function Laravel\Prompts\error;
+
 class KizeoController extends Controller
 {
     /**
@@ -55,7 +57,7 @@ class KizeoController extends Controller
 
     }
 
-    Public function import(Request $request)
+    Public function import_kizeo_bassin(Request $request)
     {
         $request->validate([
             'fichier' => 'required|file|mimes:xlsx,csv',
@@ -70,7 +72,7 @@ class KizeoController extends Controller
 
             foreach ($data as $row) {
                 $item = [
-                    "Created_for" => $row[6],
+                    "Created_by" => $row[6],
                     // recuper la date de la celliule 4
                     "Date_de_mesure" => $row[4],
                     //"Date de mesure" => $row[4],
@@ -81,12 +83,11 @@ class KizeoController extends Controller
                     "Bassin_3" => $row[13],
                     "Commentaire_bassin_3" => $row[15],
                 ];
-                // You can now use $item, e.g., insert into database
+                
             }
             dd($item);
         } elseif ($extension === 'csv') {
-            // Handle CSV file import
-            // ...
+           error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
         }
 
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
