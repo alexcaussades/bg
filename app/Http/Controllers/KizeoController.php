@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KizeoModel as Kizeo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -70,7 +71,9 @@ class KizeoController extends Controller
             foreach ($data as $row) {
                 $item = [
                     "Created_for" => $row[6],
-                    "Date de mesure" => $row[4],
+                    // recuper la date de la celliule 4
+                    "Date_de_mesure" => $row[4],
+                    //"Date de mesure" => $row[4],
                     "Bassin_1" => $row[7],
                     "Commentaire_bassin_1" => $row[9],
                     "Bassin_2" => $row[10],
