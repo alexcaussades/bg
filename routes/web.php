@@ -499,7 +499,15 @@ Route::prefix('kizeo')->group(function(){
     Route::get("enregistrement_Torch_Vapo", function(){
        return view('kizeo.torch_vapo');
     })->name('kizeo.register.torch_vapo')->middleware('auth');
-    
+
+    Route::get("enregistrement_ttcr", function(){
+        return view('kizeo.ttcr');
+    })->name('kizeo.register.ttcr')->middleware('auth');
+
+    Route::get("enregistrement_biogaz", function(){
+        return view('kizeo.biogaz');
+    })->name('kizeo.register.biogaz')->middleware('auth');
+
     Route::post('/import_kizeo_bassin', function(Request $request){
         $request->validate([
             'fichier' => 'required|mimes:xlsx,csv',
@@ -517,5 +525,23 @@ Route::prefix('kizeo')->group(function(){
         $kizeo->import_kizeo_Torch_Vapo($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('kizeo.import_kizeo_torch_vapo')->middleware('auth');
+
+    Route::post('/import_kizeo_ttcr', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_ttcr($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_ttcr')->middleware('auth');
+
+    Route::post('/import_kizeo_biogaz', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_biogaz($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_biogaz')->middleware('auth');
 
 });

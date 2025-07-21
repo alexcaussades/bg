@@ -4,7 +4,7 @@
 
 
 <div class="container mt-5">
-<h3>Suivi Kizeo</h3>
+<h3>Kizeo Torch</h3>
 
 <p>Sélectionnez un fichier Excel (.xlsx) pour importer les données.</p>
 

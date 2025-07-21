@@ -35,7 +35,7 @@ class KizeoController extends Controller
         //
     }
 
-    Public function lecture_bassin()
+    public function lecture_bassin()
     {
         $bassin = Kizeo::where('type', 'bassin')->get();
         $spreadsheet = new Spreadsheet();
@@ -57,7 +57,7 @@ class KizeoController extends Controller
 
     }
 
-    Public function import_kizeo_bassin(Request $request)
+    public function import_kizeo_bassin(Request $request)
     {
         $request->validate([
             'fichier' => 'required|file|mimes:xlsx,csv',
@@ -93,7 +93,7 @@ class KizeoController extends Controller
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
 
-    Public function import_kizeo_Torch_Vapo(Request $request)
+    public function import_kizeo_Torch_Vapo(Request $request)
     {
         $request->validate([
             'fichier' => 'required|file|mimes:xlsx,csv',
@@ -131,4 +131,87 @@ class KizeoController extends Controller
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
 
+    public function import_kizeo_ttcr(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+
+        if ($extension === 'xlsx') {
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+
+            foreach ($data as $row) {
+                $item = [
+                    "Created_by" => $row[6],
+                    // recuper la date de la celliule 4
+                    "Date_de_mesure" => $row[4],
+                    "niveau_remplissage" => $row[7],
+                    "totalisseur_mc" => $row[8],
+                    "Consigne" => $row[11],
+                    "P1" => $row[12],
+                    "P1_ph" => $row[13],
+                    "P1_redox" => $row[14],
+                    "P2" => $row[15],
+                    "P2_ph" => $row[16],
+                    "P2_redox" => $row[17],
+                    "P3" => $row[18],
+                    "P3_ph" => $row[19],
+                    "P3_redox" => $row[20],
+                    "P4" => $row[21],
+                    "P4_ph" => $row[22],
+                    "P4_redox" => $row[23],
+                    "commentaire" => $row[24],
+                ];
+
+                $valeur_ttcr = [
+                    "niveau_remplissage" => $row[7],
+                    "totalisseur_mc" => $row[8],                  
+                ];
+            }
+
+            dd($item, $valeur_ttcr);
+        } elseif ($extension === 'csv') {
+            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
+        }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+    }
+
+    public function import_kizeo_biogaz(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+
+        if ($extension === 'xlsx') {
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+
+            foreach ($data as $row) {
+                $item = [
+                    "Created_by" => $row[6],
+                    // recuper la date de la celliule 4
+                    "Date_de_mesure" => $row[4],
+                    "CHquatre" => $row[7],
+                    "COdeux" => $row[8],
+                    "Odeux" => $row[9],
+                    "Depression" => $row[10],
+                    "commentaire" => $row[12],
+                ];
+            }
+            dd($item);
+        } elseif ($extension === 'csv') {
+            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
+        }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+
+    }
 }

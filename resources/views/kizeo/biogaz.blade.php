@@ -4,7 +4,7 @@
 
 
 <div class="container mt-5">
-<h3>Kizeo Bassin</h3>
+<h3>Kizeo Biogaz</h3>
 
 <p>Sélectionnez un fichier Excel (.xlsx) pour importer les données.</p>
 
@@ -16,7 +16,7 @@
 @endif
 
 
-<form method="POST" action="{{ route('kizeo.import_kizeo_bassin') }}" enctype="multipart/form-data" >
+<form method="POST" action="{{ route('kizeo.import_kizeo_biogaz') }}" enctype="multipart/form-data" >
 
     <!-- CSRF Token -->
     @csrf
