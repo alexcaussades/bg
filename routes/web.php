@@ -550,7 +550,9 @@ Route::prefix('kizeo')->group(function(){
         $date = Carbon::createFromFormat('d-m-Y', $date)->format('d/m/Y');
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
-        return view('kizeo.rapport_j', ['date' => $date, 'data' => $data]);
+        $ttcr = new ttcrController();
+        $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
+        return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
     })->name('kizeo.rapport_journalier')->middleware('auth');
 
 });
