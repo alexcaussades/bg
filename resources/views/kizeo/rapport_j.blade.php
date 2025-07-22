@@ -20,6 +20,17 @@ Réalisé par : {{ $data["bassin"][0]->Created_by }}<br>
                 <th>Bassin 2</th>
                 <th>Bassin 3</th>
             </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="row">{{ $data["bassin"][0]->Bassin_1 }}</td>
+                <td>{{ $data["bassin"][0]->Bassin_2 }}</td>
+                <td>{{ $data["bassin"][0]->Bassin_3 }} %</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-responsive">
+        <thead>
             <tr>
                 <th>Commentaire</th>
                 <th>Commentaire</th>
@@ -28,19 +39,16 @@ Réalisé par : {{ $data["bassin"][0]->Created_by }}<br>
         </thead>
         <tbody>
             <tr>
-                <td scope="row">{{ $data["bassin"][0]->Bassin_1 }}</td>
-                <td>{{ $data["bassin"][0]->Bassin_2 }}</td>
-                <td>{{ $data["bassin"][0]->Bassin_3 }} %</td>
-            </tr>
-            <tr>
-                <td>{{ $data["bassin"][0]->Commentaire_bassin_1 }}</td>
+                
+                <td scope="row">{{ $data["bassin"][0]->Commentaire_bassin_1 }}</td>
                 <td>{{ $data["bassin"][0]->Commentaire_bassin_2 }}</td>
                 <td>{{ $data["bassin"][0]->Commentaire_bassin_3 }}</td>
+            </tr>
         </tbody>
     </table>
 </div>
 <hr>
-<h4 class="mt-2">Torch</h4>
+<h4 class="mt-2">Caisson Vapo & Torch</h4>
 Réalisé par : {{ $data["torch"][0]->Created_by }}<br>
 <div class="table-responsive">
     <table class="table table-striped table-inverse">
@@ -104,5 +112,10 @@ Réalisé par : {{ $data["torch"][0]->Created_by }}<br>
             </tr>
         </tbody>
 </table>
+
+<h4 class="mt-2">TTCR</h4>
+Réalisé par : {{ $data["ttcr"][0]->Created_by }}<br>
+
+
 
 @endsection
