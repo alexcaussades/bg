@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\KizeoModel as Kizeo;
-use App\Models\ttcr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -116,7 +115,7 @@ class KizeoController extends Controller
             $o = self::explode_the_date_time($item['Date_de_mesure']);
             $item['Date_de_mesure'] = $o;
             $kizeo = new Kizeo();
-            $kizeo->StoreTorchVapo($item);
+            $kizeo->StoreTorch($item);
         } elseif ($extension === 'csv') {
             error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
         }
@@ -160,10 +159,6 @@ class KizeoController extends Controller
                     "commentaire_ttcr" => $row[24],
                 ];
 
-                $valeur_ttcr = [
-                    "hauteur" => $row[7],
-                    "compteur" => $row[8],                  
-                ];
             }
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
@@ -171,11 +166,18 @@ class KizeoController extends Controller
             // Here we assume the date is in 'm/d/Y H:i' format
             $o = self::explode_the_date_time($item['Date_de_mesure']);
             $item['Date_de_mesure'] = $o;
+
+            $valeur_ttcr = [
+                    "hauteur" => $item['niveau_remplissage'],
+                    "compteur" => $item['totalisseur_mc'],
+                ];
+
+            //dd($valeur_ttcr['compteur']);
             // Enregistrement dans la base de données Kizeo
             $kizeo = new Kizeo();
             $kizeo->StoreTTCR($item);
             // Enregistrement dans la base de données TTCR en automatique via le model ttcr
-            $ttcr = new ttcr();
+            $ttcr = new TtcrController();
             $ttcr->Store_from_Kizeo_import_file($valeur_ttcr);
 
         } elseif ($extension === 'csv') {
@@ -199,6 +201,7 @@ class KizeoController extends Controller
             $data = $spreadsheet->getActiveSheet()->toArray();
 
             foreach ($data as $row) {
+
                 $item = [
                     "Created_by" => $row[6],
                     // recuper la date de la celliule 4
@@ -207,13 +210,14 @@ class KizeoController extends Controller
                     "COdeux" => $row[8],
                     "Odeux" => $row[9],
                     "Depression" => $row[10],
-                    "Commentaire_biogaz" => $row[12],
+                    "Commentaire_biogaz" => $row[14] ?? null,
                 ];
             }
              // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
             // Adjust the format as necessary based on your data
             // Here we assume the date is in 'm/d/Y H:i' format
+            
             $o = self::explode_the_date_time($item['Date_de_mesure']);
             $item['Date_de_mesure'] = $o;
             $kizeo = new Kizeo();
