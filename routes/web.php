@@ -2,6 +2,7 @@
 
 use App\Models\consignation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -543,5 +544,13 @@ Route::prefix('kizeo')->group(function(){
         $kizeo->import_kizeo_biogaz($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('kizeo.import_kizeo_biogaz')->middleware('auth');
+
+    Route::get('/rapport_journalier/{date}', function(Request $request){
+        $date = $request->date;
+        $date = Carbon::createFromFormat('d-m-Y', $date)->format('d/m/Y');
+        $kizeo = new KizeoController();
+        $data = $kizeo->Preparation_rapport_journalier($date);
+        return view('kizeo.rapport_j', ['date' => $date, 'data' => $data]);
+    })->name('kizeo.rapport_journalier')->middleware('auth');
 
 });

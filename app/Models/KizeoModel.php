@@ -127,4 +127,33 @@ class KizeoModel extends Model
             'Commentaire_biogaz' => $data['Commentaire_biogaz']
         ]);
     }
+
+    public function Preparation_rapport_journalier($date)
+    {
+        //like date_de_mesure pour rechercher les données
+        //$date = $date->format('d-m-Y');
+
+        $data = DB::table('kizeo_bassin')
+            ->where('Date_de_mesure', 'like', '%' . $date . '%')
+            ->get();
+        $torchData = DB::table('kizeo_torch')
+            ->where('Date_de_mesure', 'like', '%' . $date . '%')
+            ->get();
+        $ttcrData = DB::table('kizeo_ttcr')
+            ->where('Date_de_mesure', 'like', '%' . $date . '%')
+            ->get();
+        $biogazData = DB::table('kizeo_biogaz')
+            ->where('Date_de_mesure', 'like', '%' . $date . '%')
+            ->get();
+        return [
+            'bassin' => $data,
+            'torch' => $torchData,
+            'ttcr' => $ttcrData,
+            'biogaz' => $biogazData,
+            "date" => $date
+        ];
+
+        //Recherche d'informations dans la base de données Kizeo avec la date de mesure en fesant une requete LIKE 
+        //return DB::table('kizeo_bassin')->where('Date_de_mesure', 'like', '%' . $date . '%')->get();
+    }
 }

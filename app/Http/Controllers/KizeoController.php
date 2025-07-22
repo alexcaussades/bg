@@ -11,30 +11,7 @@ use function Laravel\Prompts\error;
 
 class KizeoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store()
-    {
-        //
-    }
-
+    
     public function import_kizeo_bassin(Request $request)
     {
         $request->validate([
@@ -243,4 +220,12 @@ class KizeoController extends Controller
        return $dateTime;
     }
 
+
+    public function Preparation_rapport_journalier($date)
+    {
+        $date_from = $date;
+        $kizeo = new Kizeo();
+        $data2= $kizeo->Preparation_rapport_journalier($date_from);
+        return $data2;
+    }
 }
