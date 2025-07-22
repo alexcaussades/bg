@@ -22,7 +22,24 @@
               </ul>
             </li>
           @endauth
+          
           @auth
+            <li class="nav-item">
+              <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
+            </li>
+            {{-- <li class="nav-item">
+              <a class="nav-link" href="{{ Route('consignation.index') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
+            </li> --}}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="bi bi-fire"></i> Torch & Vapo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="bi bi-exclude"></i> Bassin</a>
+            </li>
+            @auth
             <li class="nav-item dropdown taille-small-hidden">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-upload"></i> Import
@@ -36,18 +53,8 @@
               </ul>
             </li>
           @endauth
-          @auth
-            <li class="nav-item">
-              <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
-            </li>
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="{{ Route('consignation.index') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
-            </li> --}}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
-            </li>
              @auth
-            <li class="nav-item dropdown taille-small-hidden">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-upload"></i> Kizeo
               </a>
