@@ -2,6 +2,7 @@
 
 use App\Models\consignation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -12,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TtcrController;
 use App\Http\Controllers\DebitController;
+use App\Http\Controllers\KizeoController;
 use App\Http\Controllers\puitsController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
@@ -486,13 +488,96 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
-Route::get("/mail", function(){
-    
-    $user = [
-        "name" => "Alex",
-        "id" => 100
-    ];
-    
 
-    Mail::to('alexandre.caussades@hotmail.com')->send(new \App\Mail\RegisterUsers($user));
-})->name('mail');
+Route::prefix('kizeo')->group(function(){
+    Route::get('/', function(){
+        return view('kizeo.index');
+    })->name('kizeo.index')->middleware('auth');
+
+    Route::get("enregistrement_des_bassins", function(){
+        return view('kizeo.bassin');
+    })->name('kizeo.register.bassin')->middleware('auth');
+
+    Route::get("enregistrement_Torch_Vapo", function(){
+       return view('kizeo.torch_vapo');
+    })->name('kizeo.register.torch_vapo')->middleware('auth');
+
+    Route::get("enregistrement_ttcr", function(){
+        return view('kizeo.ttcr');
+    })->name('kizeo.register.ttcr')->middleware('auth');
+
+    Route::get("enregistrement_biogaz", function(){
+        return view('kizeo.biogaz');
+    })->name('kizeo.register.biogaz')->middleware('auth');
+
+    Route::post('/import_kizeo_bassin', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_bassin($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_bassin')->middleware('auth');
+
+    Route::post('/import_kizeo_torch_vapo', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_Torch_Vapo($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_torch_vapo')->middleware('auth');
+
+    Route::post('/import_kizeo_ttcr', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_ttcr($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_ttcr')->middleware('auth');
+
+    Route::post('/import_kizeo_biogaz', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo_biogaz($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo_biogaz')->middleware('auth');
+
+    Route::get('/rapport_journalier/', function(Request $request){
+        $request->merge([
+            'date' => $request->date,
+        ]);
+        $request->validate([
+            'date' => 'required|date_format:Y-m-d',
+        ]);
+        $date = $request->date;
+        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        $kizeo = new KizeoController();
+        $data = $kizeo->Preparation_rapport_journalier($date);
+        $ttcr = new ttcrController();
+        $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
+        return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
+    })->name('kizeo.rapport_journalier')->middleware('auth');
+
+    Route::get('/rapport_hebdomadaire/', function(Request $request){
+        $request->merge([
+            'date_in' => $request->date_in,
+            'date_out' => $request->date_out
+        ]);
+        $request->validate([
+            'date_in' => 'required|date_format:Y-m-d',
+            'date_out' => 'required|date_format:Y-m-d'
+        ]);
+
+        $date_in = Carbon::createFromFormat('Y-m-d', $request->date_in)->format('d/m/Y');
+        $date_out = Carbon::createFromFormat('Y-m-d', $request->date_out)->format('d/m/Y');
+        $kizeo = new KizeoController();
+        $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out);
+        return view('kizeo.rapport_h', ['date_in' => $date_in, 'date_out' => $date_out, 'data' => $data]);
+        })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
+  
+
+});

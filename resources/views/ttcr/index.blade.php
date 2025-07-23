@@ -11,7 +11,6 @@ use Carbon\Carbon;
         <div class="col-md-12">
             <h1>TTCR</h1>
             <p class="text-small">Taillis à très courte rotation</p>
-            <a href="{{ route('ttcr.create') }}" class="btn btn-primary mt-2 btn-sm">Nouveau Relevé</a>
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>

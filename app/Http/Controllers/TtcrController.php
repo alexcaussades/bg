@@ -41,6 +41,16 @@ class TtcrController extends Controller
         return $ttcr;
     }
 
+    public function Store_from_Kizeo_import_file($data)
+    {
+        $ttcr = new ttcr();
+        $ttcr->compteur = $data['compteur'];
+        $ttcr->evolution = $data['compteur'] - ttcr::latest()->first()->compteur;
+        $ttcr->hauteur = $data['hauteur'];
+        $ttcr->volume = $this->hauteurdeau($data['hauteur']);
+        $ttcr->save();
+    }
+
     public function install_ttcr()
     {
         if (ttcr::all()->count() == 0) {
