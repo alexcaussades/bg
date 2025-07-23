@@ -488,6 +488,7 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
+
 Route::prefix('kizeo')->group(function(){
     Route::get('/', function(){
         return view('kizeo.index');
@@ -577,7 +578,6 @@ Route::prefix('kizeo')->group(function(){
         $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out);
         return view('kizeo.rapport_h', ['date_in' => $date_in, 'date_out' => $date_out, 'data' => $data]);
         })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
-
-    
+  
 
 });
