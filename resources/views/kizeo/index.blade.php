@@ -44,12 +44,6 @@
             <label for="Date" class="form-label mt-2">Date pour la fin du rapport</label>
             <input type="date" class="form-control" id="Date" name="date_out" required>
         </div>
-        <div class="mb-3">
-            <select class="form-select" name="rapport" aria-label="Default select example">
-                <option selected value="biogaz_caisson">Biogaz & Caisson Vapo & Torch</option>
-                <option value="bassin_ttcr">Bassin & TTCR</option>
-            </select>
-        </div>
         <input type="submit" value="Valider" class="btn btn-primary mt-3">
     </form>
 </div>

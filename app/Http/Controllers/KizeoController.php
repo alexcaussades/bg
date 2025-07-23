@@ -229,10 +229,11 @@ class KizeoController extends Controller
         return $data2;
     }
 
-    public function preparation_rapport_hebdomadaire_torch_vapo()
+    public function preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out)
     {
         $kizeo = new Kizeo();
-        $data2= $kizeo->Preparation_rapport_hebdomadaire_torch_vapo();
+        $data2= $kizeo->Preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out);
+        // Faire correspondre les $data2['torch']->dates_de_mesure avec le tableau torch et biogaz pour récupérer les données
         return $data2;
     }
 }

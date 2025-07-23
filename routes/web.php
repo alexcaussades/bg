@@ -564,26 +564,20 @@ Route::prefix('kizeo')->group(function(){
     Route::get('/rapport_hebdomadaire/', function(Request $request){
         $request->merge([
             'date_in' => $request->date_in,
-            'date_out' => $request->date_out,
-            'rapport' => $request->rapport
+            'date_out' => $request->date_out
         ]);
         $request->validate([
             'date_in' => 'required|date_format:Y-m-d',
-            'date_out' => 'required|date_format:Y-m-d',
-            'rapport' => 'required|in:biogaz_caisson,bassin_ttcr',
+            'date_out' => 'required|date_format:Y-m-d'
         ]);
 
         $date_in = Carbon::createFromFormat('Y-m-d', $request->date_in)->format('d/m/Y');
         $date_out = Carbon::createFromFormat('Y-m-d', $request->date_out)->format('d/m/Y');
         $kizeo = new KizeoController();
-        if($request->rapport == "biogaz_caisson"){
-            $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out, $request->rapport);
-        } elseif($request->rapport == "bassin_ttcr"){
-            //$data = $kizeo->Preparation_rapport_hebdomadaire_bassin_ttcr($date_in, $date_out, $request->rapport);
-        } else {
-            return redirect()->back()->withErrors(['rapport' => 'Invalid rapport type']);
-        }
+        $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out);
+        return view('kizeo.rapport_h', ['date_in' => $date_in, 'date_out' => $date_out, 'data' => $data]);
+        })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
 
-    })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
+    
 
 });
