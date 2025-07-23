@@ -156,4 +156,6 @@ class KizeoModel extends Model
         //Recherche d'informations dans la base de données Kizeo avec la date de mesure en fesant une requete LIKE 
         //return DB::table('kizeo_bassin')->where('Date_de_mesure', 'like', '%' . $date . '%')->get();
     }
+
+    
 }

@@ -545,14 +545,45 @@ Route::prefix('kizeo')->group(function(){
         return redirect()->back()->with('success', 'Data imported successfully.');
     })->name('kizeo.import_kizeo_biogaz')->middleware('auth');
 
-    Route::get('/rapport_journalier/{date}', function(Request $request){
+    Route::get('/rapport_journalier/', function(Request $request){
+        $request->merge([
+            'date' => $request->date,
+        ]);
+        $request->validate([
+            'date' => 'required|date_format:Y-m-d',
+        ]);
         $date = $request->date;
-        $date = Carbon::createFromFormat('d-m-Y', $date)->format('d/m/Y');
+        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
         $ttcr = new ttcrController();
         $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
     })->name('kizeo.rapport_journalier')->middleware('auth');
+
+    Route::get('/rapport_hebdomadaire/', function(Request $request){
+        $request->merge([
+            'date_in' => $request->date_in,
+            'date_out' => $request->date_out,
+            'rapport' => $request->rapport
+        ]);
+        $request->validate([
+            'date_in' => 'required|date_format:Y-m-d',
+            'date_out' => 'required|date_format:Y-m-d',
+            'rapport' => 'required|in:biogaz_caisson,bassin_ttcr',
+        ]);
+
+        $date_in = Carbon::createFromFormat('Y-m-d', $request->date_in)->format('d/m/Y');
+        $date_out = Carbon::createFromFormat('Y-m-d', $request->date_out)->format('d/m/Y');
+        $kizeo = new KizeoController();
+        if($request->rapport == "biogaz_caisson"){
+            $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out, $request->rapport);
+        } elseif($request->rapport == "bassin_ttcr"){
+            //$data = $kizeo->Preparation_rapport_hebdomadaire_bassin_ttcr($date_in, $date_out, $request->rapport);
+        } else {
+            return redirect()->back()->withErrors(['rapport' => 'Invalid rapport type']);
+        }
+
+    })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
 
 });

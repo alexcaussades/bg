@@ -228,4 +228,11 @@ class KizeoController extends Controller
         $data2= $kizeo->Preparation_rapport_journalier($date_from);
         return $data2;
     }
+
+    public function preparation_rapport_hebdomadaire_torch_vapo()
+    {
+        $kizeo = new Kizeo();
+        $data2= $kizeo->Preparation_rapport_hebdomadaire_torch_vapo();
+        return $data2;
+    }
 }

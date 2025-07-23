@@ -34,10 +34,7 @@
               <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><i class="bi bi-fire"></i> Torch & Vapo</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><i class="bi bi-exclude"></i> Bassin</a>
+              <a class="nav-link" href="{{ Route('kizeo.index') }}"><i class="bi bi-file-text"></i> Rapport Kizeo</a>
             </li>
             @auth
             <li class="nav-item dropdown taille-small-hidden">
