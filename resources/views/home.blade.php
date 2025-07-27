@@ -57,6 +57,14 @@
           </div>
         </div>
 </div>
-        
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <a href="https://github.com/alexcaussades/bg"><i class="bi bi-github fs-2 link-dark float-end pm-2 ms-2"></i></a>
+      <a href="mailto:contact@regbio.fr"><i class="bi bi-envelope-at-fill fs-2 link-dark float-end pm-2 "></i></a>
+    </div>
+  </div>
+</div>
 
 @endsection

@@ -27,8 +27,8 @@
   </head>
  
     <div class="container mt-2 impression">
-      <h1><i class="bi bi-terminal-fill"></i> Réglage Biogaz</h1>
-      <p>Bienvenue sur votre page de réglage pour le biogaz</p>
+      <h1><i class="bi bi-terminal-fill"></i> RegBio</h1>
+      <p>L'application d'aide du Tech-effluents.</p>
     </div>
   </div>
   <body>
