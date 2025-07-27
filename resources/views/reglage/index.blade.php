@@ -1,5 +1,6 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Réglages aux débit")
 @section("content")
 
 <script>

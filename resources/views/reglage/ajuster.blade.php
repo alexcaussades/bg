@@ -1,5 +1,6 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Ajustement de la vitesse")
 @section("content")
 
 @if (isset($result))

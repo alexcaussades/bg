@@ -1,5 +1,6 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Modification du Puits")
 @section("content")
 
 <div class="container mt-5">

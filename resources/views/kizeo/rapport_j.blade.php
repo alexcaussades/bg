@@ -1,10 +1,13 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Rapport Journalier")
 @section("content")
 
 
 <div class="container mt-3">
-
+<div class="container ">
+    <a href="{{ route('kizeo.index') }}" class="btn btn-primary float-end pm-2">Retour aux formulaires</a>
+</div>
 <h3>Rapport Journalier via les données Kizeo du {{ $date }}</h3>
 
 

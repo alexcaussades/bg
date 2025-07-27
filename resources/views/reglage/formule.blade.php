@@ -3,6 +3,7 @@ use carbon\carbon;
 ?>
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Calcule de la Formule ")
 @section("content")
 
 @if (isset($result))

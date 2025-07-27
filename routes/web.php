@@ -561,7 +561,7 @@ Route::prefix('kizeo')->group(function(){
         $data = $kizeo->Preparation_rapport_journalier($date);
         $ttcr = new ttcrController();
         if($data["ttcr"]->isEmpty()){
-            return view("kizeo.404_kizeo", ['date' => $date, 'data' => $data]);
+            return view("kizeo.404_kizeo", ['date' => $date]);
         } 
         $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);

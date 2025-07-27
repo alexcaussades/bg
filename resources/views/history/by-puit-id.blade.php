@@ -3,6 +3,7 @@ use Carbon\Carbon;
 ?>
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Historique des mesures par puits")
 @section("content")
 
 <div class="container mt-5">

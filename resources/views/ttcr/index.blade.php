@@ -3,6 +3,7 @@ use Carbon\Carbon;
 ?>
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - TTCR informations")
 @section("content")
 
 
