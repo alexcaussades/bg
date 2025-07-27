@@ -467,7 +467,9 @@ Route::prefix('/ttcr')->group(function(){
     Route::get('/', function(){
         $ttcr = new TtcrController();
         $ttcr = $ttcr->index();
-        return view('ttcr.index', ['ttcr' => $ttcr]);
+        $ttcr2 = new TtcrController();
+        $ttcr_consignes = $ttcr2->TTCR_consignes_last();
+        return view('ttcr.index', ['ttcr' => $ttcr, 'ttcr_consignes' => $ttcr_consignes]);
     })->name('ttcr.index')->middleware('auth');
 
     Route::get('/create', function(){
@@ -558,6 +560,9 @@ Route::prefix('kizeo')->group(function(){
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
         $ttcr = new ttcrController();
+        if($data["ttcr"]->isEmpty()){
+            return view("kizeo.404_kizeo", ['date' => $date, 'data' => $data]);
+        } 
         $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
     })->name('kizeo.rapport_journalier')->middleware('auth');

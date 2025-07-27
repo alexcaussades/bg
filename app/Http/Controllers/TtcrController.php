@@ -17,12 +17,16 @@ class TtcrController extends Controller
         return $ttcr;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+   
+    /** Recherche des consignes dans le systeme */
+
+    public function TTCR_consignes_last()
     {
-        //
+        $ttcr = DB::table('kizeo_ttcr')->whereNotNull("Consigne_TTCR")->orderBy('id', 'desc')->get();
+        if($ttcr->isEmpty()) {
+            return Null;
+        }
+        return $ttcr;
     }
 
     /**
@@ -66,39 +70,8 @@ class TtcrController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ttcr $ttcr)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ttcr $ttcr)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ttcr $ttcr)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ttcr $ttcr)
-    {
-        //
-    }
-
-    Public function hauteurdeau($info)
+    public function hauteurdeau($info)
     {
        $hauteur = [
             "167" => 2004,
