@@ -62,7 +62,11 @@
   <div class="row mt-5">
     <div class="col-md-12">
       <a href="https://github.com/alexcaussades/bg"><i class="bi bi-github fs-2 link-dark float-end pm-2 ms-2"></i></a>
-      <a href="mailto:contact@regbio.fr"><i class="bi bi-envelope-at-fill fs-2 link-dark float-end pm-2 "></i></a>
+      <button type="button" class="btn btn-sm btn-dark float-end pm-2 ms-2 text-bg-dark" data-bs-toggle="modal" data-bs-target="#githubModal">
+        Issues <span class="badge text-bg-success text-bg-dark">{{ $open_issues }}</span>
+      </button>
+      <a href="mailto:contact@regbio.fr"><i class="bi bi-envelope-at-fill fs-2 link-dark float-end pm-2 ms-2"></i></a>
+      <div class=" float-end ms-2 pt-2">{{ $last_release }}</div>
     </div>
   </div>
 </div>
