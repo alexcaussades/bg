@@ -4,6 +4,7 @@ use Carbon\Carbon;
 
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - MAJ Puits")
 @section("content")
 
 <div class="container">

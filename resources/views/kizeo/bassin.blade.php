@@ -1,10 +1,11 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Importer un rapport Kizeo Bassin")
 @section("content")
 
 
 <div class="container mt-5">
-<h3>Kizeo Bassin</h3>
+<h3>Importer un rapport Kizeo Bassin</h3>
 
 <p>Sélectionnez un fichier Excel (.xlsx) pour importer les données.</p>
 

@@ -1,20 +1,14 @@
 @extends("exention.header")
 @extends("exention.navbar")
+@section('title', "RegBio - Recherche de Rapport")
 @section("content")
 
 
 <div class="container mt-5">
 <h3>Rapport Kizeo</h3>
+<p>Sur la page de recherche de rapports Kizeo. Vous pouvez rechercher des rapports journaliers ou hebdomadaires.</p>
 
-
-@if (session('success'))
-    <div class="alert alert-success" role="alert">
-        <strong><i class="bi bi-check-circle fs-5"></i> {{ session('success') }}</strong>
-    </div>
-@endif
-
-
-<h4 class="mt-5">Recherche de rapports Kizeo Journalier</h4>
+<h4 class="mt-2">Recherche de rapports Kizeo Journalier</h4>
     <p>Pour rechercher des rapports Kizeo, veuillez sélectionner une date.</p>
 
         <form method="GET" action="{{ route('kizeo.rapport_journalier') }}" class="form-inline">

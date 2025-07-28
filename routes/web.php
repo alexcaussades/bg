@@ -15,6 +15,7 @@ use App\Http\Controllers\TtcrController;
 use App\Http\Controllers\DebitController;
 use App\Http\Controllers\KizeoController;
 use App\Http\Controllers\puitsController;
+use App\Http\Controllers\GithubController;
 use App\Http\Controllers\regalgeController;
 use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\AnalyseBioController;
@@ -38,8 +39,11 @@ Route::get('/', function () {
     //$data_consignation_count = DB::table('consignations')->select('id')->count();
     $data_debit_count = DB::table('debit')->select('id')->count();
     $data_data_count = DB::table('data_puits')->select('id')->count();
+    $github = new GithubController();
+    $last_release = $github->release_last();
+    $open_issues = $github->open_issues();
     $data_reglage_count = null;
-    return view('home', ['puits' => $data_puits_count, 'note' => $data_note_count, 'debit' => $data_debit_count, 'data' => $data_data_count, 'reglage' => $data_reglage_count]);
+    return view('home', ['puits' => $data_puits_count, 'note' => $data_note_count, 'debit' => $data_debit_count, 'data' => $data_data_count, 'reglage' => $data_reglage_count, 'last_release' => $last_release, 'open_issues' => $open_issues]);
 })->name('home');
 
 Route::prefix('auth')->group(function(){
@@ -467,7 +471,9 @@ Route::prefix('/ttcr')->group(function(){
     Route::get('/', function(){
         $ttcr = new TtcrController();
         $ttcr = $ttcr->index();
-        return view('ttcr.index', ['ttcr' => $ttcr]);
+        $ttcr2 = new TtcrController();
+        $ttcr_consignes = $ttcr2->TTCR_consignes_last();
+        return view('ttcr.index', ['ttcr' => $ttcr, 'ttcr_consignes' => $ttcr_consignes]);
     })->name('ttcr.index')->middleware('auth');
 
     Route::get('/create', function(){
@@ -558,6 +564,9 @@ Route::prefix('kizeo')->group(function(){
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
         $ttcr = new ttcrController();
+        if($data["ttcr"]->isEmpty()){
+            return view("kizeo.404_kizeo", ['date' => $date]);
+        } 
         $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
     })->name('kizeo.rapport_journalier')->middleware('auth');
@@ -581,3 +590,10 @@ Route::prefix('kizeo')->group(function(){
   
 
 });
+
+Route::get('test', function(){
+    $github = new GithubController();
+    $last_release = $github->release_last();
+    $open_issues = $github->open_issues();
+    dd($open_issues, $last_release);
+})->name('test')->middleware('auth');
