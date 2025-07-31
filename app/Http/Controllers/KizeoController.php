@@ -12,6 +12,34 @@ use function Laravel\Prompts\error;
 class KizeoController extends Controller
 {
     
+    public function import_kizeo(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+        $name = $file->getClientOriginalName();
+        // Debugging: Check the file name
+        $name = preg_replace('/[^\x00-\x7F]/', '', $name);
+        $name = trim($name);
+        $recuperer = explode('_', $name);
+        if ($recuperer[3] == 'Saulaie') {
+            $this->import_kizeo_ttcr($request);
+        }
+        if ($recuperer[3] == 'Biogaz') {
+            $this->import_kizeo_biogaz($request);
+        }
+        if ($recuperer[3] == 'Bassins') {
+            $this->import_kizeo_bassin($request);
+        }
+        if ($recuperer[3] == 'Torchère') {
+            $this->import_kizeo_Torch_Vapo($request);
+        }
+
+    }
+
     public function import_kizeo_bassin(Request $request)
     {
         $request->validate([

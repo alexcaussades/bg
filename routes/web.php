@@ -500,6 +500,19 @@ Route::prefix('kizeo')->group(function(){
         return view('kizeo.index');
     })->name('kizeo.index')->middleware('auth');
 
+    Route::get('import', function(){
+        return view('kizeo.waiting_file');
+    })->name('kizeo.import')->middleware('auth');
+
+    Route::post('import', function(Request $request){
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,csv',
+        ]);
+        $kizeo = new KizeoController();
+        $kizeo->import_kizeo($request);
+        return redirect()->back()->with('success', 'Data imported successfully.');
+    })->name('kizeo.import_kizeo')->middleware('auth');
+
     Route::get("enregistrement_des_bassins", function(){
         return view('kizeo.bassin');
     })->name('kizeo.register.bassin')->middleware('auth');
