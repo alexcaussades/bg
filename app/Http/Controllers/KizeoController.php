@@ -173,8 +173,7 @@ class KizeoController extends Controller
                 $item['niveau_remplissage'] = str_replace('m', '', $item['niveau_remplissage']);
                 $item['niveau_remplissage'] = str_replace('M', '', $item['niveau_remplissage']);
             }
-            dd($item);
-
+            
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
             // Adjust the format as necessary based on your data
