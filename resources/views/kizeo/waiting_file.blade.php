@@ -5,7 +5,7 @@
 
 
 <div class="container mt-5">
-<h3>Importer un rapport Kizeo</h3>
+<h3>Je veux importer un rapport Kizeo</h3>
 
 <p>Sélectionnez un fichier Excel (.xlsx) pour importer les données.</p>
 
@@ -17,7 +17,7 @@
 @endif
 
 
-<form method="POST" action="{{ route('kizeo.import_kizeo') }}" enctype="multipart/form-data" >
+<form method="POST" action="{{ route('kizeo.import_kizeo') }}" enctype="multipart/form-data">
 
     <!-- CSRF Token -->
     @csrf
@@ -26,9 +26,9 @@
     <div class="mb-3">
         <input class="form-control" type="file" id="formFile" name="fichier" accept=".csv , .xlsx">
     </div>
-    <div class="alert alert-warning" role="alert">
+    {{-- <div class="alert alert-warning" role="alert">
         <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci sont irréversible</strong>
-    </div>
+    </div> --}}
 
     <button class="btn btn-info" type="submit" ><i class="bi bi-database-fill-up fs-5"></i> Importer le fichier</button>
 
