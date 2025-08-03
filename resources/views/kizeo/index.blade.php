@@ -5,8 +5,8 @@
 
 
 <div class="container mt-5">
-<h3>Rapport Kizeo</h3>
-<p>Sur la page de recherche de rapports Kizeo. Vous pouvez rechercher des rapports journaliers ou hebdomadaires.</p>
+
+<a href="{{ route('kizeo.import') }}" class="btn btn-success float-end">Importer un rapport</a>
 
 <h4 class="mt-2">Recherche de rapports Kizeo Journalier</h4>
     <p>Pour rechercher des rapports Kizeo, veuillez sélectionner une date.</p>
@@ -17,8 +17,8 @@
             @csrf
             <div class="mb-3">
                 <label for="Date" class="form-label">Date</label>
-                <input type="date" class="form-control" id="Date" name="date" required>
-                <input type="submit" value="Valider" class="btn btn-primary mt-3">
+                <input type="date" class="form-control form-control-sm" id="Date" name="date" required>
+                <input type="submit" value="Valider" class="btn btn-secondary btn-sm mt-3">
             </div>
 
         </form>
@@ -34,11 +34,11 @@
         @csrf
         <div class="mb-3">
             <label for="Date" class="form-label">Date pour le début du rapport</label>
-            <input type="date" class="form-control" id="Date" name="date_in" required>
+            <input type="date" class="form-control form-control-sm" id="Date" name="date_in" required>
             <label for="Date" class="form-label mt-2">Date pour la fin du rapport</label>
-            <input type="date" class="form-control" id="Date" name="date_out" required>
+            <input type="date" class="form-control form-control-sm" id="Date" name="date_out" required>
         </div>
-        <input type="submit" value="Valider" class="btn btn-primary mt-3">
+        <input type="submit" value="Valider" class="btn btn-secondary btn-sm mt-3">
     </form>
 </div>
 @endsection

@@ -54,7 +54,7 @@
 </div>
 <hr>
 <h4 class="mt-2">Caisson Vapo & Torch & Biogaz</h4>
-Réalisé par : {{ $data["torch"][0]->Created_by }}<br>
+Réalisé par : {{ $data["torch"][0]->Created_by ?? "Autre" }}<br>
 
 <table class="table table-striped table-responsive mt-2">
     <thead>

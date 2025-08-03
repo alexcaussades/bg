@@ -6,12 +6,41 @@ use App\Models\KizeoModel as Kizeo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PHPUnit\Framework\Constraint\RegularExpression;
 
 use function Laravel\Prompts\error;
 
 class KizeoController extends Controller
 {
     
+    public function import_kizeo(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        $file = $request->file('fichier');
+        $extension = $file->getClientOriginalExtension();
+        $name = $file->getClientOriginalName();
+        // Debugging: Check the file name
+        $name = preg_replace('/[^\x00-\x7F]/', '', $name);
+        $name = trim($name);
+        $recuperer = explode('_', $name);
+        if ($recuperer[3] == 'Saulaie') {
+            $this->import_kizeo_ttcr($request);
+        }
+        if ($recuperer[3] == 'Biogaz') {
+            $this->import_kizeo_biogaz($request);
+        }
+        if ($recuperer[3] == 'Bassins') {
+            $this->import_kizeo_bassin($request);
+        }
+        if ($recuperer[3] == 'Torchère') {
+            $this->import_kizeo_Torch_Vapo($request);
+        }
+
+    }
+
     public function import_kizeo_bassin(Request $request)
     {
         $request->validate([
@@ -112,7 +141,9 @@ class KizeoController extends Controller
         if ($extension === 'xlsx') {
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
-
+            $regex_replissage = "/[a-zA-Z]{1}/";
+            $regex_ph = "/[0-9]{1},[0-9]{2}/";
+            $regex_redox = "/[0-9]{1,3}/";
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
@@ -135,8 +166,14 @@ class KizeoController extends Controller
                     "P4_redox" => $row[23],
                     "commentaire_ttcr" => $row[24],
                 ];
-
+               
             }
+            if(preg_match($regex_replissage, $item['niveau_remplissage'])) {
+                // If the niveau_remplissage contains a letter, we assume it's a percentage
+                $item['niveau_remplissage'] = str_replace('m', '', $item['niveau_remplissage']);
+                $item['niveau_remplissage'] = str_replace('M', '', $item['niveau_remplissage']);
+            }
+            
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
             // Adjust the format as necessary based on your data
