@@ -97,6 +97,9 @@ class KizeoController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
 
+            $regex_QMES = "/[0-9]{3,}/";
+            $regex_Qbch4 = "/[0-9]{3,}/";
+
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
@@ -114,6 +117,7 @@ class KizeoController extends Controller
                     "commentaire_fuji" => $row[20],
                 ];
             }
+            
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
             // Adjust the format as necessary based on your data
