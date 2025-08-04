@@ -142,8 +142,7 @@ class KizeoController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $regex_replissage = "/[a-zA-Z]{1}/";
-            $regex_ph = "/[0-9]{1},[0-9]{2}/";
-            $regex_redox = "/[0-9]{1,3}/";
+            $regex_replissage_2 = "/[0-9]{1}[.][0-9]{1,}/";
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
@@ -152,19 +151,6 @@ class KizeoController extends Controller
                     "niveau_remplissage" => $row[7],
                     "totalisseur_mc" => $row[8],
                     "Consigne_TTCR" => $row[11],
-                    "P1" => $row[12],
-                    "P1_ph" => $row[13],
-                    "P1_redox" => $row[14],
-                    "P2" => $row[15],
-                    "P2_ph" => $row[16],
-                    "P2_redox" => $row[17],
-                    "P3" => $row[18],
-                    "P3_ph" => $row[19],
-                    "P3_redox" => $row[20],
-                    "P4" => $row[21],
-                    "P4_ph" => $row[22],
-                    "P4_redox" => $row[23],
-                    "commentaire_ttcr" => $row[24],
                 ];
                
             }
@@ -173,6 +159,22 @@ class KizeoController extends Controller
                 $item['niveau_remplissage'] = str_replace('m', '', $item['niveau_remplissage']);
                 $item['niveau_remplissage'] = str_replace('M', '', $item['niveau_remplissage']);
             }
+
+            if(preg_match($regex_replissage_2, $item['niveau_remplissage'])) {
+                // If the niveau_remplissage is a number with decimal places, we keep it as is
+                $req = explode('.', $item['niveau_remplissage']);
+                if($req[0] == 1) {
+                    // If the first part is 0, we assume it's a percentage
+                    $item['niveau_remplissage'] = $req[0]. $req[1];
+                } elseif($req[0] == 2) {
+                    // If the first part is 2, we assume it's a percentage
+                    $item['niveau_remplissage'] = $req[0]. $req[1];
+                } else {
+                    // Otherwise, we keep the full value
+                    $item['niveau_remplissage'] = $req[1];
+                }
+                
+            } 
             
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
