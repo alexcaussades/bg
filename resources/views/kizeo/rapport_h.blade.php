@@ -29,9 +29,15 @@ use Carbon\Carbon;
         <tbody>
             <tr>
                 <td scope="row">
-                    @foreach($data['torch'] as $torch)
+                    @if ($data['torch'] == null)
+                        @foreach($data['ttcr'] as $ttcr)
+                            {{ Carbon::createFromFormat('d/m/Y H:i', $ttcr->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
+                        @endforeach
+                    @else
+                        @foreach($data['torch'] as $torch)
                         {{ Carbon::createFromFormat('d/m/Y H:i', $torch->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
-                    @endforeach
+                        @endforeach
+                    @endif  
                 </td>
                 <td>
                     @foreach($data['biogaz'] as $biogaz)
@@ -90,16 +96,8 @@ use Carbon\Carbon;
     <thead class="thead-inverse">
         <tr>
             <th>Date</th>
-            <th>P1 PH</th>
-            <th>P1 Redox</th>
-            <th>P2 PH</th>
-            <th>P2 Redox</th>
-            <th>P3 PH</th>
-            <th>P3 Redox</th>
-            <th>P4 PH</th>
-            <th>P4 Redox</th>
-            <th>B1 (Niveaux)</th>
-            <th>B2 (Niveaux)</th>
+            <th>B1 (Niveau)</th>
+            <th>B2 (Niveau)</th>
             <th>B3 (%)</th>
             <th>Totaliseur TTCR (m3)</th>
         </tr>
@@ -107,49 +105,15 @@ use Carbon\Carbon;
         <tbody>
             <tr>
                 <td scope="row">
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ Carbon::createFromFormat('d/m/Y H:i', $ttcr->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P1_ph ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P1_redox ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P2_ph ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P2_redox ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P3_ph ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P3_redox ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P4_ph ?? "NC" }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($data['ttcr'] as $ttcr)
-                        {{ $ttcr->P4_redox ?? "NC" }}<br>
-                    @endforeach
+                    @if ($data['ttcr'] == null)
+                        @foreach($data['bassin'] as $bassin)
+                            {{ Carbon::createFromFormat('d/m/Y H:i', $bassin->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
+                        @endforeach
+                    @else
+                        @foreach($data['ttcr'] as $ttcr)
+                            {{ Carbon::createFromFormat('d/m/Y H:i', $ttcr->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
+                        @endforeach
+                    @endif
                 </td>
                 <td>
                     @foreach($data['bassin'] as $bassin)

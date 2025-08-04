@@ -99,19 +99,6 @@ class KizeoModel extends Model
             'niveau_remplissage' => $data['niveau_remplissage'],
             'totalisseur_mc' => $data['totalisseur_mc'],
             'Consigne_TTCR' => $data['Consigne_TTCR'],
-            'P1' => $data['P1'],
-            'P1_ph' => $data['P1_ph'],
-            'P1_redox' => $data['P1_redox'],
-            'P2' => $data['P2'],
-            'P2_ph' => $data['P2_ph'],
-            'P2_redox' => $data['P2_redox'],
-            'P3' => $data['P3'],
-            'P3_ph' => $data['P3_ph'],
-            'P3_redox' => $data['P3_redox'],
-            'P4' => $data['P4'],
-            'P4_ph' => $data['P4_ph'],
-            'P4_redox' => $data['P4_redox'],
-            'commentaire_ttcr' => $data['commentaire_ttcr']
         ]);
     }
 

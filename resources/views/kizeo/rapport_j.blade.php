@@ -153,46 +153,6 @@ Réalisé par : {{ $data["ttcr"][0]->Created_by }}<br>
         </tbody>
 </table>
 
-<table class="table table-striped table-inverse table-responsive mt-2">
-    <thead class="thead-inverse">
-        <tr>
-            <th>P1 PH</th>
-            <th>P1 Redox</th>
-            <th>P2 PH</th>
-            <th>P2 Redox</th>
-            <th>P3 PH</th>
-            <th>P3 Redox</th>
-            <th>P4 PH</th>
-            <th>P4 Redox</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td scope="row">{{ $data["ttcr"][0]->P1_ph ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P1_redox ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P2_ph ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P2_redox ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P3_ph ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P3_redox ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P4_ph ?? "NC" }}</td>
-                <td>{{ $data["ttcr"][0]->P4_redox ?? "NC" }}</td>
-            </tr>
-        </tbody>
-</table>
-
-<table class="table table-striped table-responsive mt-2">
-    <thead>
-        <tr>
-            <th>Commentaire</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td scope="row">{{ $data["ttcr"][0]->commentaire_ttcr ?? "RAS" }}</td>
-        </tr>
-    </tbody>
-</table>
-
 <table class="table table-striped table-responsive mt-2">
     <thead>
         <tr>
