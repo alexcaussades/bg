@@ -146,11 +146,11 @@ class KizeoModel extends Model
             ->where('Date_de_mesure', 'like', '%' . $date . '%')
             ->get();
         return [
-            'bassin' => $data,
-            'torch' => $torchData,
-            'ttcr' => $ttcrData,
-            'biogaz' => $biogazData,
-            "date" => $date
+            'bassin' => $data ?? [],
+            'torch' => $torchData ?? [],
+            'ttcr' => $ttcrData ?? [],
+            'biogaz' => $biogazData ?? [],
+            "date" => $date 
         ];
 
         //Recherche d'informations dans la base de données Kizeo avec la date de mesure en fesant une requete LIKE 
@@ -176,10 +176,10 @@ class KizeoModel extends Model
             ->get()->toArray();
 
         return [
-            'torch' => $data,
-            'biogaz' => $data2,
-            'ttcr' => $data3,
-            'bassin' => $data4
+            'torch' => $data ?? [],
+            'biogaz' => $data2 ?? [],
+            'ttcr' => $data3 ?? [],
+            'bassin' => $data4 ?? []
         ];
     }
     
