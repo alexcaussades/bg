@@ -97,8 +97,8 @@ class KizeoController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
 
-            $regex_QMES = "/[0-9]{3,}/";
-            $regex_Qbch4 = "/[0-9]{3,}/";
+            $regex_QMES = "/[0-9]{3}/";
+            $regex_Qbch4 = "/[0-9]{3}/";
 
             foreach ($data as $row) {
                 $item = [
@@ -116,6 +116,18 @@ class KizeoController extends Controller
                     "Volume_contine_VB" => $row[18],
                     "commentaire_fuji" => $row[20],
                 ];
+            }
+
+            if (preg_match($regex_QMES, $item['Qmes'])) {
+                // If Qmes is a number with 3 or more digits, we keep it as is
+                $req = explode('.', $item['Qmes']);
+                $item['Qmes'] = $req[0];
+            }
+
+            if (preg_match($regex_Qbch4, $item['QbCH'])) {
+                // If QbCH is a number with 3 or more digits, we keep it as is
+                $req = explode('.', $item['QbCH']);
+                $item['QbCH'] = $req[0];
             }
             
             // Convert the date to a Carbon instance and format it
