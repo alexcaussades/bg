@@ -26,6 +26,7 @@ class KizeoController extends Controller
         $name = preg_replace('/[^\x00-\x7F]/', '', $name);
         $name = trim($name);
         $recuperer = explode('_', $name);
+        //dd($recuperer);
         if ($recuperer[3] == 'Saulaie') {
             $this->import_kizeo_ttcr($request);
         }
@@ -35,7 +36,7 @@ class KizeoController extends Controller
         if ($recuperer[3] == 'Bassins') {
             $this->import_kizeo_bassin($request);
         }
-        if ($recuperer[3] == 'Torchère') {
+        if ($recuperer[3] == 'Torchre') {
             $this->import_kizeo_Torch_Vapo($request);
         }
 
@@ -101,6 +102,7 @@ class KizeoController extends Controller
             $regex_Qbch4 = "/[0-9]{3}/";
 
             foreach ($data as $row) {
+                
                 $item = [
                     "Created_by" => $row[6],
                     // recuper la date de la celliule 4
@@ -129,6 +131,8 @@ class KizeoController extends Controller
                 $req = explode('.', $item['QbCH']);
                 $item['QbCH'] = $req[0];
             }
+            //dd($item);
+            
             
             // Convert the date to a Carbon instance and format it
             // Assuming the date is in the format 'm/d/Y H:i'
