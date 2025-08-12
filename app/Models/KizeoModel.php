@@ -147,19 +147,19 @@ class KizeoModel extends Model
     public function Preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out)
     {
         $data = DB::table('kizeo_torch')
-            ->whereBetween('Date_de_mesure', [$date_in, '>=',$date_out])->orderBy('Date_de_mesure', 'asc')
+            ->whereBetween('Date_de_mesure', [$date_in, $date_out])->orderBy('Date_de_mesure', 'asc')
             ->get()->toArray();
 
         $data2 = DB::table('kizeo_biogaz')
-            ->whereBetween('Date_de_mesure', [$date_in, '>=', $date_out])->orderBy('Date_de_mesure', 'asc')
+            ->whereBetween('Date_de_mesure', [$date_in, $date_out])->orderBy('Date_de_mesure', 'asc')
             ->get()->toArray();
 
         $data3 = DB::table('kizeo_ttcr')
-            ->whereBetween('Date_de_mesure', [$date_in, '>=', $date_out])->orderBy('Date_de_mesure', 'asc')
+            ->whereBetween('Date_de_mesure', [$date_in, $date_out])->orderBy('Date_de_mesure', 'asc')
             ->get()->toArray();
 
         $data4 = DB::table('kizeo_bassin')
-            ->whereBetween('Date_de_mesure', [$date_in, '>=', $date_out])->orderBy('Date_de_mesure', 'asc')
+            ->whereBetween('Date_de_mesure', [$date_in, $date_out])->orderBy('Date_de_mesure', 'asc')
             ->get()->toArray();
 
         return [
