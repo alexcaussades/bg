@@ -242,7 +242,18 @@ route::prefix('history')->group(function(){
     Route::get("/history-puit", function(){
         $session = new puitsController();
         $session = $session->show();
-        return view('history.by-puit', ['session' => $session]);
+        $favorite = new puitsController();
+        $torch = $favorite->show_name("ALVTORCH");
+        $col1 = $favorite->show_name("ALV0COL1");
+        $col2 = $favorite->show_name("ALV0COL2");
+
+        $favorite = [
+            'torch' => $torch,
+            'col1' => $col1,
+            'col2' => $col2
+        ];
+
+        return view('history.by-puit', ['session' => $session, 'favorite' => $favorite]);
     })->name('history.puit')->middleware('auth');
 
     Route::get("/history-puit/{puit}", function(Request $request){

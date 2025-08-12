@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 <div class="container mt-5">
 
+    <h3>Historique des mesures par puits</h3>
+
     <form action="{{ route('history.puit.id', ["puit"])}}" method="get">
         <div class="mb-3">
             <label for="puit" class="form-label">Sélectionnez un puits</label>
