@@ -26,14 +26,17 @@ class KizeoController extends Controller
 
         // Récupérer tous les fichiers téléchargés
         $files = $request->file('fichier');
+        $files = array_filter($files);
+        //dd($files);
         $date = $request->date;
         // mettre la date en fancais jj/mm/aaaa
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         // debeug pour voir les fichiers
         
-        // Parcourir chaque fichier et l'importer
-        foreach ($files as $file) {
-            $name = $file->getClientOriginalName();
+        // Parcourir array et l'importer selon le type de fichier
+
+        for($i=0; $i < count($files); $i++) {
+            $name = $files[$i]->getClientOriginalName();
             $name = preg_replace('/[^\x00-\x7F]/', '', $name);
             $name = trim($name);
             $recuperer = explode('_', $name);
@@ -51,8 +54,32 @@ class KizeoController extends Controller
             if ($recuperer[3] == 'Torchre') {
                 $this->import_kizeo_Torch_Vapo($request, $date);
         }
+        }
 
-    }
+
+        // foreach ($files as $file) {
+            
+        //     dd($file->getClientOriginalName());
+            
+        //     $name = preg_replace('/[^\x00-\x7F]/', '', $name);
+        //     $name = trim($name);
+        //     $recuperer = explode('_', $name);
+            
+        //     if ($recuperer[3] == 'Saulaie') {
+        //         $this->import_kizeo_ttcr($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Biogaz') {
+        //         $this->import_kizeo_biogaz($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Bassins') {
+        //         // voir si c'est le bon fichier qui est importé
+        //        $this->import_kizeo_bassin($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Torchre') {
+        //         $this->import_kizeo_Torch_Vapo($request, $date);
+        // }
+
+    
         return redirect()->back()->with('success', 'Fichiers importés avec succès.');
     }
 
@@ -118,19 +145,6 @@ class KizeoController extends Controller
                     "commentaire_fuji" => $row[20] ?? null,
                 ];
             }
-            //dd($item);
-            // if (preg_match($regex_QMES, $item['Qmes'])) {
-            //     // If Qmes is a number with 3 or more digits, we keep it as is
-            //     $req = explode('.', $item['Qmes']);
-            //     $item['Qmes'] = $req[0];
-            // }
-
-            // if (preg_match($regex_Qbch4, $item['QbCH'])) {
-            //     // If QbCH is a number with 3 or more digits, we keep it as is
-            //     $req = explode('.', $item['QbCH']);
-            //     $item['QbCH'] = $req[0];
-            // }
-
             $kizeo = new Kizeo();
             $kizeo->StoreTorch($item);
 
