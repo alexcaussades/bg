@@ -49,7 +49,7 @@ class TtcrController extends Controller
     {
         $ttcr = new ttcr();
         $ttcr->compteur = $data['compteur'];
-        $ttcr->evolution = $data['compteur'] - ttcr::latest()->first()->compteur;
+        $ttcr->evolution = $data['compteur'] = ttcr::latest()->first()->compteur ?? null;
         $ttcr->hauteur = $data['hauteur'];
         $ttcr->volume = $this->hauteurdeau($data['hauteur']);
         $ttcr->save();

@@ -12,11 +12,11 @@
 
 
 <hr>
+
+@if ($data["bassin"][0]->Date_de_mesure ?? false)
 <h4 class="mt-2">Bassin</h4>
-
 <p>Réalisé par : {{ $data["bassin"][0]->Created_by ?? "NC" }}</p>
-
-
+    
 <div class="table table-responsive mt-2">
     <table class="table table-striped table-inverse">
         <thead class="thead-inverse">
@@ -53,6 +53,9 @@
     </table>
 </div>
 <hr>
+@endif
+
+@if ($data["torch"][0]->Date_de_mesure ?? false)
 <h4 class="mt-2">Caisson Vapo & Torch & Biogaz</h4>
 Réalisé par : {{ $data["torch"][0]->Created_by ?? "Autre" }}<br>
 
@@ -138,6 +141,9 @@ Réalisé par : {{ $data["torch"][0]->Created_by ?? "Autre" }}<br>
         </tbody>
 </table>
 <hr>
+@endif
+
+@if ($data["ttcr"][0]->Date_de_mesure ?? false)
 <h4 class="mt-2">TTCR</h4>
 Réalisé par : {{ $data["ttcr"][0]->Created_by }}<br>
 <table class="table table-striped table-responsive mt-2">
@@ -165,9 +171,11 @@ Réalisé par : {{ $data["ttcr"][0]->Created_by }}<br>
         <tr>
             <td scope="row">{{ $data["ttcr"][0]->totalisseur_mc ?? "NC" }}</td>
             <td>{{ $data["ttcr"][0]->niveau_remplissage ?? "NC" }}</td>
-            <td>{{ $ttcr }}</td>
+            <td>{{ $data["ttcr"][0]->volume_restant_bache ?? "NC" }}</td>
         </tr>
     </tbody>
 </table>
+@endif
+
 
 @endsection
