@@ -10,7 +10,7 @@ use Carbon\Carbon;
 <div class="container">
     <div class="row">
         <div class="alert alert-primary" role="alert">
-            <h4 class="alert-heading">Consignes TTCR {{ carbon::parse($ttcr_consignes[0]->Date_de_mesure)->timezone("europe/paris")->format("m/d/Y") }}</h4>
+            <h4 class="alert-heading">Consignes TTCR {{ try { carbon::parse($ttcr_consignes[0]->Date_de_mesure)->timezone("europe/paris")->format("m/d/Y") } catch (Exception $e) { "Date invalide" } }}</h4>
             <p>
                 @if($ttcr_consignes)
                     {{ $ttcr_consignes[0]->Consigne_TTCR }}

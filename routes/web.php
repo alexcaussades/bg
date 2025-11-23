@@ -203,7 +203,7 @@ Route::prefix("reglage")->group(function(){
         ];
         $puit = new puitsController();
         $puits_id = $puit->show_name($request->name);
-        $puit->update($puits_id[0]->id, $data);
+        //$puit->update($puits_id[0]->id, $data);
         $reglage = new regalgeController();
         $get_name = $reglage->get_puits_by_name_route($request->name);
         return redirect()->route('reglage.formule', ['id' => $get_name[0]->id]);
@@ -270,7 +270,7 @@ route::prefix('history')->group(function(){
         $puit = new puitsController();
         $puit = $puit->moyene($id);
         $note_sr = new NoteController();
-        $note_sr = $note_sr->puits_id($data_puit[0]->id);
+        //$note_sr = $note_sr->puits_id($data_puit[0]->id);
         return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info, 'puit' => $data_puit, 'note' => $note_sr]);
     })->name('history.puit.id')->middleware('auth');
 })->middleware('auth');
@@ -516,9 +516,6 @@ Route::prefix('kizeo')->group(function(){
     })->name('kizeo.import')->middleware('auth');
 
     Route::post('import', function(Request $request){
-        $request->validate([
-            'fichier' => 'required|mimes:xlsx,csv',
-        ]);
         $kizeo = new KizeoController();
         $kizeo->import_kizeo($request);
         return redirect()->back()->with('success', 'Data imported successfully.');
@@ -588,10 +585,7 @@ Route::prefix('kizeo')->group(function(){
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
         $ttcr = new ttcrController();
-        if($data["ttcr"]->isEmpty()){
-            return view("kizeo.404_kizeo", ['date' => $date]);
-        } 
-        $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
+       // $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
     })->name('kizeo.rapport_journalier')->middleware('auth');
 

@@ -15,51 +15,90 @@ class KizeoController extends Controller
     
     public function import_kizeo(Request $request)
     {
+        // validation de plusieurs fichiers à la fois
+
         $request->validate([
-            'fichier' => 'required|file|mimes:xlsx,csv',
+            'fichier.*' => 'required|file|mimes:xlsx,csv',
+        ]);
+        $request->validate([
+            'date' => 'required',
         ]);
 
-        $file = $request->file('fichier');
-        $extension = $file->getClientOriginalExtension();
-        $name = $file->getClientOriginalName();
-        // Debugging: Check the file name
-        $name = preg_replace('/[^\x00-\x7F]/', '', $name);
-        $name = trim($name);
-        $recuperer = explode('_', $name);
-        //dd($recuperer);
-        if ($recuperer[3] == 'Saulaie') {
-            $this->import_kizeo_ttcr($request);
+        // Récupérer tous les fichiers téléchargés
+        $files = $request->file('fichier');
+        $files = array_filter($files);
+        //dd($files);
+        $date = $request->date;
+        // mettre la date en fancais jj/mm/aaaa
+        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        // debeug pour voir les fichiers
+        
+        // Parcourir array et l'importer selon le type de fichier
+
+        for($i=0; $i < count($files); $i++) {
+            $name = $files[$i]->getClientOriginalName();
+            $name = preg_replace('/[^\x00-\x7F]/', '', $name);
+            $name = trim($name);
+            $recuperer = explode('_', $name);
+            
+            if ($recuperer[3] == 'Saulaie') {
+                $this->import_kizeo_ttcr($request, $date);
+            }
+            if ($recuperer[3] == 'Biogaz') {
+                $this->import_kizeo_biogaz($request, $date);
+            }
+            if ($recuperer[3] == 'Bassins') {
+                // voir si c'est le bon fichier qui est importé
+               $this->import_kizeo_bassin($request, $date);
+            }
+            if ($recuperer[3] == 'Torchre') {
+                $this->import_kizeo_Torch_Vapo($request, $date);
         }
-        if ($recuperer[3] == 'Biogaz') {
-            $this->import_kizeo_biogaz($request);
-        }
-        if ($recuperer[3] == 'Bassins') {
-            $this->import_kizeo_bassin($request);
-        }
-        if ($recuperer[3] == 'Torchre') {
-            $this->import_kizeo_Torch_Vapo($request);
         }
 
+
+        // foreach ($files as $file) {
+            
+        //     dd($file->getClientOriginalName());
+            
+        //     $name = preg_replace('/[^\x00-\x7F]/', '', $name);
+        //     $name = trim($name);
+        //     $recuperer = explode('_', $name);
+            
+        //     if ($recuperer[3] == 'Saulaie') {
+        //         $this->import_kizeo_ttcr($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Biogaz') {
+        //         $this->import_kizeo_biogaz($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Bassins') {
+        //         // voir si c'est le bon fichier qui est importé
+        //        $this->import_kizeo_bassin($request, $date);
+        //     }
+        //     if ($recuperer[3] == 'Torchre') {
+        //         $this->import_kizeo_Torch_Vapo($request, $date);
+        // }
+
+    
+        return redirect()->back()->with('success', 'Fichiers importés avec succès.');
     }
 
-    public function import_kizeo_bassin(Request $request)
+    public function import_kizeo_bassin(Request $request, $date)
     {
-        $request->validate([
-            'fichier' => 'required|file|mimes:xlsx,csv',
-        ]);
-
+        
         $file = $request->file('fichier');
-        $extension = $file->getClientOriginalExtension();
+        
 
-        if ($extension === 'xlsx') {
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+        if ($file) {
+            $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
             $data = $spreadsheet->getActiveSheet()->toArray();
-
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
+            
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
-                    // recuper la date de la celliule 4
-                    "Date_de_mesure" => $row[5],
+                    "Date_de_mesure" => $date,
                     "Bassin_1" => $row[7],
                     "Commentaire_bassin_1" => $row[9],
                     "Bassin_2" => $row[10],
@@ -67,46 +106,33 @@ class KizeoController extends Controller
                     "Bassin_3" => $row[13],
                     "Commentaire_bassin_3" => $row[15],
                 ];
-
             }
-             // Convert the date to a Carbon instance and format it
-            // Assuming the date is in the format 'm/d/Y H:i'
-            // Adjust the format as necessary based on your data
-            // Here we assume the date is in 'm/d/Y H:i' format
-            $o = self::explode_the_date_time($item['Date_de_mesure']);
-            $item['Date_de_mesure'] = $o;
             $kizeo = new Kizeo();
             $kizeo->StoreBassin($item);
 
-        } elseif ($extension === 'csv') {
-           error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
-        }
-
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
+    }
 
-    public function import_kizeo_Torch_Vapo(Request $request)
+    public function import_kizeo_Torch_Vapo(Request $request, $date)
     {
-        $request->validate([
-            'fichier' => 'required|file|mimes:xlsx,csv',
-        ]);
-
         $file = $request->file('fichier');
-        $extension = $file->getClientOriginalExtension();
+        
 
-        if ($extension === 'xlsx') {
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+        if ($file) {
+            $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
             $data = $spreadsheet->getActiveSheet()->toArray();
-
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             $regex_QMES = "/[0-9]{3}/";
             $regex_Qbch4 = "/[0-9]{3}/";
-
+            
             foreach ($data as $row) {
                 
                 $item = [
                     "Created_by" => $row[6],
                     // recuper la date de la celliule 4
-                    "Date_de_mesure" => $row[5],
+                    "Date_de_mesure" => $date,
                     "ft_heure_Torch" => $row[7],
                     "ft_heure_Vapo" => $row[8],
                     "Temperature_Torch" => $row[9],
@@ -116,58 +142,33 @@ class KizeoController extends Controller
                     "Qmes" => $row[16],
                     "QbCH" => $row[17],
                     "Volume_contine_VB" => $row[18],
-                    "commentaire_fuji" => $row[20],
+                    "commentaire_fuji" => $row[20] ?? null,
                 ];
             }
-
-            if (preg_match($regex_QMES, $item['Qmes'])) {
-                // If Qmes is a number with 3 or more digits, we keep it as is
-                $req = explode('.', $item['Qmes']);
-                $item['Qmes'] = $req[0];
-            }
-
-            if (preg_match($regex_Qbch4, $item['QbCH'])) {
-                // If QbCH is a number with 3 or more digits, we keep it as is
-                $req = explode('.', $item['QbCH']);
-                $item['QbCH'] = $req[0];
-            }
-            //dd($item);
-            
-            
-            // Convert the date to a Carbon instance and format it
-            // Assuming the date is in the format 'm/d/Y H:i'
-            // Adjust the format as necessary based on your data
-            // Here we assume the date is in 'm/d/Y H:i' format
-            $o = self::explode_the_date_time($item['Date_de_mesure']);
-            $item['Date_de_mesure'] = $o;
             $kizeo = new Kizeo();
             $kizeo->StoreTorch($item);
-        } elseif ($extension === 'csv') {
-            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
-        }
 
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
+    }
 
-    public function import_kizeo_ttcr(Request $request)
+    public function import_kizeo_ttcr(Request $request, $date)
     {
-        $request->validate([
-            'fichier' => 'required|file|mimes:xlsx,csv',
-        ]);
-
+        
         $file = $request->file('fichier');
-        $extension = $file->getClientOriginalExtension();
-
-        if ($extension === 'xlsx') {
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+       
+        if ($file) {
+            $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
             $data = $spreadsheet->getActiveSheet()->toArray();
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             $regex_replissage = "/[a-zA-Z]{1}/";
             $regex_replissage_2 = "/[0-9]{1}[.][0-9]{1,}/";
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
                     // recuper la date de la celliule 4
-                    "Date_de_mesure" => $row[5],
+                    "Date_de_mesure" => $date,
                     "niveau_remplissage" => $row[7],
                     "totalisseur_mc" => $row[8],
                     "Consigne_TTCR" => $row[11],
@@ -196,13 +197,6 @@ class KizeoController extends Controller
                 
             } 
             
-            // Convert the date to a Carbon instance and format it
-            // Assuming the date is in the format 'm/d/Y H:i'
-            // Adjust the format as necessary based on your data
-            // Here we assume the date is in 'm/d/Y H:i' format
-            $o = self::explode_the_date_time($item['Date_de_mesure']);
-            $item['Date_de_mesure'] = $o;
-
             $valeur_ttcr = [
                     "hauteur" => $item['niveau_remplissage'],
                     "compteur" => $item['totalisseur_mc'],
@@ -216,32 +210,27 @@ class KizeoController extends Controller
             $ttcr = new TtcrController();
             $ttcr->Store_from_Kizeo_import_file($valeur_ttcr);
 
-        } elseif ($extension === 'csv') {
-            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
-        }
+        
 
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
     }
+}
 
-    public function import_kizeo_biogaz(Request $request)
+    public function import_kizeo_biogaz(Request $request, $date)
     {
-        $request->validate([
-            'fichier' => 'required|file|mimes:xlsx,csv',
-        ]);
-
         $file = $request->file('fichier');
-        $extension = $file->getClientOriginalExtension();
 
-        if ($extension === 'xlsx') {
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+        if ($file) {
+             $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
             $data = $spreadsheet->getActiveSheet()->toArray();
-
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
+            
             foreach ($data as $row) {
 
                 $item = [
                     "Created_by" => $row[6],
-                    // recuper la date de la celliule 4
-                    "Date_de_mesure" => $row[5],
+                    "Date_de_mesure" => $date,
                     "CHquatre" => $row[7],
                     "COdeux" => $row[8],
                     "Odeux" => $row[9],
@@ -253,13 +242,8 @@ class KizeoController extends Controller
             // Assuming the date is in the format 'm/d/Y H:i'
             // Adjust the format as necessary based on your data
             // Here we assume the date is in 'm/d/Y H:i' format
-            
-            $o = self::explode_the_date_time($item['Date_de_mesure']);
-            $item['Date_de_mesure'] = $o;
             $kizeo = new Kizeo();
             $kizeo->StoreBiogaz($item);
-        } elseif ($extension === 'csv') {
-            error('Le format CSV n\'est pas supporté pour l\'importation des données Kizeo.');
         }
 
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
