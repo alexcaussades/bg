@@ -18,23 +18,34 @@ class KizeoController extends Controller
         // validation de plusieurs fichiers à la fois
 
         $request->validate([
-            'fichier.*' => 'required|file|mimes:xlsx,csv',
+            'bassin_file' => 'file|mimes:xlsx,csv',
+            'ttcr_file' => 'file|mimes:xlsx,csv',
+            'biogaz_file' => 'file|mimes:xlsx,csv',
+            'bg500_vapo_file' => 'file|mimes:xlsx,csv',
+            'bg1000_file' => 'file|mimes:xlsx,csv',
+
         ]);
         $request->validate([
             'date' => 'required',
         ]);
 
-        // Récupérer tous les fichiers téléchargés
-        $files = $request->file('fichier');
-        $files = array_filter($files);
-        //dd($files);
+        // Récupérer tous les fichiers téléchargés dans un tableau
+        $files = [
+            $request->file('bassin_file'),
+            $request->file('ttcr_file'),
+            $request->file('biogaz_file'),
+            $request->file('bg500_vapo_file'),
+            $request->file('bg1000_file'),
+        ];
+        $files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
+        //convertir le tableau d'objets sans trou
+        $files = array_values($files);      
         $date = $request->date;
         // mettre la date en fancais jj/mm/aaaa
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         // debeug pour voir les fichiers
-        
         // Parcourir array et l'importer selon le type de fichier
-
+//dd($files);
         for($i=0; $i < count($files); $i++) {
             $name = $files[$i]->getClientOriginalName();
             $name = preg_replace('/[^\x00-\x7F]/', '', $name);
