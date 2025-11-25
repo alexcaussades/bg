@@ -36,73 +36,43 @@ class KizeoController extends Controller
             $request->file('biogaz_file'),
             $request->file('bg500_vapo_file'),
             $request->file('bg1000_file'),
-        ];
-        $files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
+        ];        
+        //$files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
         //convertir le tableau d'objets sans trou
-        $files = array_values($files);      
+
         $date = $request->date;
+        
         // mettre la date en fancais jj/mm/aaaa
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         // debeug pour voir les fichiers
         // Parcourir array et l'importer selon le type de fichier
-//dd($files);
-        for($i=0; $i < count($files); $i++) {
-            $name = $files[$i]->getClientOriginalName();
-            $name = preg_replace('/[^\x00-\x7F]/', '', $name);
-            $name = trim($name);
-            $recuperer = explode('_', $name);
             
-            if ($recuperer[3] == 'Saulaie') {
-                $this->import_kizeo_ttcr($request, $date);
+            if ($files[1] != null) {
+                $this->import_kizeo_ttcr($request, $files[1], $date);
             }
-            if ($recuperer[3] == 'Biogaz') {
-                $this->import_kizeo_biogaz($request, $date);
+            if ($files[2] != null) {
+                $this->import_kizeo_biogaz($request, $files[2], $date);
             }
-            if ($recuperer[3] == 'Bassins') {
+            if ($files[0] != null) {
                 // voir si c'est le bon fichier qui est importé
-               $this->import_kizeo_bassin($request, $date);
+               $this->import_kizeo_bassin($request, $files[0], $date);
             }
-            if ($recuperer[3] == 'Torchre') {
-                $this->import_kizeo_Torch_Vapo($request, $date);
-        }
-        }
-
-
-        // foreach ($files as $file) {
-            
-        //     dd($file->getClientOriginalName());
-            
-        //     $name = preg_replace('/[^\x00-\x7F]/', '', $name);
-        //     $name = trim($name);
-        //     $recuperer = explode('_', $name);
-            
-        //     if ($recuperer[3] == 'Saulaie') {
-        //         $this->import_kizeo_ttcr($request, $date);
-        //     }
-        //     if ($recuperer[3] == 'Biogaz') {
-        //         $this->import_kizeo_biogaz($request, $date);
-        //     }
-        //     if ($recuperer[3] == 'Bassins') {
-        //         // voir si c'est le bon fichier qui est importé
-        //        $this->import_kizeo_bassin($request, $date);
-        //     }
-        //     if ($recuperer[3] == 'Torchre') {
-        //         $this->import_kizeo_Torch_Vapo($request, $date);
-        // }
-
+            if ($files[3] != null) {
+                $this->import_kizeo_Torch_Vapo($request, $files[3], $date);
+            }
+            if ($files[4] != null) {
+                // A implémenter plus tard pour BG1000
+            }
     
         return redirect()->back()->with('success', 'Fichiers importés avec succès.');
     }
 
-    public function import_kizeo_bassin(Request $request, $date)
-    {
-        
-        $file = $request->file('fichier');
-        
+    public function import_kizeo_bassin(Request $request, $file, $date)
+    {      
 
         if ($file) {
             $spreadsheet = new Spreadsheet();
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             
@@ -125,14 +95,12 @@ class KizeoController extends Controller
     }
     }
 
-    public function import_kizeo_Torch_Vapo(Request $request, $date)
+    public function import_kizeo_Torch_Vapo(Request $request, $file, $date)
     {
-        $file = $request->file('fichier');
-        
-
+    
         if ($file) {
             $spreadsheet = new Spreadsheet();
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             $regex_QMES = "/[0-9]{3}/";
@@ -163,14 +131,12 @@ class KizeoController extends Controller
     }
     }
 
-    public function import_kizeo_ttcr(Request $request, $date)
+    public function import_kizeo_ttcr(Request $request, $file, $date)
     {
         
-        $file = $request->file('fichier');
-       
         if ($file) {
             $spreadsheet = new Spreadsheet();
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             $regex_replissage = "/[a-zA-Z]{1}/";
@@ -227,13 +193,11 @@ class KizeoController extends Controller
     }
 }
 
-    public function import_kizeo_biogaz(Request $request, $date)
+    public function import_kizeo_biogaz(Request $request, $file, $date)
     {
-        $file = $request->file('fichier');
-
         if ($file) {
              $spreadsheet = new Spreadsheet();
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file[0]);
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
             

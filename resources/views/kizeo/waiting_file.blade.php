@@ -37,10 +37,10 @@
         <input class="form-control" type="file" id="formFile" name="bg500_vapo_file" accept=".csv , .xlsx">
     </div>
 
-    <div class="mb-3 alert alert-warning" role="alert">
+    <div class="mb-3">
         <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> BG1000 </strong> (.xlsx) à importer</label>
-        <input class="form-control" type="file" id="formFile" name="bg1000_file" accept=".csv , .xlsx">
-        <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci est impossible actuellement</strong>
+        <input class="form-control" type="file" id="formFile" name="bg1000_file" accept=".csv , .xlsx" disabled>
+        
     </div>
 
     <div class="mb-3">
