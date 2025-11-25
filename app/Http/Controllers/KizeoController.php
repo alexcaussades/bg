@@ -36,16 +36,15 @@ class KizeoController extends Controller
             $request->file('biogaz_file'),
             $request->file('bg500_vapo_file'),
             $request->file('bg1000_file'),
-        ];
-        
+        ];        
         //$files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
         //convertir le tableau d'objets sans trou
+
         $date = $request->date;
         
         // mettre la date en fancais jj/mm/aaaa
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         // debeug pour voir les fichiers
-        
         // Parcourir array et l'importer selon le type de fichier
             
             if ($files[1] != null) {
