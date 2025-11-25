@@ -17,8 +17,6 @@
               <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{{ Route("history.puit") }}"><i class="bi bi-search"></i> Recherche de Puits</a></li>
                   <li><a class="dropdown-item" href="{{ Route("puits.show") }}"><i class="bi bi-list-ul"></i> Liste des puits</a></li>
-                  <li><a class="dropdown-item" href="{{ Route("puits.retard") }}"><i class="bi bi-exclamation-square-fill"></i> Puits En retard</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-hand-thumbs-up"></i> État Zéro</a></li>
               </ul>
             </li>
           @endauth
@@ -26,12 +24,6 @@
           @auth
             <li class="nav-item">
               <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
-            </li>
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="{{ Route('consignation.index') }}" title="Consignation & maintenance"><i class="bi bi-wrench-adjustable"></i> Consigner une action</a>
-            </li> --}}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ Route('ttcr.index') }}"><i class="bi bi-droplet"></i> TTCR</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ Route('kizeo.index') }}"><i class="bi bi-file-text"></i> Rapport Kizeo</a>
@@ -47,22 +39,6 @@
                 <li><a class="dropdown-item" href="{{ Route('import.Borehole') }}"><i class="bi bi-filetype-xml"></i> Import Boreholes</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href={{ Route("import.route") }}><i class="bi bi-filetype-xml"></i> Import Route pour le reglages</a></li>
-              </ul>
-            </li>
-          @endauth
-             @auth
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-upload"></i> Kizeo
-              </a>
-              <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ Route('kizeo.register.bassin') }}"><i class="bi bi-filetype-xlsx"></i> Import Bassin</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ Route('kizeo.register.torch_vapo') }}"><i class="bi bi-filetype-xlsx"></i> Import Torch & Vapo</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href={{ Route("kizeo.register.ttcr") }}><i class="bi bi-filetype-xlsx"></i> Import TTCR</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href={{ Route("kizeo.register.biogaz") }}><i class="bi bi-filetype-xlsx"></i> Import Biogaz</a></li>
               </ul>
             </li>
           @endauth

@@ -23,13 +23,34 @@
     @csrf
 
     <div class="mb-3">
-        <label for="date" class="form-label">Date du rapport</label>
+        <label for="date" class="form-label">Date du jour des rapports</label>
         <input type="date" name="date" id="date" class="form-control" required>
     </div>
 
     <div class="mb-3">
-        <label for="formFile" class="form-label">Choisir le fichier Excel (.xlsx) à importer</label>
-        <input class="form-control" type="file" id="formFile" name="fichier[]" accept=".csv , .xlsx" multiple required>
+        <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> Bassins </strong> (.xlsx) à importer</label>
+        <input class="form-control" type="file" id="formFile" name="bassin_file" accept=".csv , .xlsx">
+    </div>
+
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> BG500 - Vapo</strong> (.xlsx) à importer</label>
+        <input class="form-control" type="file" id="formFile" name="bg500_vapo_file" accept=".csv , .xlsx">
+    </div>
+
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> BG1000 </strong> (.xlsx) à importer</label>
+        <input class="form-control" type="file" id="formFile" name="bg1000_file" accept=".csv , .xlsx" disabled>
+        
+    </div>
+
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> Biogaz </strong> (.xlsx) à importer</label>
+        <input class="form-control" type="file" id="formFile" name="biogaz_file" accept=".csv , .xlsx">
+    </div>
+
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> TTCR </strong> (.xlsx) à importer</label>
+        <input class="form-control" type="file" id="formFile" name="ttcr_file" accept=".csv , .xlsx">
     </div>
     {{-- <div class="alert alert-warning" role="alert">
         <strong><i class="bi bi-exclamation-triangle fs-5"></i> l'import de celle-ci sont irréversible</strong>
