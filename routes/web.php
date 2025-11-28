@@ -270,7 +270,7 @@ route::prefix('history')->group(function(){
         $puit = new puitsController();
         $puit = $puit->moyene($id);
         $note_sr = new NoteController();
-        //$note_sr = $note_sr->puits_id($data_puit[0]->id);
+        $note_sr = $note_sr->puits_id($data_puit[0]->id);
         return view('history.by-puit-id', ['data' => $data, 'moyene' => $puit, 'info' => $info, 'puit' => $data_puit, 'note' => $note_sr]);
     })->name('history.puit.id')->middleware('auth');
 })->middleware('auth');
