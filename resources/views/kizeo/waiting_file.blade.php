@@ -5,9 +5,9 @@
 
 
 <div class="container mt-5">
-<h3>Je veux importer un rapport Kizeo</h3>
+<h3>Importer des rapport Kizeo</h3>
 
-<p>Sélectionnez un fichier Excel (.xlsx) pour importer les données.</p>
+<p>Sélectionnez des fichiers Excel (.xlsx) pour importer les données.</p>
 
 
 @if (session('success'))
