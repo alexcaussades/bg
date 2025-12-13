@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KizeoModel as Kizeo;
+use App\Models\puits_lix as PuitsLix;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -23,30 +24,27 @@ class KizeoController extends Controller
             'biogaz_file' => 'file|mimes:xlsx,csv',
             'bg500_vapo_file' => 'file|mimes:xlsx,csv',
             'bg1000_file' => 'file|mimes:xlsx,csv',
+            'puits_lix' => 'file|mimes:xlsx,csv',
+            'option' => 'nullable|string',
 
         ]);
         $request->validate([
             'date' => 'required',
         ]);
 
-        // Récupérer tous les fichiers téléchargés dans un tableau
         $files = [
             $request->file('bassin_file'),
             $request->file('ttcr_file'),
             $request->file('biogaz_file'),
             $request->file('bg500_vapo_file'),
             $request->file('bg1000_file'),
+            $request->file('puits_lix'),
         ];        
-        //$files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
-        //convertir le tableau d'objets sans trou
 
         $date = $request->date;
         
-        // mettre la date en fancais jj/mm/aaaa
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
-        // debeug pour voir les fichiers
-        // Parcourir array et l'importer selon le type de fichier
-            
+
             if ($files[1] != null) {
                 $this->import_kizeo_ttcr($request, $files[1], $date);
             }
@@ -62,6 +60,9 @@ class KizeoController extends Controller
             }
             if ($files[4] != null) {
                 // A implémenter plus tard pour BG1000
+            }
+            if ($files[5] != null) {
+                // A implémenter plus tard pour Puits de lixiviation
             }
     
         return redirect()->back()->with('success', 'Fichiers importés avec succès.');
