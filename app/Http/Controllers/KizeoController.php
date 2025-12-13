@@ -42,6 +42,8 @@ class KizeoController extends Controller
         ];        
 
         $date = $request->date;
+        $option = $request->option;
+        
         
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
 
@@ -180,7 +182,6 @@ class KizeoController extends Controller
                     "compteur" => $item['totalisseur_mc'],
                 ];
 
-            //dd($valeur_ttcr['compteur']);
             // Enregistrement dans la base de données Kizeo
             $kizeo = new Kizeo();
             $kizeo->StoreTTCR($item);
@@ -214,10 +215,28 @@ class KizeoController extends Controller
                     "Commentaire_biogaz" => $row[14] ?? null,
                 ];
             }
-             // Convert the date to a Carbon instance and format it
-            // Assuming the date is in the format 'm/d/Y H:i'
-            // Adjust the format as necessary based on your data
-            // Here we assume the date is in 'm/d/Y H:i' format
+            $kizeo = new Kizeo();
+            $kizeo->StoreBiogaz($item);
+        }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+
+    }
+
+    public function import_kizeo_puits_lix(Request $request, $file, $date)
+    {
+        if ($file) {
+             $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
+            
+            foreach ($data as $row) {
+
+                $item = [
+                    
+                ];
+            }
             $kizeo = new Kizeo();
             $kizeo->StoreBiogaz($item);
         }
