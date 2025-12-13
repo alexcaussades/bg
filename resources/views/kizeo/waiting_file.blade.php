@@ -57,7 +57,7 @@
         <label for="formFile" class="form-label">Choisir le fichier Excel pour les <strong> Puits lixivats </strong> (.xlsx) à importer</label>
         <input class="form-control" type="file" id="formFile" name="puits_lix" accept=".csv , .xlsx">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="option" value="mensuel" id="checkDefault">
+            <input class="form-check-input" type="checkbox" name="option" value="1" id="checkDefault">
             <label class="form-check-label" for="checkDefault">
                 Mesure Mensuel
             </label>

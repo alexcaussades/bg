@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id()->autoIncrement();
             $table->string('name');
             $table->string("auteur")->nullable();
+            $table->string("sonde")->nullable();
             $table->dateTime('date')->nullable();
             $table->string('hauteur')->nullable();
             $table->string('difference')->nullable();
