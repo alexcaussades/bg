@@ -79,17 +79,16 @@ class KizeoController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
-            
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
                     "Date_de_mesure" => $date,
                     "Bassin_1" => $row[7],
-                    "Commentaire_bassin_1" => $row[9],
-                    "Bassin_2" => $row[10],
-                    "Commentaire_bassin_2" => $row[12],
-                    "Bassin_3" => $row[13],
-                    "Commentaire_bassin_3" => $row[15],
+                    "Commentaire_bassin_1" => $row[10],
+                    "Bassin_2" => $row[11],
+                    "Commentaire_bassin_2" => $row[14],
+                    "Bassin_3" => $row[15],
+                    "Commentaire_bassin_3" => $row[18],
                 ];
             }
             $kizeo = new Kizeo();
