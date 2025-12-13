@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KizeoModel as Kizeo;
+use App\Models\puits_lix as PuitsLix;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -23,30 +24,29 @@ class KizeoController extends Controller
             'biogaz_file' => 'file|mimes:xlsx,csv',
             'bg500_vapo_file' => 'file|mimes:xlsx,csv',
             'bg1000_file' => 'file|mimes:xlsx,csv',
+            'puits_lix' => 'file|mimes:xlsx,csv',
+            'option' => 'nullable|boolean',
 
         ]);
         $request->validate([
             'date' => 'required',
         ]);
 
-        // Récupérer tous les fichiers téléchargés dans un tableau
         $files = [
             $request->file('bassin_file'),
             $request->file('ttcr_file'),
             $request->file('biogaz_file'),
             $request->file('bg500_vapo_file'),
             $request->file('bg1000_file'),
+            $request->file('puits_lix'),
         ];        
-        //$files = collect($files)->filter()->all(); // Filtrer les valeurs nulles
-        //convertir le tableau d'objets sans trou
 
         $date = $request->date;
+        $option = $request->option ? 1 : 0;
         
-        // mettre la date en fancais jj/mm/aaaa
+        
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
-        // debeug pour voir les fichiers
-        // Parcourir array et l'importer selon le type de fichier
-            
+
             if ($files[1] != null) {
                 $this->import_kizeo_ttcr($request, $files[1], $date);
             }
@@ -63,6 +63,10 @@ class KizeoController extends Controller
             if ($files[4] != null) {
                 // A implémenter plus tard pour BG1000
             }
+            if ($files[5] != null) {
+                // A implémenter plus tard pour Puits de lixiviation
+                $this->import_kizeo_puits_lix($request, $files[5], $date, $option);
+            }
     
         return redirect()->back()->with('success', 'Fichiers importés avec succès.');
     }
@@ -75,17 +79,16 @@ class KizeoController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
             $data = $spreadsheet->getActiveSheet()->toArray();
             $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
-            
             foreach ($data as $row) {
                 $item = [
                     "Created_by" => $row[6],
                     "Date_de_mesure" => $date,
                     "Bassin_1" => $row[7],
-                    "Commentaire_bassin_1" => $row[9],
-                    "Bassin_2" => $row[10],
-                    "Commentaire_bassin_2" => $row[12],
-                    "Bassin_3" => $row[13],
-                    "Commentaire_bassin_3" => $row[15],
+                    "Commentaire_bassin_1" => $row[10],
+                    "Bassin_2" => $row[11],
+                    "Commentaire_bassin_2" => $row[14],
+                    "Bassin_3" => $row[15],
+                    "Commentaire_bassin_3" => $row[18],
                 ];
             }
             $kizeo = new Kizeo();
@@ -179,7 +182,6 @@ class KizeoController extends Controller
                     "compteur" => $item['totalisseur_mc'],
                 ];
 
-            //dd($valeur_ttcr['compteur']);
             // Enregistrement dans la base de données Kizeo
             $kizeo = new Kizeo();
             $kizeo->StoreTTCR($item);
@@ -213,13 +215,219 @@ class KizeoController extends Controller
                     "Commentaire_biogaz" => $row[14] ?? null,
                 ];
             }
-             // Convert the date to a Carbon instance and format it
-            // Assuming the date is in the format 'm/d/Y H:i'
-            // Adjust the format as necessary based on your data
-            // Here we assume the date is in 'm/d/Y H:i' format
             $kizeo = new Kizeo();
             $kizeo->StoreBiogaz($item);
         }
+
+        return redirect()->back()->with('success', 'Fichier importé avec succès.');
+
+    }
+
+    public function import_kizeo_puits_lix(Request $request, $file, $date, $option)
+    {
+        if ($file) {
+             $spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+            $data = array_slice($data, 1); // Supprimer la première ligne (en-têtes)
+            $items = [];
+            foreach ($data as $row) {
+
+                $item1 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL1",
+                    "hauteur" => $row[8],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item2 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL2",
+                    "hauteur" => $row[11],
+                    "mensuel" => $option,
+                    
+                ];
+
+                $item3 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL3",
+                    "hauteur" => $row[53],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item4 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL4",
+                    "hauteur" => $row[14],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item5 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL5",
+                    "hauteur" => $row[50],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item6 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL6",
+                    "hauteur" => $row[17],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item7 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL7",
+                    "hauteur" => $row[47],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item8 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL8",
+                    "hauteur" => $row[20],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item9 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL9",
+                    "hauteur" => $row[44],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item10 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL10",
+                    "hauteur" => $row[41],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item11 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL11",
+                    "hauteur" => $row[23],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item12 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL12",
+                    "hauteur" => $row[38],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item13 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL13",
+                    "hauteur" => $row[26],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item14 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL14",
+                    "hauteur" => $row[29],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item15 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL15",
+                    "hauteur" => $row[32],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+                $item16 = [
+                    "Created_by" => $row[6],
+                    "Date_de_mesure" => $date,
+                    "sonde" => $row[7],
+                    "name" => "PL16",
+                    "hauteur" => $row[35],
+                    "mensuel" => $option ?? null,
+                    
+                ];
+
+
+                $items_array = array(
+                    $item1,
+                    $item2,
+                    $item3,
+                    $item4,
+                    $item5,
+                    $item6,
+                    $item7,
+                    $item8,
+                    $item9,
+                    $item10,
+                    $item11,
+                    $item12,
+                    $item13,
+                    $item14,
+                    $item15,
+                    $item16,
+                );
+                foreach ($items_array as $items) {
+                    $puits_lix = new PuitsLix();
+                    if ($items['hauteur'] != null) {
+                    // rechercher si une entrée existe déjà pour cette date, ce nom et cette sonde
+                    $existing_entry = PuitsLix::where('date', $items['Date_de_mesure'])
+                        ->where('name', $items['name'])
+                        ->where('hauteur', $items['hauteur'])
+                        ->first();
+                    if (!$existing_entry) {
+                        $puits_lix->StorePuitsLix($items);
+                    }
+                }
+            }          
+        }
+    }
+    
 
         return redirect()->back()->with('success', 'Fichier importé avec succès.');
 

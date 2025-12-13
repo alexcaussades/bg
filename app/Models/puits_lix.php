@@ -14,9 +14,23 @@ class puits_lix extends Model
     protected $fillable = [
         'name',
         'auteur',
+        'sonde',
         'date',
         'hauteur',
         'difference',
         'mensuel'
     ];
+
+    public function StorePuitsLix($item)
+    {
+        
+        $this->name = $item['name'];
+        $this->auteur = $item['Created_by'];
+        $this->sonde = $item['sonde'];
+        $this->date = $item['Date_de_mesure'];
+        $this->hauteur = $item['hauteur'];
+        $this->difference =  null;
+        $this->mensuel = $item['mensuel'] ?? null;
+        $this->save();
+    }
 }
