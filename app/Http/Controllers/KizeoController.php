@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PHPUnit\Framework\Constraint\RegularExpression;
+use Illuminate\Http\Resources\json\JsonResource;
 
 use function Laravel\Prompts\error;
 
@@ -475,8 +476,16 @@ class KizeoController extends Controller
         return $pp;
     }
 
-    public function get_json_interface(){
+    public function get_hauteur_pourcentage_bassin($bassin = 'b2', $niveau = 190){
         //recuperer le fichier json dans resources json intutuler hauteur_bassin.json
-        
+        $json = file_get_contents(resource_path('json/hauteur_bassin.json'));
+        $json = json_decode($json, true);
+        // recuper une information dans fichier json, b2 nivauau 30
+        $table = [
+            "m3" => $json[$bassin]['Hauteur']['niveau'][$niveau]['m3'],
+            "pourcentage" => $json[$bassin]['Hauteur']['niveau'][$niveau]['pourcentage'],
+        ];
+        return $table;
+
     }
 }

@@ -581,9 +581,9 @@ Route::get('test', function(){
     // dd($open_issues, $last_release);
 
     $puit_lix = new KizeoController();
-    $mouth = 12;
-    $puit_lix = $puit_lix->get_puits_lix_name("PL8");
-    return $puit_lix;
+    //$mouth = 12;
+    $puit_lix = $puit_lix->get_hauteur_pourcentage_bassin("b1", 160);
+    return $puit_lix['pourcentage'];
 
 
 
