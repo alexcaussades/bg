@@ -462,4 +462,16 @@ class KizeoController extends Controller
         // Faire correspondre les $data2['torch']->dates_de_mesure avec le tableau torch et biogaz pour récupérer les données
         return $data2;
     }
+
+    public function get_mensuel_actual($mouth){
+        $puits_lix = new PuitsLix();
+        $pp = $puits_lix->get_mensuel_actual($mouth);
+        return $pp;
+    }
+
+    public function get_puits_lix_name($name){
+        $puits_lix = new PuitsLix();
+        $pp = $puits_lix->get_name_lix($name);
+        return $pp;
+    }
 }

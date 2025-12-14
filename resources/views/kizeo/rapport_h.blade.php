@@ -35,7 +35,7 @@ use Carbon\Carbon;
                         @endforeach
                     @else
                         @foreach($data['torch'] as $torch)
-                        {{ Carbon::createFromFormat('d/m/Y H:i', $torch->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
+                        <br>
                         @endforeach
                     @endif  
                 </td>
@@ -111,7 +111,7 @@ use Carbon\Carbon;
                         @endforeach
                     @else
                         @foreach($data['ttcr'] as $ttcr)
-                            {{ Carbon::createFromFormat('d/m/Y H:i', $ttcr->Date_de_mesure)->format('d/m/Y') ?? "NC" }}<br>
+                            <br>
                         @endforeach
                     @endif
                 </td>
