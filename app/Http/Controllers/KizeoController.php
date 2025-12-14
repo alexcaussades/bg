@@ -474,4 +474,9 @@ class KizeoController extends Controller
         $pp = $puits_lix->get_name_lix($name);
         return $pp;
     }
+
+    public function get_json_interface(){
+        //recuperer le fichier json dans resources json intutuler hauteur_bassin.json
+        
+    }
 }
