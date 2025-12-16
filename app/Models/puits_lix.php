@@ -55,4 +55,12 @@ class puits_lix extends Model
         $lix_mensuel = DB::table("kizeo_puit_lix")->where("mensuel", 1)->where('date', 'like', '%' . $date . '%')->orderby("id", "desc")->get();
         return $lix_mensuel; 
     }
+
+    public function get_all_lix_unique(){
+        $lix_unique = DB::table("kizeo_puit_lix")->distinct()->get(['name']);
+        $lix_unique = $lix_unique->map(function($item){
+            return $item->name;
+        });
+        return $lix_unique; 
+    }
 }

@@ -476,6 +476,12 @@ class KizeoController extends Controller
         return $pp;
     }
 
+    public function get_puits_lix_name_nique(){
+        $puits_lix = new PuitsLix();
+        $pp = $puits_lix->get_all_lix_unique();
+        return $pp;
+    }
+
     public function get_hauteur_pourcentage_bassin($bassin = 'b2', $niveau = 190){
         //recuperer le fichier json dans resources json intutuler hauteur_bassin.json
         $json = file_get_contents(resource_path('json/hauteur_bassin.json'));
