@@ -549,6 +549,7 @@ Route::prefix('kizeo')->group(function(){
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
+        //dd($data);
         $ttcr = new ttcrController();
        // $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
@@ -582,7 +583,7 @@ Route::get('test', function(){
 
     $puit_lix = new KizeoController();
     //$mouth = 12;
-    $puit_lix = $puit_lix->get_puits_lix_name_nique();
+    $puit_lix = $puit_lix->get_hauteur_pourcentage_bassin("b2", 210);
     return $puit_lix;
 
 

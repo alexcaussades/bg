@@ -483,14 +483,56 @@ class KizeoController extends Controller
     }
 
     public function get_hauteur_pourcentage_bassin($bassin = 'b2', $niveau = 190){
-        //recuperer le fichier json dans resources json intutuler hauteur_bassin.json
-        $json = file_get_contents(resource_path('json/hauteur_bassin.json'));
-        $json = json_decode($json, true);
-        // recuper une information dans fichier json, b2 nivauau 30
-        $table = [
-            "m3" => $json[$bassin]['Hauteur']['niveau'][$niveau]['m3'],
-            "pourcentage" => $json[$bassin]['Hauteur']['niveau'][$niveau]['pourcentage'],
-        ];
+        //dd($bassin, $niveau);
+        $regex_niveau = "/[0-9]{2,3}/";
+        $regex_niveau_term5 = "/[0-9]{0,2}[5]{1}/";
+        if(!preg_match($regex_niveau, $niveau)) {
+            return [
+                "m3" => 0,
+                "pourcentage" => 0,
+            ];
+        }
+        if(preg_match($regex_niveau_term5, $niveau)) {
+            $table = [];
+            //modifier le niveau 185 en 1,85
+            $regex_niveau_decimal = "/[0-9]{1}[5]{1}/";
+            if(preg_match($regex_niveau_decimal, $niveau)) {
+                $count = strlen($niveau);
+                if($count == 2) {
+                    $niveau = $niveau / 10;
+                    $niveau = (int)$niveau;
+                } elseif($count == 3) {
+                    $niveau = $niveau / 100;
+                }            
+            }
+            //dd($niveau);
+            if($bassin == 'b2') {
+                $pourcentage = ($niveau*1800)/2.5;
+                 $table = [
+                    "niveau" => $niveau,
+                    "m3" => ($niveau*1800)/2.5 ,
+                    "pourcentage" => ($pourcentage / 1800) * 100,
+                ];
+            } elseif($bassin == 'b1') {
+                $pourcentage = ($niveau*1400)/2.5;
+                $table = [
+                    "niveau" => $niveau,
+                    "m3" => ($niveau*1400)/2.5 ,
+                    "pourcentage" => ($pourcentage / 1400) * 100,
+                ];
+            }
+        }else {
+            //recuperer le fichier json dans resources json intutuler hauteur_bassin.json
+            $json = file_get_contents(resource_path('json/hauteur_bassin.json'));
+            $json = json_decode($json, true);
+            // recuper une information dans fichier json, b2 nivauau 30
+            $table = [
+                "m3" => $json[$bassin]['Hauteur']['niveau'][$niveau]['m3'],
+                "pourcentage" => $json[$bassin]['Hauteur']['niveau'][$niveau]['pourcentage'],
+            ];
+        }
+
+       
         return $table;
 
     }
