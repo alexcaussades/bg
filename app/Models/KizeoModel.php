@@ -139,6 +139,10 @@ class KizeoModel extends Model
                 $niveauB2 = $r->get_hauteur_pourcentage_bassin("b2",$data[0]->Bassin_2);
                 $data[0]->Bassin_1 = $data[0]->Bassin_1. " - " . $niveauB1["m3"].' m3 - '.$niveauB1['pourcentage'].' %';
                 $data[0]->Bassin_2 = $data[0]->Bassin_2. " - " .$niveauB2["m3"].' m3 - '.$niveauB2['pourcentage'].' %';
+            }else{
+                return [
+                    'bassin' => [],
+                ];
             }
             
 
