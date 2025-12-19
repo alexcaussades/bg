@@ -26,6 +26,10 @@
               <a class="nav-link" href="{{ Route('note') }}"><i class="bi bi-journal-plus"></i> Note</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="#"><i class="bi bi-graph-down
+                "></i> Puits lixivats</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{ Route('kizeo.index') }}"><i class="bi bi-file-text"></i> Rapport Kizeo</a>
             </li>
             @auth

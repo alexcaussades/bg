@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\KizeoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -119,7 +120,7 @@ class KizeoModel extends Model
     {
         //like date_de_mesure pour rechercher les données
         //$date = $date->format('d-m-Y');
-
+        $r = new KizeoController();
         $data = DB::table('kizeo_bassin')
             ->where('Date_de_mesure', 'like', '%' . $date . '%')
             ->get();
@@ -132,7 +133,20 @@ class KizeoModel extends Model
         $biogazData = DB::table('kizeo_biogaz')
             ->where('Date_de_mesure', 'like', '%' . $date . '%')
             ->get();
-        return [
+            
+            if($data[0]->Bassin_1 != null && $data[0]->Bassin_2 != null && $data[0]->Bassin_3 != null){
+                $niveauB1 = $r->get_hauteur_pourcentage_bassin("b1",$data[0]->Bassin_1);
+                $niveauB2 = $r->get_hauteur_pourcentage_bassin("b2",$data[0]->Bassin_2);
+                $data[0]->Bassin_1 = $data[0]->Bassin_1. " - " . $niveauB1["m3"].' m3 - '.$niveauB1['pourcentage'].' %';
+                $data[0]->Bassin_2 = $data[0]->Bassin_2. " - " .$niveauB2["m3"].' m3 - '.$niveauB2['pourcentage'].' %';
+            }else{
+                return [
+                    'bassin' => [],
+                ];
+            }
+            
+
+            return [
             'bassin' => $data ?? [],
             'torch' => $torchData ?? [],
             'ttcr' => $ttcrData ?? [],

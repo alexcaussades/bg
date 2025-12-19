@@ -21,6 +21,7 @@ use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\AnalyseBioController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
+use Model\App\Models\puits_lix;
 
 /*
 |--------------------------------------------------------------------------
@@ -537,42 +538,6 @@ Route::prefix('kizeo')->group(function(){
         return view('kizeo.biogaz');
     })->name('kizeo.register.biogaz')->middleware('auth');
 
-    Route::post('/import_kizeo_bassin', function(Request $request){
-        $request->validate([
-            'fichier' => 'required|mimes:xlsx,csv',
-        ]);
-        $kizeo = new KizeoController();
-        $kizeo->import_kizeo_bassin($request);
-        return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('kizeo.import_kizeo_bassin')->middleware('auth');
-
-    Route::post('/import_kizeo_torch_vapo', function(Request $request){
-        $request->validate([
-            'fichier' => 'required|mimes:xlsx,csv',
-        ]);
-        $kizeo = new KizeoController();
-        $kizeo->import_kizeo_Torch_Vapo($request);
-        return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('kizeo.import_kizeo_torch_vapo')->middleware('auth');
-
-    Route::post('/import_kizeo_ttcr', function(Request $request){
-        $request->validate([
-            'fichier' => 'required|mimes:xlsx,csv',
-        ]);
-        $kizeo = new KizeoController();
-        $kizeo->import_kizeo_ttcr($request);
-        return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('kizeo.import_kizeo_ttcr')->middleware('auth');
-
-    Route::post('/import_kizeo_biogaz', function(Request $request){
-        $request->validate([
-            'fichier' => 'required|mimes:xlsx,csv',
-        ]);
-        $kizeo = new KizeoController();
-        $kizeo->import_kizeo_biogaz($request);
-        return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('kizeo.import_kizeo_biogaz')->middleware('auth');
-
     Route::get('/rapport_journalier/', function(Request $request){
         $request->merge([
             'date' => $request->date,
@@ -584,6 +549,7 @@ Route::prefix('kizeo')->group(function(){
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         $kizeo = new KizeoController();
         $data = $kizeo->Preparation_rapport_journalier($date);
+        //dd($data);
         $ttcr = new ttcrController();
        // $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
         return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
@@ -610,8 +576,16 @@ Route::prefix('kizeo')->group(function(){
 });
 
 Route::get('test', function(){
-    $github = new GithubController();
-    $last_release = $github->release_last();
-    $open_issues = $github->open_issues();
-    dd($open_issues, $last_release);
+    // $github = new GithubController();
+    // $last_release = $github->release_last();
+    // $open_issues = $github->open_issues();
+    // dd($open_issues, $last_release);
+
+    $puit_lix = new KizeoController();
+    //$mouth = 12;
+    $puit_lix = $puit_lix->get_hauteur_pourcentage_bassin("b2", 210);
+    return $puit_lix;
+
+
+
 })->name('test')->middleware('auth');

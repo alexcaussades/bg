@@ -1,0 +1,218 @@
+{
+    "b1":{
+        "Hauteur":{
+            "contenance_maximal": 1400,
+            "hauteur_maximal": 2.5,
+            "niveau":{
+                "10":{
+                    "m3": 56,
+                    "pourcentage": 4
+                },
+                "20":{
+                    "m3": 112,
+                    "pourcentage": 8
+                },
+                "30":{
+                    "m3": 168,
+                    "pourcentage": 12
+                },
+                "40":{
+                    "m3": 224,
+                    "pourcentage": 16
+                },
+                "50":{
+                    "m3": 280,
+                    "pourcentage": 20
+                },
+                "60": {
+                    "m3": 336,
+                    "pourcentage": 24
+                },
+                "70":{
+                    "m3": 392,
+                    "pourcentage": 28
+                },
+                "80":{
+                    "m3": 448,
+                    "pourcentage": 32
+                },
+                "90":{
+                    "m3": 504,
+                    "pourcentage": 36
+                },
+                "100":{
+                    "m3": 560,
+                    "pourcentage": 40
+                },
+                "110":{
+                    "m3": 616,
+                    "pourcentage": 44
+                },
+                "120": {
+                    "m3": 672,
+                    "pourcentage": 48
+                },
+                "130":{
+                    "m3": 728,
+                    "pourcentage": 52
+                },
+                "140":{
+                    "m3": 784,
+                    "pourcentage": 56
+                },
+                "150":{
+                    "m3": 840,
+                    "pourcentage": 60
+                },
+                "160":{
+                    "m3": 896,
+                    "pourcentage": 64
+                },
+                "170": {
+                    "m3": 952,
+                    "pourcentage": 68
+                },
+                "180":{
+                    "m3": 1008,
+                    "pourcentage": 72
+                },
+                "190": {
+                    "m3": 1064,
+                    "pourcentage": 76
+                },
+                "200":{
+                    "m3": 1120,
+                    "pourcentage": 80
+                },
+                "210":{
+                    "m3": 1176,
+                    "pourcentage": 84
+                },
+                "220":{
+                    "m3": 1232,
+                    "pourcentage": 88
+                },
+                "230":{
+                    "m3": 1288,
+                    "pourcentage": 92
+                },
+                "240":{
+                    "m3": 1344,
+                    "pourcentage": 95
+                },
+                "250":{
+                    "m3": 1400,
+                    "pourcentage": 100
+                }
+            }
+        }
+    },
+    "b2":{
+        "Hauteur":{
+            "contenance_maximal":1800,
+            "hauteur_maximal":2.5,
+            "niveau":{
+                "10":{
+                    "m3":72,
+                    "pourcentage":4
+                },
+                "20":{
+                    "m3":144,
+                    "pourcentage":8
+                },
+                "30":{
+                    "m3":216,
+                    "pourcentage":12
+                }, 
+                "40":{
+                    "m3":288,
+                    "pourcentage":16
+                },
+                "50":{
+                    "m3":360,
+                    "pourcentage":20
+                },
+                "60":{
+                    "m3":432,
+                    "pourcentage":24
+                },
+                "70":{
+                    "m3":504,
+                    "pourcentage":28
+                },
+                "80":{
+                    "m3":576,
+                    "pourcentage":32
+                },
+                "90":{
+                    "m3":648,
+                    "pourcentage":36
+                },
+                "100":{
+                    "m3":720,
+                    "pourcentage":40
+                },
+                "110":{
+                    "m3":792,
+                    "pourcentage":44
+                },
+                "120":{
+                    "m3":864,
+                    "pourcentage":48
+                },
+                "130":{
+                    "m3":936,
+                    "pourcentage":52
+                },
+                "140":{
+                    "m3":1008,
+                    "pourcentage":56
+                },
+                "150":{
+                    "m3":1080,
+                    "pourcentage":60
+                },
+                "160":{
+                    "m3":1152,
+                    "pourcentage":64
+                },
+                "170":{
+                    "m3":1224,
+                    "pourcentage":68
+                },
+                "180":{
+                    "m3":1296,
+                    "pourcentage":72
+                },
+                "190":{
+                    "m3":1368,
+                    "pourcentage":76
+                },
+                "200":{
+                    "m3":1440,
+                    "pourcentage":80
+                },
+                "210":{
+                    "m3":1512,
+                    "pourcentage":84
+                },
+                "220":{
+                    "m3":1584,
+                    "pourcentage":88
+                },
+                "230":{
+                    "m3":1656,
+                    "pourcentage":92
+                },
+                "240":{
+                    "m3":1782,
+                    "pourcentage":95
+                },
+                "250":{
+                    "m3":1800,
+                    "pourcentage":100
+                }
+            }
+        }
+    }
+}
