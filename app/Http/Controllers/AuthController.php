@@ -67,15 +67,21 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:users,name',
-            'email' => ['required', 'email', 'unique:users,email', new SuezEmail],
-            'password' => ['required|string|min:6|max:28',
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email',
+                new SuezEmail,
+            ],
+            'password' => [
+                'required',
+                'confirmed',
                 Password::min(6)
                     ->max(28)
                     ->mixedCase()
                     ->numbers()
                     ->symbols(),
-                ],
-            
+            ],
         ]);
 
         $checkusers = User::where('email', $request->email)->first();
