@@ -64,8 +64,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'name' => 'required|string|unique:users,name',
+            'email' => 'required|email|unique:users,email|regex:/^[A-Za-z0-9._%+-]+@suez\.com$/',
             'password' => 'required|string|min:6|max:28|regex:/[a-z]/|regex:/[A-Z]{1}/|regex:/[0-9]{1,2}/|regex:/[@$!%*#?&]{1}/'
         ]);
 
