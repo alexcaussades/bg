@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\SuezEmail;
 use App\Mail\RegisterUsers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -65,8 +67,15 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:users,name',
-            'email' => 'required|email|unique:users,email|regex:/^[A-Za-z0-9._%+-]+@suez\.com$/',
-            'password' => 'required|string|min:6|max:28|regex:/[a-z]/|regex:/[A-Z]{1}/|regex:/[0-9]{1,2}/|regex:/[@$!%*#?&]{1}/'
+            'email' => ['required', 'email', 'unique:users,email', new SuezEmail],
+            'password' => ['required|string|min:6|max:28',
+                Password::min(6)
+                    ->max(28)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+                ],
+            
         ]);
 
         $checkusers = User::where('email', $request->email)->first();
