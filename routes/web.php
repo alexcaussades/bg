@@ -132,7 +132,10 @@ Route::prefix("reglage")->group(function(){
         $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->orderBy('id', 'desc')->get();
         $note_sr = new NoteController();
         $note_sr = $note_sr->puits_id($name[0]->id);
-      
+
+        $note_info = new NoteController();
+        $note_info = $note_info->recherche($sr_puit->Name);
+        //dd($note_info);              
         if($last->isEmpty()){
             $last = null;
         }
@@ -141,7 +144,7 @@ Route::prefix("reglage")->group(function(){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
         
-        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null, 'note' => $name[0]->id, 'id2' => $id2, 'note_sr' => $note_sr]);
+        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null, 'note' => $name[0]->id, 'id2' => $id2, 'note_sr' => $note_sr, 'note_info' => $note_info]);
     })->name('reglage.formule')->middleware('auth');
 
    Route::post('/formule', function(Request $request){
@@ -156,7 +159,7 @@ Route::prefix("reglage")->group(function(){
         $sr_puit = $route->get_name($request->id);
         $name = $route->get_puit_name($sr_puit->Name);
         $note = $name[0]->id;
-
+       
         $route = new regalgeController();
         $sr_puit = $route->show();
         $calule = $request->ch4 * $request->ms / $request->taux;
