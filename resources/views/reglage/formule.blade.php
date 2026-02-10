@@ -38,21 +38,23 @@ use carbon\carbon;
       <button type="button" class="btn btn-sm btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
           <i class="bi bi-eye"></i> La dernière valeur du puit enregistré 
       </button>
+            
     @endif
+
     <form action="{{ route("reglage") }}" method="post" class="mt-2">
         @csrf
         <div class="mb-3">
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="floatingInput" name="taux" value="{{ session("taux") ? session("taux") : "" }}" placeholder="Taux de conversion">
-                <label for="floatingInput">Taux de réglages à effectuer</label>
+                <label for="floatingInput">Cible de réglages à effectuer</label>
             </div>
             <div class="form-floating mb-3 mt-2">
-                <input type="number" class="form-control" id="floatingInput" step="0.01" name="ch4" placeholder="Taux de CH4">
-                <label for="floatingInput">Taux de CH4</label>
+                <input type="number" class="form-control" id="floatingInput" step="0.01" name="ch4" placeholder="Valeur de CH4">
+                <label for="floatingInput">Valeur de CH4 </label>
             </div>
             <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="floatingInput" step="0.01" name="ms" placeholder="M/s de débit">
-                <label for="floatingInput">M/s de débit</label>
+                <input type="number" class="form-control" id="floatingInput" step="0.01" name="ms" placeholder="Valeur de vitesse">
+                <label for="floatingInput">Valeur de vitesse</label>
             </div>
         </div>
 
