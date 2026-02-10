@@ -7,16 +7,17 @@
 <div class="container mt-5">
     <div class="card text-dark">
       <div class="card-body">
-        <h4 class="card-title">Je m'enregistre </h4>
+        <h4 class="card-title">S'inscrire</h4>
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group">
-                <label for="name"> <i class="bi bi-person-circle"></i> Nom </label>
-                <input type="text" class="form-control mt-2" id="name" name="name" required value="{{ old('name') }}" autofocus placeholder="Entrez votre nom">
+                <label for="name"> <i class="bi bi-person-circle"></i> Prénom </label>
+                <input type="text" class="form-control mt-2" id="name" name="name" required value="{{ old('name') }}" autofocus placeholder="Entrez votre prénom">
             </div>
             <div class="form-group mt-2">
                 <label for="email"> <i class="bi bi-envelope-fill"></i> Email </label>
                 <input type="email" class="form-control mt-2" id="email" name="email" required value="{{ old('email') }}" autofocus placeholder="Entrez votre email">
+                <label for="email" class="form-text text-success">Seules les adresses du groupe Suez sont autorisées.</label>
             </div>
             <div class="form-group mt-2">
                 <label for="password"><i class="bi bi-lock-fill"></i> Mot de passe</label>
