@@ -132,7 +132,10 @@ Route::prefix("reglage")->group(function(){
         $last = DB::table('data_puits')->where('puits_id', $sr_puit->Name)->orderBy('id', 'desc')->get();
         $note_sr = new NoteController();
         $note_sr = $note_sr->puits_id($name[0]->id);
-      
+
+        $note_info = new NoteController();
+        $note_info = $note_info->recherche($sr_puit->Name);
+        //dd($note_info);              
         if($last->isEmpty()){
             $last = null;
         }
@@ -141,7 +144,7 @@ Route::prefix("reglage")->group(function(){
             return redirect()->route('reglage.edit', ['id' => $id]);
         }
         
-        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null, 'note' => $name[0]->id, 'id2' => $id2, 'note_sr' => $note_sr]);
+        return view('reglage.formule', ['puit' => $name, 'id' => $id, 'last' => $last ? $last : null, 'note' => $name[0]->id, 'id2' => $id2, 'note_sr' => $note_sr, 'note_info' => $note_info]);
     })->name('reglage.formule')->middleware('auth');
 
    Route::post('/formule', function(Request $request){
@@ -156,7 +159,7 @@ Route::prefix("reglage")->group(function(){
         $sr_puit = $route->get_name($request->id);
         $name = $route->get_puit_name($sr_puit->Name);
         $note = $name[0]->id;
-
+       
         $route = new regalgeController();
         $sr_puit = $route->show();
         $calule = $request->ch4 * $request->ms / $request->taux;
@@ -420,37 +423,6 @@ Route::prefix("puits")->group(function(){
     })->name("puit.lixivats")->middleware('auth');
 })->middleware('auth');
 
-// Route::prefix("consignation")->group(function(){
-
-//     Route::get("/index", function(){
-//     $consignation = new ConsignationController();
-//     $consignation = $consignation->show();
-//     return view("consignation.index", ["consignation" => $consignation]);
-//     })->name("consignation.index")->middleware('auth');
-
-//     Route::post('/index', function(Request $request){
-//         $consignation = new ConsignationController();
-//         $consignation->create($request);
-//         $consignationstart = new ConsignationController();
-//         $consignationstart = $consignationstart->show();
-//         return view("consignation.show", ["consignation" => $consignationstart]);
-//     })->name("consignation.index")->middleware('auth');
-    
-//     Route::get("/show", function(){
-//         $consignation = new ConsignationController();
-//         $consignation = $consignation->show();
-//         return view("consignation.show", ["consignation" => $consignation]);
-//     })->name("consignation.show")->middleware('auth');
-
-//     Route::get('/view/{id}', function(Request $request){
-//        $id = $request->id;
-//        $consignation = new ConsignationController();
-//        $consignation = $consignation->view($id);
-//        $img = Storage::url("images/".$consignation->photo);
-//        $donwload = Storage::url("images/".$consignation->photo);
-//        return view("consignation.view", ["consignation" => $consignation, "img" => $img, "donwload" => $donwload]);
-//     })->name('consignation.view')->middleware('auth');
-// })->middleware('auth');
 
 Route::get("/copydata", function(){
     $source = database_path('database.sqlite');
