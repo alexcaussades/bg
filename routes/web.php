@@ -135,7 +135,7 @@ Route::prefix("reglage")->group(function(){
 
         $note_info = new NoteController();
         $note_info = $note_info->recherche($sr_puit->Name);
-        dd($note_info);
+        //dd($note_info);
         //test si le puit a des données ou pas pour eviter les erreur dans la vue             
         if($last->isEmpty()){
             $last = null;
