@@ -56,6 +56,11 @@ class NoteController extends Controller
         return $puits;
     }
 
+    public function recherche_last($data){
+        $puits = DB::table('notes')->where('title', $data)->latest()->first();
+        return $puits;
+    }
+
     public function update($id, $data){
         $note = NoteModel::find($id);
         $note->title = $data['title'];
