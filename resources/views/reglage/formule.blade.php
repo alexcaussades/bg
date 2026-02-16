@@ -50,7 +50,7 @@ use carbon\carbon;
       </button>
             
     @endif
-
+    
     @if($note_info[0]->status == "active")
         <div class="alert alert-primary mt-2" role="alert">
             <i class="bi bi-info-circle"></i> {{ $note_info[0]->content }}
