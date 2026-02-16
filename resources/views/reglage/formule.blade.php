@@ -50,17 +50,19 @@ use carbon\carbon;
       </button>
             
     @endif
-    
-    @if($note_info[0]->status == "active")
-        <div class="alert alert-primary mt-2" role="alert">
-            <i class="bi bi-info-circle"></i> {{ $note_info[0]->content }}
-            @if($note_info[0]->preco_suez == 1)
-            <div><i class="bi bi-check-square-fill text-success"></i> Préconisation Suez</div>
-            @endif
-            @if($note_info[0]->preco_suez == 0)
-            <div><i class="bi bi-check-square-fill text-danger"></i> Préconisation Suez</div>
-            @endif
-        </div>
+    @if (!$note_info)
+
+        @if($note_info[0]->status == "active")
+            <div class="alert alert-primary mt-2" role="alert">
+                <i class="bi bi-info-circle"></i> {{ $note_info[0]->content }}
+                @if($note_info[0]->preco_suez == 1)
+                <div><i class="bi bi-check-square-fill text-success"></i> Préconisation Suez</div>
+                @endif
+                @if($note_info[0]->preco_suez == 0)
+                <div><i class="bi bi-check-square-fill text-danger"></i> Préconisation Suez</div>
+                @endif
+            </div>
+        @endif
     @endif
 
     <form action="{{ route("reglage") }}" method="post" class="mt-2">
