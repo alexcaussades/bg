@@ -46,14 +46,13 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="">Famille du point de controlles</label>
+            <label for="">Famille du point de contrôles</label>
             <select class="form-control" name="familles" id="">
                 <option selected value="Puit Biogaz">Puit Biogaz</option>
-                <option value="Puit Lixivitas">Puit Lixivitas</option>
-                <option value="Prise échantillion">Prise échantillion</option>
-                <option value="Tranché Drainante">Tranché Drainante</option>
-                <option value="Ligne Principal">Ligne Principal</option>
-                <option value="Collisseau">Collisseau</option>
+                <option value="Puit Lixiviats">Puit Lixiviats</option>
+                <option value="Prise échantillon">Prise échantillon</option>
+                <option value="Tranchée Drainante">Tranchée Drainante</option>
+                <option value="Ligne Principale">Ligne Principale</option>
                 <option value="Purge">Purge</option>
             </select>
         </div>

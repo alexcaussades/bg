@@ -18,7 +18,7 @@
                     </tr>
                 </tbody>
         </table>
-        <a href="{{ route("reglage.formule", ["id" => $id]) }}"><button type="button" class="btn btn-primary">Puits Suivant</button></a>
+        <a href="{{ route("reglage.formule", ["id" => $id]) }}"><button type="button" class="btn btn-primary">Puit Suivant</button></a>
         <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success">Note</button></a>
     </div>
     
@@ -41,7 +41,7 @@
         <input type="hidden" name="type" value="{{ $puit[0]->type }}">
         <input type="hidden" name="dimension" value="{{ $puit[0]->dimension }}">
 
-        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Ajuter la vitesse</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Ajuster le débit</button>
     </form>
 
 

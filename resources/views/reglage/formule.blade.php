@@ -33,8 +33,8 @@ use carbon\carbon;
                     </tr>
                 </tbody>
         </table>
-        <a href="{{ route("reglage.ajuter")}}"><button type="button" class="btn btn-warning">Ajuster le débit</button></a>
-        <a href="{{ route("reglage.formule", ["id" => $id+1]) }}"><button type="button" class="btn btn-primary">Puits Suivant</button></a>
+        <a href="{{ route("reglage.ajuster")}}"><button type="button" class="btn btn-warning">Ajuster le débit</button></a>
+        <a href="{{ route("reglage.formule", ["id" => $id+1]) }}"><button type="button" class="btn btn-primary">Puit Suivant</button></a>
         <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success">Note</button></a>
     </div>
     
@@ -72,15 +72,15 @@ use carbon\carbon;
         <div class="mb-3">
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="floatingInput" name="taux" value="{{ session("taux") ? session("taux") : "" }}" placeholder="Taux de conversion">
-                <label for="floatingInput">Cible de réglages à effectuer</label>
+                <label for="floatingInput">Taux de réglages cible</label>
             </div>
             <div class="form-floating mb-3 mt-2">
                 <input type="number" class="form-control" id="floatingInput" step="0.01" name="ch4" placeholder="Valeur de CH4">
-                <label for="floatingInput">Valeur de CH4 </label>
+                <label for="floatingInput">Taux de CH4 avant réglage</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="floatingInput" step="0.01" name="ms" placeholder="Valeur de vitesse">
-                <label for="floatingInput">Valeur de vitesse</label>
+                <label for="floatingInput">M/s avant réglage (Boule Chaude)</label>
             </div>
         </div>
 
@@ -89,8 +89,8 @@ use carbon\carbon;
         <input type="hidden" name="type" value="{{ $puit[0]->type }}">
         <input type="hidden" name="dimension" value="{{ $puit[0]->dimension }}">
 
-        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Calule</button>
-        <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success"><i class="bi bi-journal-text"></i> Note</button></a>      
+        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i>Calcul</button>
+        <a href="{{ route("note.reglage.create.id", ["id" => $note, "id2" => $id ]) }}"><button type="button" class="btn btn-success"><i class="bi bi-journal-text"></i> Commentaire</button></a>      
 
     </form>
 
