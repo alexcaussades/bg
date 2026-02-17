@@ -214,15 +214,15 @@ Route::prefix("reglage")->group(function(){
         return redirect()->route('reglage.formule', ['id' => $get_name[0]->id]);
     })->name('reglage.update')->middleware('auth');
     
-    Route::get("/ajuter", function(Request $request){
+    Route::get("/ajuster", function(Request $request){
             $id = $request->cookie('last_id');
             $route = new regalgeController();
             $sr_puit = $route->get_name($id);
             $name = $route->get_puit_name($sr_puit->Name);
         return view('reglage.ajuster', ['puit' => $name, 'id' => $id]);
-    })->name('reglage.ajuter')->middleware('auth');
+    })->name('reglage.ajuster')->middleware('auth');
 
-    Route::post("/ajuter", function(Request $request){
+    Route::post("/ajuster", function(Request $request){
         $request->validate([
             'debit' => 'required',
         ]);
@@ -234,7 +234,7 @@ Route::prefix("reglage")->group(function(){
         $calcule = $route2->ajuster_debit($request->debit);
         $calule = round($calcule, 2);
         return view('reglage.ajuster', ['result' => $calule, 'puit' => $name, 'id' => $request->id, 'note' => $note]);
-    })->name('reglage.ajuter.view')->middleware('auth');
+    })->name('reglage.ajuster.view')->middleware('auth');
 });
 
 route::prefix('history')->group(function(){
