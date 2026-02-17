@@ -50,7 +50,6 @@ use carbon\carbon;
       </button>
             
     @endif
-
     @if ($note_info)
             @if ($note_info->status == "active")
                 <div class="alert alert-primary mt-2" role="alert">

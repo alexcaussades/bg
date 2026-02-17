@@ -177,10 +177,15 @@ Route::prefix("reglage")->group(function(){
         $request->session()->put('taux', $request->taux);
         Cookie::queue(Cookie::make('last_id', $request->id, 200, '/', null, false, false));
         $last = DB::table('data_puits')->where('puits_id', $puit)->latest()->get();
+
+        $note_info = new NoteController();
+        //dd($name);
+        $note_info = $note_info->recherche_last($name[0]->Name);
+
         if($last->isEmpty()){
             $last = null;
         }
-        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note, 'last' => $last]);
+        return view('reglage.formule', ['ancien'=> $request->ms, 'result' => $calule, 'puit' => $name, 'type' => $type, 'dimension' => $dimension, 'id' => $request->id, 'old_debit' => $calculeDebit, 'newDebit' => $newDebit, 'note'=> $note, 'last' => $last, 'note_info' => $note_info]);
     })->name('reglage')->middleware('auth');
 
     Route::get('/edit/{id}', function(Request $request){

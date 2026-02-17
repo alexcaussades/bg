@@ -27,7 +27,7 @@
 
 <div class="container mt-2">
     <div class="fs-5"> Ajustement du: {{ $puit[0]->Name }} ({{ $puit[0]->type }} D.{{ $puit[0]->dimension }}) </div>
-    <form action="{{ route("reglage.ajuter.view") }}" method="post" class="mt-2">
+    <form action="{{ route("reglage.ajuster.view") }}" method="post" class="mt-2">
         @csrf
         <div class="mb-3">
             <div class="form-floating mb-3">
