@@ -13,6 +13,7 @@ class Stock_gestion extends Model
 
     protected $fillable = [
         'name',
+        'category',
         'minimal_quantity',
         'quantity',
         'unit',
@@ -56,9 +57,10 @@ class Stock_gestion extends Model
         return $this->orderBy('updated_at', 'desc')->take(10)->get();
     }
 
-    public function storeStock(string $name, int $minimal_quantity, int $quantity, string $unit, string $description, string $etat_stock): void
+    public function storeStock(string $name, string $category, int $minimal_quantity, int $quantity, string $unit, string $description, string $etat_stock): void
     {
         $this->name = $name;
+        $this->category = $category;
         $this->minimal_quantity = $minimal_quantity;
         $this->quantity = $quantity;
         $this->unit = $unit;
