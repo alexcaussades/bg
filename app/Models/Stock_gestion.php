@@ -66,4 +66,26 @@ class Stock_gestion extends Model
         $this->etat_stock = $etat_stock;
         $this->save();
     }
+
+    /** faire une liste unique des etats de stock */
+    public function getUniqueStockStates()
+    {
+        return $this->distinct()->pluck('etat_stock');
+    }
+
+    /** faire un array etat de stock avec "Sur site", "en commande", "En rupture", "Critique" */
+    public function getStockStatesArray()
+    {
+        return ["Sur site", "en commande", "En rupture", "Critique"];
+    }
+
+    public function unitsArray()
+    {
+        return ["kg", "L", "m", "m²", "barre", "pièce", "palette", "carton"];
+    }
+
+    public function categoriesArray()
+    {
+        return ["Matériaux Gaziers", "Équipements Torchère", "Produits Attelier", "Autres"];
+    }
 }

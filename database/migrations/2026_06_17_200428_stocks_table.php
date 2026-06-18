@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('name');
+            $table->string('category')->nullable();
             $table->integer('minimal_quantity')->default(0);
             $table->integer('quantity')->default(0);
             $table->string('unit')->nullable();
