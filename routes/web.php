@@ -23,6 +23,7 @@ use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
 use Model\App\Models\puits_lix;
 use App\Http\Controllers\Stock_gestion;
+use Ramsey\Uuid\Codec\StringCodec;
 
 /*
 |--------------------------------------------------------------------------
@@ -554,16 +555,21 @@ Route::prefix('kizeo')->group(function(){
 
 });
 
-Route::get('test', function(){
+Route::get('test', function(Request $request){
     // $github = new GithubController();
     // $last_release = $github->release_last();
     // $open_issues = $github->open_issues();
     // dd($open_issues, $last_release);
+    
+    
     $stock = new Stock_gestion();
-    $token = $stock->token();
-    $token_check = $stock->tokenCheck(request(Cookie::get('token')));
-    dd($token, $token_check);
-   
-
+    $token_check = $stock->token();
+    return redirect()->route('test2');
 
 })->name('test')->middleware('auth');
+
+Route::get('test2', function(Request $request){
+    $stock = new Stock_gestion();
+    $token_check = $stock->tokenCheck();
+    dd($token_check);
+})->name('test2')->middleware('auth');
