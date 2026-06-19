@@ -22,6 +22,7 @@ use App\Http\Controllers\AnalyseBioController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
 use Model\App\Models\puits_lix;
+use App\Http\Controllers\Stock_gestion;
 
 /*
 |--------------------------------------------------------------------------
@@ -558,12 +559,11 @@ Route::get('test', function(){
     // $last_release = $github->release_last();
     // $open_issues = $github->open_issues();
     // dd($open_issues, $last_release);
-
-    $puit_lix = new KizeoController();
-    //$mouth = 12;
-    $puit_lix = $puit_lix->get_hauteur_pourcentage_bassin("b2", 210);
-    return $puit_lix;
-
+    $stock = new Stock_gestion();
+    $token = $stock->token();
+    $token_check = $stock->tokenCheck(request(Cookie::get('token')));
+    dd($token, $token_check);
+   
 
 
 })->name('test')->middleware('auth');

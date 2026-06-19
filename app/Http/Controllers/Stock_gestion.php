@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class Stock_gestion extends Controller
 {
@@ -47,11 +48,28 @@ class Stock_gestion extends Controller
     public function token()
     {
         /** crée une méthode pour générer un token aléatoire */
-        $token = bin2hex(random_bytes(16));
-        if (session()->has('token')) {
-            session()->forget('token');
-        }
+        $token = bin2hex(random_bytes(16));     
         session()->put('token', $token);
-        return view('stock.token', compact('token'));
+        Cookie::queue('token', $token, 60); // Le cookie expire après 10 minutes
+        return session()->get('token');
+    }
+
+    public function tokenCheck()
+    {
+        //$token = $request->input('token');
+        $tokenSession = session()->get('token');
+        if (session()->has('token') && $tokenSession === Cookie::get('token')) {
+            session()->forget('token');
+            return response()->json(['status' => 'success', 'message' => 'Token valide, vous pouvez accéder à la gestion du stock.']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Token invalide, veuillez réessayer.']);
+        }
+    }
+
+    public function fingerprintsearch()
+    {
+        /** retouve le fingerprint de l'appareil */
+        $fingerprint = request()->header('User-Agent');
+        return view('stock.fingerprintsearch', compact('fingerprint'));        
     }
 }
