@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use App\Models\StockToken;
 
 class Stock_gestion extends Controller
 {
@@ -47,28 +48,26 @@ class Stock_gestion extends Controller
         return view('stock.sortieQrcode', compact('name'));
     }
 
-    public function token()
+    public function token(Request $request)
     {
-        /** crée une méthode pour générer un token aléatoire */
-        $token = bin2hex(random_bytes(16));
-        Cookie::forget('token_stock'); // Supprime le cookie existant
-        Session::forget('token_stock'); // Supprime la session existante
-        Cookie::queue('token_stock', json_encode(["valeur" => $token, "expire" => now()->addMinutes(540)]), 540); // Le cookie expire après 540 minutes
+        if (!Cookie::has('token_stock')) {
+             /** crée une méthode pour générer un token aléatoire */
+            $token = bin2hex(random_bytes(16));
+            Cookie::forget('token_stock'); // Supprime le cookie existant
+            Session::forget('token_stock'); // Supprime la session existante
+            Cookie::queue('token_stock', json_encode(["valeur" => $token, "expire" => now()->addMinutes(540)]), 540); // Le cookie expire après 540 minutes
+            $bdd_token = new StockToken();
+            $bdd_token->store($token, now()->addMinutes(540), $request->ip(), $request->userAgent(), $request->header('referer'));
 
-        if (!session()->has('token_stock')) {
-            session()->put('token_stock', $token);
-        }
+            return redirect()->route('stock.index')->with('success', 'Token généré avec succès.');
 
-        if (session()->has('token_stock') && $token === Cookie::get('token_stock')) {
-            return response()->json(['status' => 'success', 'message' => 'Token généré et stocké avec succès.']);
         } else {
-            return response()->json(['status' => 'error', 'message' => 'Erreur lors de la génération du token.']);
+            $this->tokenCheck($request);
         }
-
-       
+              
     }
 
-    public function tokenCheck()
+    public function tokenCheck(Request $request)
     {
         $date = Carbon::now("Europe/Paris");
         /** Décode le cookie JSON pour obtenir la valeur du token */
@@ -82,6 +81,19 @@ class Stock_gestion extends Controller
         $heure = explode(".", $heure);
        
         $info = $heure[0]." heures et ".($date->diffInMinutes($expire) % 60)." minutes restantes.";
+
+        $bdd_token = new StockToken();
+        $i = $bdd_token->getToken($data['valeur']);
+        
+        /** Start session */
+
+        Session::put('token_stock_id', $i->id);
+        Session::put('token_stock', $i->token);
+        Session::put('token_stock_expire', $i->expire_at);
+        Session::put('token_stock_expire_time', $info);
+
+        $bdd_token->last_updated_token();
+
 
         if ($date->lessThanOrEqualTo($expire)) { 
             return response()->json(['status' => 'success', 'message' => 'Token valide.', 'expire' => $data['expire'], 'remaining' => $info]);
