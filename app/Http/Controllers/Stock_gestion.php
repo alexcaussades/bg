@@ -52,10 +52,11 @@ class Stock_gestion extends Controller
     {
         if (!Cookie::has('token_stock')) {
              /** crée une méthode pour générer un token aléatoire */
+            $date = Carbon::now("Europe/Paris");
             $token = bin2hex(random_bytes(16));
             Cookie::forget('token_stock'); // Supprime le cookie existant
             Session::forget('token_stock'); // Supprime la session existante
-            Cookie::queue('token_stock', json_encode(["valeur" => $token, "expire" => now()->addMinutes(540)]), 540); // Le cookie expire après 540 minutes
+            Cookie::queue('token_stock', json_encode(["valeur" => $token, "expire" => $date->addMinutes(540)]), 540); // Le cookie expire après 540 minutes
             $bdd_token = new StockToken();
             $bdd_token->store($token, now()->addMinutes(540), $request->ip(), $request->userAgent(), $request->header('referer'));
 
