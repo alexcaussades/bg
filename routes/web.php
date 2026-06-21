@@ -525,4 +525,4 @@ Route::get('test2', function(Request $request){
         return json_encode(['status' => 'error', 'message' => 'Token not found']);
    }
    dd(Cookie::get('token_stock'));
-})->name('test2')->middleware('auth');
+})->name('test2');
