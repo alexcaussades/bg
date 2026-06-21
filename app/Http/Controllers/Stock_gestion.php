@@ -60,7 +60,7 @@ class Stock_gestion extends Controller
             $bdd_token = new StockToken();
             $bdd_token->store($token, now()->addMinutes(540), $request->ip(), $request->userAgent(), $request->header('referer'));
 
-            return redirect()->route('stock.index')->with('success', 'Token généré avec succès.');
+            return redirect()->route('test2')->with('success', 'Token généré avec succès.');
 
         } else {
             $this->tokenCheck($request);

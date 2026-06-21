@@ -497,17 +497,17 @@ Route::prefix('stock')->group(function(){
 
     Route::get('/edit/{name}', [Stock_gestion::class, 'edit'])->name('stock.edit')->middleware('auth');
 
-    Route::get('/show/{name}', [Stock_gestion::class, 'show'])->name('stock.show')->middleware('auth');
+    Route::get('/show/{name}', [Stock_gestion::class, 'show'])->name('stock.show')->middleware('token_stock');
 
-    Route::get('/sortie/{name}', [Stock_gestion::class, 'sortie'])->name('stock.sortie')->middleware('auth');
+    Route::get('/sortie/{name}', [Stock_gestion::class, 'sortie'])->name('stock.sortie')->middleware('token_stock');
 
     Route::get('/last10Sortie', [Stock_gestion::class, 'last10Sortie'])->name('stock.last10Sortie')->middleware('auth');
 
-    Route::get('/sortieQrcode/{name}', [Stock_gestion::class, 'sortieQrcode'])->name('stock.sortieQrcode')->middleware('auth');
+    Route::get('/sortieQrcode/{name}', [Stock_gestion::class, 'sortieQrcode'])->name('stock.sortieQrcode')->middleware('token_stock');
 
     Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
 
-    Route::get('/tokenCheck', [Stock_gestion::class, 'tokenCheck'])->name('stock.tokenCheck');
+    Route::get('/tokenCheck', [Stock_gestion::class, 'tokenCheck'])->name('stock.tokenCheck')->middleware('token_stock');
 });
 
 Route::get('test', function(Request $request){
@@ -517,5 +517,8 @@ Route::get('test', function(Request $request){
 })->name('test')->middleware('auth');
 
 Route::get('test2', function(Request $request){
-    dd(Cookie::get('token_stock'));
+   if(!Cookie::get('token_stock')){
+        return json_encode(['status' => 'error', 'message' => 'Token not found']);
+   }
+   dd(json_decode(Cookie::get('token_stock')));
 })->name('test2')->middleware('auth');
