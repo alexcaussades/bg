@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use App\Models\StockToken;
+use Illuminate\Support\Facades\DB;
 
 class Stock_gestion extends Controller
 {
@@ -103,4 +104,26 @@ class Stock_gestion extends Controller
         }
     }
 
+
+    public function panier()
+
+    {
+        $cookie = json_decode(Cookie::get('token_stock'), true);
+        $q = DB::table('stock_tokens')->where('token', $cookie['valeur'])->first();
+        
+        if ($q) {
+          $id = $q->id;
+          Session::put('token_stock_id', $id);
+          Session::put('token_stock', $q->token);
+          Session::put('token_stock_expire', $q->expire_at);
+          $expire = Carbon::parse($q->expire_at, "Europe/Paris");
+          $date = Carbon::now("Europe/Paris");
+          $info = $date->diffInHours($expire)." heures et ".($date->diffInMinutes($expire) % 60)." minutes restantes.";
+          Session::put('token_stock_expire_time', $info);
+          return view('stock.panier');
+        
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Token invalide.']);
+        }
+    }
 }

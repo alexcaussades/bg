@@ -497,6 +497,8 @@ Route::prefix('stock')->group(function(){
 
     Route::get('/edit/{name}', [Stock_gestion::class, 'edit'])->name('stock.edit')->middleware('auth');
 
+    Route::get('/create', [Stock_gestion::class, 'create'])->name('stock.create')->middleware('auth');
+
     Route::get('/show/{name}', [Stock_gestion::class, 'show'])->name('stock.show')->middleware('token_stock');
 
     Route::get('/sortie/{name}', [Stock_gestion::class, 'sortie'])->name('stock.sortie')->middleware('token_stock');
@@ -504,6 +506,8 @@ Route::prefix('stock')->group(function(){
     Route::get('/last10Sortie', [Stock_gestion::class, 'last10Sortie'])->name('stock.last10Sortie')->middleware('auth');
 
     Route::get('/sortieQrcode/{name}', [Stock_gestion::class, 'sortieQrcode'])->name('stock.sortieQrcode')->middleware('token_stock');
+
+    Route::get('/panier', [Stock_gestion::class, 'panier'])->name('stock.panier')->middleware('token_stock');
 
     Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
 
@@ -520,5 +524,5 @@ Route::get('test2', function(Request $request){
    if(!Cookie::get('token_stock')){
         return json_encode(['status' => 'error', 'message' => 'Token not found']);
    }
-   dd(json_decode(Cookie::get('token_stock')));
+   dd(Cookie::get('token_stock'));
 })->name('test2')->middleware('auth');
