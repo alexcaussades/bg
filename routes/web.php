@@ -518,7 +518,7 @@ Route::get('test', function(Request $request){
     
     return view('test');
 
-})->name('test')->middleware('auth');
+})->name('test');
 
 Route::get('test2', function(Request $request){
    if(!Cookie::get('token_stock')){
