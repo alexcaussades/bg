@@ -490,24 +490,50 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
-Route::prefix('stock')->group(function(){
+Route::prefix('/stock')->group(function(){
     Route::get('/', function(){
         return view('stock.index');
     })->name('stock.index');
 
-    Route::get('/edit/{name}', [Stock_gestion::class, 'edit'])->name('stock.edit')->middleware('auth');
+    Route::get('articles', [Stock_gestion::class, 'index'])->name('stock.articles.index');
 
-    Route::get('/create', [Stock_gestion::class, 'create'])->name('stock.create')->middleware('auth');
+    Route::get('articles/create', function(){
+        $categories = App\Models\Category::getAllCategories();
+        return view('stock.articles.create', compact('categories'));
+    })->name('stock.articles.create');
 
-    Route::get('/show/{name}', [Stock_gestion::class, 'show'])->name('stock.show')->middleware('token_stock');
+    Route::post('articles.store', function(Request $request){
+        $validatedData = $request->validate([
+            'reference' => 'required|unique:articles',
+            'category' => 'nullable|string',
+            'stock_minimum' => 'nullable|string',
+            'stock_actual' => 'nullable|string',
+            'title' => 'nullable|string',
+            'article_parent' => 'nullable|string',
+            'article_child' => 'nullable|string',
+            'timestamp' => 'nullable|date',
+        ]);
 
-    Route::get('/sortie/{name}', [Stock_gestion::class, 'sortie'])->name('stock.sortie')->middleware('token_stock');
+        \App\Models\Articles::store($validatedData);
 
-    Route::get('/last10Sortie', [Stock_gestion::class, 'last10Sortie'])->name('stock.last10Sortie')->middleware('auth');
+        return redirect()->route('stock.articles.create')->with('success', 'Article created successfully.');
+    })->name('stock.articles.store');
 
-    Route::get('/sortieQrcode/{name}', [Stock_gestion::class, 'sortieQrcode'])->name('stock.sortieQrcode')->middleware('token_stock');
+    Route::get('articles/category', function(){
+        return view('stock.articles.category');
+    })->name('stock.articles.category');
 
-    Route::get('/panier', [Stock_gestion::class, 'panier'])->name('stock.panier')->middleware('token_stock');
+    Route::post('articles/category', function(Request $request){
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $category = new \App\Models\category();
+        $category->store($validatedData);
+
+        return redirect()->route('stock.articles.create')->with('success', 'Category created successfully.');
+    })->name('stock.articles.category.store');
 
     Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
 
