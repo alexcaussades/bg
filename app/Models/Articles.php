@@ -36,5 +36,8 @@ class Articles extends Model
         return DB::table('articles')->insert($validatedData);
     }
 
-    
+    public static function getAllArticles()
+    {
+        return DB::table('articles')->get();
+    }
 }

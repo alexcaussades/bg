@@ -495,7 +495,10 @@ Route::prefix('/stock')->group(function(){
         return view('stock.index');
     })->name('stock.index');
 
-    Route::get('articles', [Stock_gestion::class, 'index'])->name('stock.articles.index');
+    Route::get('articles', function(){
+        $articles = App\Models\Articles::getAllArticles();
+        return view('stock.articles.index', compact('articles'));
+    })->name('stock.articles.index');
 
     Route::get('articles/create', function(){
         $categories = App\Models\Category::getAllCategories();

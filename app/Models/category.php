@@ -25,6 +25,6 @@ class category extends Model
 
     public static function getAllCategories()
     {
-        return self::all();
+        return DB::table('categories')->get();
     }
 }

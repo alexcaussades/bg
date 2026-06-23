@@ -20,14 +20,11 @@ class Articles extends Controller
      */
     public function create()
     {
-        $categories = CategoryModel::getAllCategories();
-        dd($categories);
         return view('stock.articles.create');
     }
 
     public function article_create()
     {
-        $categories = CategoryModel::getAllCategories();
         return view('stock.articles.create', compact('categories'));
     }
 
