@@ -40,7 +40,7 @@
                             <td>{{ $article->title }}</td>
                             <td>{{ $article->stock_actual }}</td>
                             <td>{{ $article->stock_minimum }}</td>
-                            <td>{{ $article->updated_at }}</td>
+                            <td>{{ $article->updated_at ? \Carbon\Carbon::parse($article->updated_at)->timezone("Europe/Paris")->format('d/m/Y') : '' }}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary">Modifier</a>
                                 <form action="#" method="POST" style="display: inline-block;">
