@@ -587,7 +587,7 @@ Route::prefix('articles')->group(function(){
         })->name('stock.panier.search');
 
         Route::post('/verify', function(Request $request){
-            $quantities = $request->input('quantities');
+            $quantities = $request->input('items');
             dd($quantities);
             $articles = App\Models\Articles::getAllArticles();
             $errors = [];
@@ -608,7 +608,7 @@ Route::prefix('articles')->group(function(){
             // Par exemple, vous pouvez mettre à jour les stocks ici
 
             return redirect()->route('stock.panier.index')->with('success', 'Sortie du stock validée avec succès.');
-        })->name('stock.panier.verify')->middleware('auth');
+        })->name('stock.panier.verify');
     });
     
 
