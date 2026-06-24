@@ -500,10 +500,39 @@ Route::prefix('/stock')->group(function(){
         return view('stock.articles.index', compact('articles'));
     })->name('stock.articles.index');
 
+    Route::get('articles/search', function(Request $request){
+        $search = $request->input('query');
+        $articles = App\Models\Articles::searchArticles($search);
+        return view('stock.articles.index', compact('articles'));
+    })->name('stock.articles.search');
+
+    Route::get('articles/modify/{id}', function($id){
+        $article = App\Models\Articles::findOrFail($id);
+        $categories = App\Models\Category::getAllCategories();
+        return view('stock.articles.edit', compact('article', 'categories'));
+    })->name('stock.articles.edit')->middleware('auth');
+
+    Route::put('articles/modify/{id}', function(Request $request, $id){
+        $validatedData = $request->validate([
+            'reference' => 'required|unique:articles,reference,' . $id,
+            'category' => 'nullable|string',
+            'stock_minimum' => 'nullable|string',
+            'stock_actual' => 'nullable|string',
+            'title' => 'nullable|string',
+            'article_parent' => 'nullable|string',
+            'article_child' => 'nullable|string',
+            'timestamp' => 'nullable|date',
+        ]);
+
+        \App\Models\Articles::updateArticle($id, $validatedData);
+
+        return redirect()->route('stock.articles.index')->with('success', 'Article updated successfully.');
+    })->name('stock.articles.update')->middleware('auth');
+
     Route::get('articles/create', function(){
         $categories = App\Models\Category::getAllCategories();
         return view('stock.articles.create', compact('categories'));
-    })->name('stock.articles.create');
+    })->name('stock.articles.create')->middleware('auth');
 
     Route::post('articles.store', function(Request $request){
         $validatedData = $request->validate([
@@ -520,11 +549,11 @@ Route::prefix('/stock')->group(function(){
         \App\Models\Articles::store($validatedData);
 
         return redirect()->route('stock.articles.create')->with('success', 'Article created successfully.');
-    })->name('stock.articles.store');
+    })->name('stock.articles.store')->middleware('auth');
 
     Route::get('articles/category', function(){
         return view('stock.articles.category');
-    })->name('stock.articles.category');
+    })->name('stock.articles.category')->middleware('auth');
 
     Route::post('articles/category', function(Request $request){
         $validatedData = $request->validate([
@@ -536,7 +565,7 @@ Route::prefix('/stock')->group(function(){
         $category->store($validatedData);
 
         return redirect()->route('stock.articles.create')->with('success', 'Category created successfully.');
-    })->name('stock.articles.category.store');
+    })->name('stock.articles.category.store')->middleware('auth');
 
     Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
 
@@ -551,6 +580,7 @@ Route::get('test', function(Request $request){
 
 Route::get('test2', function(Request $request){
    if(!Cookie::get('token_stock')){
+    abort(403, 'Unauthorized action.');
         return json_encode(['status' => 'error', 'message' => 'Token not found']);
    }
    dd(Cookie::get('token_stock'));

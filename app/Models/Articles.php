@@ -40,4 +40,12 @@ class Articles extends Model
     {
         return DB::table('articles')->get();
     }
+
+    public static function searchArticles(string $search)
+    {
+        return DB::table('articles')
+            ->where('reference', 'like', '%' . $search . '%')
+            ->orWhere('title', 'like', '%' . $search . '%')
+            ->get();
+    }
 }

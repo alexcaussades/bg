@@ -8,11 +8,16 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Articles</h1>
-            <form action="{{ route('stock.articles.index') }}" method="GET" class="form-inline mb-3">
-                <div class="form-group mr-2">
-                    <input type="text" class="form-control" name="search" placeholder="Rechercher un article..." value="{{ request('search') }}">
+            <button class="btn btn-primary mb-3" onclick="window.location.href='{{ route('stock.articles.create') }}'">Ajouter un article</button>
+            {{-- <button class="btn btn-secondary mb-3" onclick="window.location.href='#'">Exporter les articles</button>
+            <button class="btn btn-secondary mb-3" onclick="window.location.href='#'">Importer les articles</button> --}}
+            <form action="{{ route('stock.articles.search') }}" method="GET" class="mb-3 mt-2">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Rechercher un article par référence ou nom" value="{{ request('query') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
             </form>
         </div>
     </div>
@@ -42,7 +47,7 @@
                             <td>{{ $article->stock_minimum }}</td>
                             <td>{{ $article->updated_at ? \Carbon\Carbon::parse($article->updated_at)->timezone("Europe/Paris")->format('d/m/Y') : '' }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-primary">Modifier</a>
+                                <a href="{{ route('stock.articles.edit', $article->id) }}" class="btn btn-sm btn-primary">Modifier</a>
                                 <form action="#" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
