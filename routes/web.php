@@ -495,78 +495,126 @@ Route::prefix('/stock')->group(function(){
         return view('stock.index');
     })->name('stock.index');
 
-    Route::get('articles', function(){
-        $articles = App\Models\Articles::getAllArticles();
-        return view('stock.articles.index', compact('articles'));
-    })->name('stock.articles.index');
 
-    Route::get('articles/search', function(Request $request){
-        $search = $request->input('query');
-        $articles = App\Models\Articles::searchArticles($search);
-        return view('stock.articles.index', compact('articles'));
-    })->name('stock.articles.search');
+Route::prefix('articles')->group(function(){
+        
+    Route::get('/', function(){
+            $articles = App\Models\Articles::getAllArticles();
+            return view('stock.articles.index', compact('articles'));
+        })->name('stock.articles.index');
 
-    Route::get('articles/modify/{id}', function($id){
-        $article = App\Models\Articles::findOrFail($id);
-        $categories = App\Models\Category::getAllCategories();
-        return view('stock.articles.edit', compact('article', 'categories'));
-    })->name('stock.articles.edit')->middleware('auth');
+        Route::get('/search', function(Request $request){
+            $search = $request->input('query');
+            $articles = App\Models\Articles::searchArticles($search);
+            return view('stock.articles.index', compact('articles'));
+        })->name('stock.articles.search');
 
-    Route::put('articles/modify/{id}', function(Request $request, $id){
-        $validatedData = $request->validate([
-            'reference' => 'required|unique:articles,reference,' . $id,
-            'category' => 'nullable|string',
-            'stock_minimum' => 'nullable|string',
-            'stock_actual' => 'nullable|string',
-            'title' => 'nullable|string',
-            'article_parent' => 'nullable|string',
-            'article_child' => 'nullable|string',
-            'timestamp' => 'nullable|date',
-        ]);
+        Route::get('modify/{id}', function($id){
+                $article = App\Models\Articles::findOrFail($id);
+                $categories = App\Models\Category::getAllCategories();
+                return view('stock.articles.edit', compact('article', 'categories'));
+            })->name('stock.articles.edit')->middleware('auth');
 
-        \App\Models\Articles::updateArticle($id, $validatedData);
 
-        return redirect()->route('stock.articles.index')->with('success', 'Article updated successfully.');
-    })->name('stock.articles.update')->middleware('auth');
+        Route::put('modify/{id}', function(Request $request, $id){
+                $validatedData = $request->validate([
+                    'reference' => 'required|unique:articles,reference,' . $id,
+                    'category' => 'nullable|string',
+                    'stock_minimum' => 'nullable|string',
+                    'stock_actual' => 'nullable|string',
+                    'title' => 'nullable|string',
+                    'article_parent' => 'nullable|string',
+                    'article_child' => 'nullable|string',
+                    'timestamp' => 'nullable|date',
+                ]);
 
-    Route::get('articles/create', function(){
+                \App\Models\Articles::updateArticle($id, $validatedData);
+
+                return redirect()->route('stock.articles.index')->with('success', 'Article updated successfully.');
+            })->name('stock.articles.update')->middleware('auth');
+
+        Route::get('create', function(){
         $categories = App\Models\Category::getAllCategories();
         return view('stock.articles.create', compact('categories'));
-    })->name('stock.articles.create')->middleware('auth');
+        })->name('stock.articles.create')->middleware('auth');
 
-    Route::post('articles.store', function(Request $request){
-        $validatedData = $request->validate([
-            'reference' => 'required|unique:articles',
-            'category' => 'nullable|string',
-            'stock_minimum' => 'nullable|string',
-            'stock_actual' => 'nullable|string',
-            'title' => 'nullable|string',
-            'article_parent' => 'nullable|string',
-            'article_child' => 'nullable|string',
-            'timestamp' => 'nullable|date',
-        ]);
+        Route::post('store', function(Request $request){
+            $validatedData = $request->validate([
+                'reference' => 'required|unique:articles',
+                'category' => 'nullable|string',
+                'stock_minimum' => 'nullable|string',
+                'stock_actual' => 'nullable|string',
+                'title' => 'nullable|string',
+                'article_parent' => 'nullable|string',
+                'article_child' => 'nullable|string',
+                'timestamp' => 'nullable|date',
+            ]);
 
-        \App\Models\Articles::store($validatedData);
+            \App\Models\Articles::store($validatedData);
 
-        return redirect()->route('stock.articles.create')->with('success', 'Article created successfully.');
-    })->name('stock.articles.store')->middleware('auth');
+            return redirect()->route('stock.articles.create')->with('success', 'Article created successfully.');
+        })->name('stock.articles.store')->middleware('auth');
 
-    Route::get('articles/category', function(){
-        return view('stock.articles.category');
-    })->name('stock.articles.category')->middleware('auth');
+        Route::get('category', function(){
+            return view('stock.articles.category');
+        })->name('stock.articles.category')->middleware('auth');
 
-    Route::post('articles/category', function(Request $request){
-        $validatedData = $request->validate([
-            'title' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
+        Route::post('category', function(Request $request){
+            $validatedData = $request->validate([
+                'title' => 'required|string',
+                'description' => 'nullable|string',
+            ]);
 
-        $category = new \App\Models\category();
-        $category->store($validatedData);
+            $category = new \App\Models\category();
+            $category->store($validatedData);
 
-        return redirect()->route('stock.articles.create')->with('success', 'Category created successfully.');
-    })->name('stock.articles.category.store')->middleware('auth');
+            return redirect()->route('stock.articles.create')->with('success', 'Category created successfully.');
+        })->name('stock.articles.category.store')->middleware('auth');
 
+    });
+
+    Route::prefix('panier')->group(function(){
+        Route::get('/', function(){
+            //$panier = App\Models\Panier::getAllPanier();
+            $panier = App\Models\Articles::getAllArticles();
+            return view('stock.panier.index', compact('panier'));
+        })->name('stock.panier.index');
+
+        Route::get('/search', function(Request $request){
+            $search = $request->input('query');
+            //$panier = App\Models\Panier::searchPanier($search);
+            return view('stock.panier.index', compact('panier'));
+        })->name('stock.panier.search');
+
+        Route::post('/verify', function(Request $request){
+            $quantities = $request->input('quantities');
+            dd($quantities);
+            $articles = App\Models\Articles::getAllArticles();
+            $errors = [];
+            foreach ($articles as $article) {
+                if (isset($quantities[$article->id])) {
+                    $quantity = (int)$quantities[$article->id];
+                    if ($quantity > $article->stock_actual) {
+                        $errors[] = "La quantité demandée pour l'article {$article->title} dépasse le stock disponible.";
+                    }
+                }
+            }
+
+            if (!empty($errors)) {
+                return redirect()->back()->withErrors($errors);
+            }
+
+            // Si tout est correct, vous pouvez procéder à la validation de la sortie du stock
+            // Par exemple, vous pouvez mettre à jour les stocks ici
+
+            return redirect()->route('stock.panier.index')->with('success', 'Sortie du stock validée avec succès.');
+        })->name('stock.panier.verify')->middleware('auth');
+    });
+    
+
+    
+
+    
     Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
 
     Route::get('/tokenCheck', [Stock_gestion::class, 'tokenCheck'])->name('stock.tokenCheck')->middleware('token_stock');
