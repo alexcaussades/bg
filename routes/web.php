@@ -588,7 +588,6 @@ Route::prefix('articles')->group(function(){
 
         Route::post('/verify', function(Request $request){
             $quantities = $request->input('items');
-            dd($quantities);
             $articles = App\Models\Articles::getAllArticles();
             $errors = [];
             foreach ($articles as $article) {
