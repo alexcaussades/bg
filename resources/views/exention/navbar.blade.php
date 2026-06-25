@@ -30,7 +30,7 @@
                 "></i> Puits lixivats</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ Route('kizeo.index') }}"><i class="bi bi-file-text"></i> Rapport Kizeo</a>
+              <a class="nav-link" href="#"><i class="bi bi-file-text"></i> Torchère</a>
             </li>
             @auth
             <li class="nav-item dropdown taille-small-hidden">

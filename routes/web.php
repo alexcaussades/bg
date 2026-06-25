@@ -1,27 +1,33 @@
 <?php
 
-use App\Models\consignation;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\NoteController;
-use App\Http\Controllers\TtcrController;
-use App\Http\Controllers\DebitController;
-use App\Http\Controllers\KizeoController;
-use App\Http\Controllers\puitsController;
-use App\Http\Controllers\GithubController;
-use App\Http\Controllers\regalgeController;
-use App\Http\Controllers\DataPuitsController;
 use App\Http\Controllers\AnalyseBioController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\calculeDebitController;
 use App\Http\Controllers\ConsignationController;
+use App\Http\Controllers\DataPuitsController;
+use App\Http\Controllers\DebitController;
+use App\Http\Controllers\GithubController;
+use App\Http\Controllers\KizeoController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\puitsController;
+use App\Http\Controllers\regalgeController;
+use App\Http\Controllers\Stock_gestion;
+use App\Http\Controllers\TtcrController;
+use App\Models\consignation;
+use App\Models\StockToken;
+use Codesmiths\LaravelOcrSpace\Facades\OcrSpace;
+use Codesmiths\LaravelOcrSpace\OcrSpaceOptions;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Model\App\Models\puits_lix;
+use Ramsey\Uuid\Codec\StringCodec;
 
 /*
 |--------------------------------------------------------------------------
@@ -484,86 +490,145 @@ Route::prefix('/ttcr')->group(function(){
 
 })->middleware('auth');
 
-
-Route::prefix('kizeo')->group(function(){
+Route::prefix('/stock')->group(function(){
     Route::get('/', function(){
-        return view('kizeo.index');
-    })->name('kizeo.index')->middleware('auth');
+        return view('stock.index');
+    })->name('stock.index');
 
-    Route::get('import', function(){
-        return view('kizeo.waiting_file');
-    })->name('kizeo.import')->middleware('auth');
 
-    Route::post('import', function(Request $request){
-        $kizeo = new KizeoController();
-        $kizeo->import_kizeo($request);
-        return redirect()->back()->with('success', 'Data imported successfully.');
-    })->name('kizeo.import_kizeo')->middleware('auth');
+Route::prefix('articles')->group(function(){
+        
+    Route::get('/', function(){
+            $articles = App\Models\Articles::getAllArticles();
+            return view('stock.articles.index', compact('articles'));
+        })->name('stock.articles.index');
 
-    Route::get("enregistrement_des_bassins", function(){
-        return view('kizeo.bassin');
-    })->name('kizeo.register.bassin')->middleware('auth');
+        Route::get('/search', function(Request $request){
+            $search = $request->input('query');
+            $articles = App\Models\Articles::searchArticles($search);
+            return view('stock.articles.index', compact('articles'));
+        })->name('stock.articles.search');
 
-    Route::get("enregistrement_Torch_Vapo", function(){
-       return view('kizeo.torch_vapo');
-    })->name('kizeo.register.torch_vapo')->middleware('auth');
+        Route::get('modify/{id}', function($id){
+                $article = App\Models\Articles::findOrFail($id);
+                $categories = App\Models\Category::getAllCategories();
+                return view('stock.articles.edit', compact('article', 'categories'));
+            })->name('stock.articles.edit')->middleware('auth');
 
-    Route::get("enregistrement_ttcr", function(){
-        return view('kizeo.ttcr');
-    })->name('kizeo.register.ttcr')->middleware('auth');
 
-    Route::get("enregistrement_biogaz", function(){
-        return view('kizeo.biogaz');
-    })->name('kizeo.register.biogaz')->middleware('auth');
+        Route::put('modify/{id}', function(Request $request, $id){
+                $validatedData = $request->validate([
+                    'reference' => 'required|unique:articles,reference,' . $id,
+                    'category' => 'nullable|string',
+                    'stock_minimum' => 'nullable|string',
+                    'stock_actual' => 'nullable|string',
+                    'title' => 'nullable|string',
+                    'article_parent' => 'nullable|string',
+                    'article_child' => 'nullable|string',
+                    'timestamp' => 'nullable|date',
+                ]);
 
-    Route::get('/rapport_journalier/', function(Request $request){
-        $request->merge([
-            'date' => $request->date,
-        ]);
-        $request->validate([
-            'date' => 'required|date_format:Y-m-d',
-        ]);
-        $date = $request->date;
-        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
-        $kizeo = new KizeoController();
-        $data = $kizeo->Preparation_rapport_journalier($date);
-        //dd($data);
-        $ttcr = new ttcrController();
-       // $ttcr = $ttcr->hauteurdeau($data["ttcr"][0]->niveau_remplissage) ?? 10;
-        return view('kizeo.rapport_j', ['date' => $date, 'data' => $data, 'ttcr' => $ttcr]);
-    })->name('kizeo.rapport_journalier')->middleware('auth');
+                \App\Models\Articles::updateArticle($id, $validatedData);
 
-    Route::get('/rapport_hebdomadaire/', function(Request $request){
-        $request->merge([
-            'date_in' => $request->date_in,
-            'date_out' => $request->date_out
-        ]);
-        $request->validate([
-            'date_in' => 'required|date_format:Y-m-d',
-            'date_out' => 'required|date_format:Y-m-d'
-        ]);
+                return redirect()->route('stock.articles.index')->with('success', 'Article updated successfully.');
+            })->name('stock.articles.update')->middleware('auth');
 
-        $date_in = Carbon::createFromFormat('Y-m-d', $request->date_in)->format('d/m/Y');
-        $date_out = Carbon::createFromFormat('Y-m-d', $request->date_out)->format('d/m/Y');
-        $kizeo = new KizeoController();
-        $data = $kizeo->preparation_rapport_hebdomadaire_torch_vapo($date_in, $date_out);
-        return view('kizeo.rapport_h', ['date_in' => $date_in, 'date_out' => $date_out, 'data' => $data]);
-        })->name('kizeo.rapport_hebdomadaire')->middleware('auth');
-  
+        Route::get('create', function(){
+        $categories = App\Models\Category::getAllCategories();
+        return view('stock.articles.create', compact('categories'));
+        })->name('stock.articles.create')->middleware('auth');
 
+        Route::post('store', function(Request $request){
+            $validatedData = $request->validate([
+                'reference' => 'required|unique:articles',
+                'category' => 'nullable|string',
+                'stock_minimum' => 'nullable|string',
+                'stock_actual' => 'nullable|string',
+                'title' => 'nullable|string',
+                'article_parent' => 'nullable|string',
+                'article_child' => 'nullable|string',
+                'timestamp' => 'nullable|date',
+            ]);
+
+            \App\Models\Articles::store($validatedData);
+
+            return redirect()->route('stock.articles.create')->with('success', 'Article created successfully.');
+        })->name('stock.articles.store')->middleware('auth');
+
+        Route::get('category', function(){
+            return view('stock.articles.category');
+        })->name('stock.articles.category')->middleware('auth');
+
+        Route::post('category', function(Request $request){
+            $validatedData = $request->validate([
+                'title' => 'required|string',
+                'description' => 'nullable|string',
+            ]);
+
+            $category = new \App\Models\category();
+            $category->store($validatedData);
+
+            return redirect()->route('stock.articles.create')->with('success', 'Category created successfully.');
+        })->name('stock.articles.category.store')->middleware('auth');
+
+    });
+
+    Route::prefix('panier')->group(function(){
+        Route::get('/', function(){
+            //$panier = App\Models\Panier::getAllPanier();
+            $panier = App\Models\Articles::getAllArticles();
+            return view('stock.panier.index', compact('panier'));
+        })->name('stock.panier.index');
+
+        Route::get('/search', function(Request $request){
+            $search = $request->input('query');
+            //$panier = App\Models\Panier::searchPanier($search);
+            return view('stock.panier.index', compact('panier'));
+        })->name('stock.panier.search');
+
+        Route::post('/verify', function(Request $request){
+            $quantities = $request->input('items');
+            $articles = App\Models\Articles::getAllArticles();
+            $errors = [];
+            foreach ($articles as $article) {
+                if (isset($quantities[$article->id])) {
+                    $quantity = (int)$quantities[$article->id];
+                    if ($quantity > $article->stock_actual) {
+                        $errors[] = "La quantité demandée pour l'article {$article->title} dépasse le stock disponible.";
+                    }
+                }
+            }
+
+            if (!empty($errors)) {
+                return redirect()->back()->withErrors($errors);
+            }
+
+            // Si tout est correct, vous pouvez procéder à la validation de la sortie du stock
+            // Par exemple, vous pouvez mettre à jour les stocks ici
+
+            return redirect()->route('stock.panier.index')->with('success', 'Sortie du stock validée avec succès.');
+        })->name('stock.panier.verify');
+    });
+    
+
+    
+
+    
+    Route::get('/token', [Stock_gestion::class, 'token'])->name('stock.token');
+
+    Route::get('/tokenCheck', [Stock_gestion::class, 'tokenCheck'])->name('stock.tokenCheck')->middleware('token_stock');
 });
 
-Route::get('test', function(){
-    // $github = new GithubController();
-    // $last_release = $github->release_last();
-    // $open_issues = $github->open_issues();
-    // dd($open_issues, $last_release);
+Route::get('test', function(Request $request){
+    
+    return view('test');
 
-    $puit_lix = new KizeoController();
-    //$mouth = 12;
-    $puit_lix = $puit_lix->get_hauteur_pourcentage_bassin("b2", 210);
-    return $puit_lix;
+})->name('test');
 
-
-
-})->name('test')->middleware('auth');
+Route::get('test2', function(Request $request){
+   if(!Cookie::get('token_stock')){
+    abort(403, 'Unauthorized action.');
+        return json_encode(['status' => 'error', 'message' => 'Token not found']);
+   }
+   dd(Cookie::get('token_stock'));
+})->name('test2');
