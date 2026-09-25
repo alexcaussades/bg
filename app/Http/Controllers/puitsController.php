@@ -60,74 +60,51 @@ class puitsController extends Controller
         return $puits;
     }
 
-    public function moyene($id){
-        // limite de 10 derniers données pour calculer la moyenne dans la table data_puits
-        $limit = DB::table('data_puits')->where('puits_id', $id)->count();
-        if(10 < $limit){
-            $limit = $limit - 10;
-            $data = DB::table('data_puits')->where('puits_id', $id)->skip($limit)->take(10)->get();
-            $ch4 = 0;
-            $co2 = 0;
-            $o2 = 0;
-            $h2s = 0;
-            $depression = 0;
-            $m3 = 0;
+    public function moyene(int $id){
+    $data = DB::table('data_puits')
+        ->where('puits_id', $id)
+        ->latest('date')
+        ->limit(10)
+        ->get();
 
-            foreach($data as $d){
-                $ch4 += (float)$d->ch4;
-                $co2 += (float)$d->co2;
-                $o2 += (float)$d->o2;
-                $h2s += (float)$d->h2s;
-                $depression += (float)$d->dépression;
-                $m3 += (float)($d->m3h);
-            }
-            $ch4 = $ch4 / 10;
-            $co2 = $co2 / 10;
-            $o2 = $o2 / 10;
-            $h2s = $h2s / 10;
-            $depression = $depression / 10;
-            $m3 = $m3 / 10;
-            $moyene = [
-                'ch4' => round($ch4, 2),
-                'co2' => round($co2, 2),
-                'o2' => round($o2, 2),
-                'h2s' => round($h2s, 2),
-                'depression' => round($depression, 2),
-                'm3' => round($m3, 2)
-            ];
-        }else{
-            $data = DB::table('data_puits')->where('puits_id', $id)->get();
-            $ch4 = 0;
-            $co2 = 0;
-            $o2 = 0;
-            $h2s = 0;
-            $depression = 0;
-            $m3 = 0;
-            foreach($data as $d){
-                $ch4 += (float)$d->ch4;
-                $co2 += (float)$d->co2;
-                $o2 += (float)$d->o2;
-                $h2s += (float)$d->h2s;
-                $depression += (float)$d->dépression;
-                $m3 += (float)($d->m3h);
-            }
-            $ch4 = $ch4 / 10;
-            $co2 = $co2 / 10;
-            $o2 = $o2 / 10;
-            $h2s = $h2s / 10;
-            $depression = $depression / 10;
-            $m3 = $m3 / 10;
-            $moyene = [
-                'ch4' => round($ch4, 2),
-                'co2' => round($co2, 2),
-                'o2' => round($o2, 2),
-                'h2s' => round($h2s, 2),
-                'depression' => round($depression, 2),
-                'm3' => round($m3, 2)
-            ];
-        }
-            return $moyene;
+    if ($data->isEmpty()) {
+        return [
+            'ch4' => 0,
+            'co2' => 0,
+            'o2' => 0,
+            'h2s' => 0,
+            'depression' => 0,
+            'm3' => 0
+        ];
     }
+
+    $count = $data->count();
+
+    $ch4 = 0;
+    $co2 = 0;
+    $o2 = 0;
+    $h2s = 0;
+    $depression = 0;
+    $m3 = 0;
+
+    foreach ($data as $d) {
+        $ch4 += (float) $d->ch4;
+        $co2 += (float) $d->co2;
+        $o2 += (float) $d->o2;
+        $h2s += (float) $d->h2s;
+        $depression += (float) $d->dépression;
+        $m3 += (float) $d->m3h;
+    }
+
+    return [
+        'ch4' => round($ch4 / $count, 2),
+        'co2' => round($co2 / $count, 2),
+        'o2' => round($o2 / $count, 2),
+        'h2s' => round($h2s / $count, 2),
+        'depression' => round($depression / $count, 2),
+        'm3' => round($m3 / $count, 2)
+    ];
+}
 
     public function desactive($id){
         $puits = puits::find($id);
