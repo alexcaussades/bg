@@ -60,7 +60,7 @@ class puitsController extends Controller
         return $puits;
     }
 
-    public function moyene(String $id){
+    public function moyene($id){
     $data = DB::table('data_puits')
         ->where('puits_id', $id)
         ->latest('date')
