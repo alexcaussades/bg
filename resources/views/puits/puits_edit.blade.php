@@ -5,7 +5,7 @@
 
 <div class="container mt-5">
 
-    <form action="{{ route("reglage.edit", ["id" => $puit[0]->id]) }}" method="post">
+    <form action="{{ route("puits.update", ["id" => $puit[0]->id]) }}" method="post">
         @csrf
         <div class="form-group">
             <label for="name">Nom</label>
